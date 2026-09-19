@@ -37,7 +37,9 @@
 18. Testing             You can prove your app works
 19. Performance         You can make it fast, with evidence
 20. Advanced React      You understand rendering deeply
-21. Production          You can architecture, secure, and deploy it
+21. Production          You can architecture and secure it
+         ↓
+    Deployment          You can ship it, monitor it, and roll it back
 ```
 
 Below, each stage is expanded: **goal → topics → build this → checkpoint →

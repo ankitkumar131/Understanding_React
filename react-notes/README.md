@@ -444,26 +444,26 @@ Legend: ✅ written · 🚧 being written · ⬜ planned
 
 | File | Topic | Status |
 | --- | --- | --- |
-| `react-interview.md` | React Q&A with short + deep answers | ⬜ |
-| `javascript-interview.md` | JS fundamentals asked in React interviews | ⬜ |
-| `typescript-interview.md` | TS questions with React context | ⬜ |
-| `scenario-based-questions.md` | "Why is my component…" debugging scenarios | ⬜ |
+| `react-interview.md` | React Q&A with short + deep answers | ✅ |
+| `javascript-interview.md` | JS fundamentals asked in React interviews | ✅ |
+| `typescript-interview.md` | TS questions with React context | ✅ |
+| `scenario-based-questions.md` | "Why is my component…" debugging scenarios | ✅ |
 
 ### Reference & cheat sheets
 
 | File | Topic | Status |
 | --- | --- | --- |
 | [`react-roadmap.md`](./react-roadmap.md) | Stage-by-stage learning roadmap | ✅ |
-| [`cheatsheets/react-cheatsheet.md`](./cheatsheets/react-cheatsheet.md) | Core React syntax | ⬜ |
-| [`cheatsheets/tsx-cheatsheet.md`](./cheatsheets/tsx-cheatsheet.md) | JSX/TSX syntax rules | ⬜ |
-| [`cheatsheets/typescript-react-cheatsheet.md`](./cheatsheets/typescript-react-cheatsheet.md) | Typing React code | ⬜ |
-| [`cheatsheets/hooks-cheatsheet.md`](./cheatsheets/hooks-cheatsheet.md) | Every hook, one page | ⬜ |
-| [`cheatsheets/react-router-cheatsheet.md`](./cheatsheets/react-router-cheatsheet.md) | Router API | ⬜ |
-| [`cheatsheets/api-integration-cheatsheet.md`](./cheatsheets/api-integration-cheatsheet.md) | fetch/axios patterns | ⬜ |
-| [`cheatsheets/redux-cheatsheet.md`](./cheatsheets/redux-cheatsheet.md) | Redux Toolkit patterns | ⬜ |
-| [`cheatsheets/vite-cheatsheet.md`](./cheatsheets/vite-cheatsheet.md) | Vite commands and config | ⬜ |
-| [`cheatsheets/react-interview-cheatsheet.md`](./cheatsheets/react-interview-cheatsheet.md) | Interview rapid revision | ⬜ |
-| [`common-errors.md`](./common-errors.md) | Every common error, decoded | ⬜ |
+| [`cheatsheets/react-cheatsheet.md`](./cheatsheets/react-cheatsheet.md) | Core React syntax | ✅ |
+| [`cheatsheets/tsx-cheatsheet.md`](./cheatsheets/tsx-cheatsheet.md) | JSX/TSX syntax rules | ✅ |
+| [`cheatsheets/typescript-react-cheatsheet.md`](./cheatsheets/typescript-react-cheatsheet.md) | Typing React code | ✅ |
+| [`cheatsheets/hooks-cheatsheet.md`](./cheatsheets/hooks-cheatsheet.md) | Every hook, one page | ✅ |
+| [`cheatsheets/react-router-cheatsheet.md`](./cheatsheets/react-router-cheatsheet.md) | Router API | ✅ |
+| [`cheatsheets/api-integration-cheatsheet.md`](./cheatsheets/api-integration-cheatsheet.md) | fetch/axios patterns | ✅ |
+| [`cheatsheets/redux-cheatsheet.md`](./cheatsheets/redux-cheatsheet.md) | Redux Toolkit patterns | ✅ |
+| [`cheatsheets/vite-cheatsheet.md`](./cheatsheets/vite-cheatsheet.md) | Vite commands and config | ✅ |
+| [`cheatsheets/react-interview-cheatsheet.md`](./cheatsheets/react-interview-cheatsheet.md) | Interview rapid revision | ✅ |
+| [`common-errors.md`](./common-errors.md) | Every common error, decoded | ✅ |
 
 ---
 
@@ -488,7 +488,7 @@ Use this to know where you are. Tick the boxes as you finish each part.
 - [x] **Part 15 — Production** (8 files) ✅
 - [x] **Part 16 — Build Tools** (4 files) ✅
 - [x] **Part 17 — Projects** (7 files) ✅
-- [ ] **Part 18 — Interview** (4 files)
+- [x] **Part 18 — Interview** (4 files) ✅
 
 **Milestones** — you are on track if you can do these:
 
