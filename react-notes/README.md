@@ -220,6 +220,9 @@ PART 18 Interview            React, JS, TS, scenario questions
 
 Legend: ✅ written · 🚧 being written · ⬜ planned
 
+**All 138 chapters across 18 parts, 9 cheat sheets and the error reference are written — every
+row below is ✅.**
+
 ### [Part 1 — Prerequisites](./01-prerequisites/)
 
 | File | Topic | Status |
@@ -410,59 +413,59 @@ Legend: ✅ written · 🚧 being written · ⬜ planned
 
 | File | Topic | Status |
 | --- | --- | --- |
-| `01-environment-variables.md` | `.env`, modes, `import.meta.env`, secrets | ⬜ |
-| `02-project-architecture.md` | Layer vs feature architecture | ⬜ |
-| `03-folder-structure.md` | Every folder, every convention | ⬜ |
-| `04-error-handling.md` | Boundaries, API errors, user messages | ⬜ |
-| `05-logging.md` | Client logging, monitoring, breadcrumbs | ⬜ |
-| `06-security.md` | XSS, CSRF, CORS, CSP, dependencies | ⬜ |
-| `07-performance.md` | Budgets, Core Web Vitals, real optimization | ⬜ |
-| `08-production-checklist.md` | The pre-deploy checklist | ⬜ |
+| `01-environment-variables.md` | `.env`, modes, `import.meta.env`, secrets | ✅ |
+| `02-project-architecture.md` | Layer vs feature architecture | ✅ |
+| `03-folder-structure.md` | Every folder, every convention | ✅ |
+| `04-error-handling.md` | Boundaries, API errors, user messages | ✅ |
+| `05-logging.md` | Client logging, monitoring, breadcrumbs | ✅ |
+| `06-security.md` | XSS, CSRF, CORS, CSP, dependencies | ✅ |
+| `07-performance.md` | Budgets, Core Web Vitals, real optimization | ✅ |
+| `08-production-checklist.md` | The pre-deploy checklist | ✅ |
 
 ### [Part 16 — Build Tools](./16-build-tools/)
 
 | File | Topic | Status |
 | --- | --- | --- |
-| `01-vite.md` | What Vite is, dev server, HMR, why so fast | ⬜ |
-| `02-vite-configuration.md` | `vite.config.ts`, aliases, plugins, proxy | ⬜ |
-| `03-build.md` | `npm run build`, output, preview, analysis | ⬜ |
-| `04-environment-config.md` | Modes, env files, per-environment config | ⬜ |
+| `01-vite.md` | What Vite is, dev server, HMR, why so fast | ✅ |
+| `02-vite-configuration.md` | `vite.config.ts`, aliases, plugins, proxy | ✅ |
+| `03-build.md` | `npm run build`, output, preview, analysis | ✅ |
+| `04-environment-config.md` | Modes, env files, per-environment config | ✅ |
 
 ### [Part 17 — Projects](./17-projects/)
 
 | File | Topic | Status |
 | --- | --- | --- |
-| `01-counter.md` | Component + state + events | ⬜ |
-| `02-todo-app.md` | State, forms, lists, props | ⬜ |
-| `03-weather-app.md` | API, async, loading, errors, TS types | ⬜ |
-| `04-crud-app.md` | Routing, forms, CRUD, validation | ⬜ |
-| `05-authentication-app.md` | Register, login, JWT, protected routes | ⬜ |
-| `06-production-react-app.md` | Everything together | ⬜ |
+| `01-counter.md` | Component + state + events | ✅ |
+| `02-todo-app.md` | State, forms, lists, props | ✅ |
+| `03-weather-app.md` | API, async, loading, errors, TS types | ✅ |
+| `04-crud-app.md` | Routing, forms, CRUD, validation | ✅ |
+| `05-authentication-app.md` | Register, login, JWT, protected routes | ✅ |
+| `06-production-react-app.md` | Everything together | ✅ |
 
 ### [Part 18 — Interview Preparation](./18-interview/)
 
 | File | Topic | Status |
 | --- | --- | --- |
-| `react-interview.md` | React Q&A with short + deep answers | ⬜ |
-| `javascript-interview.md` | JS fundamentals asked in React interviews | ⬜ |
-| `typescript-interview.md` | TS questions with React context | ⬜ |
-| `scenario-based-questions.md` | "Why is my component…" debugging scenarios | ⬜ |
+| `react-interview.md` | React Q&A with short + deep answers | ✅ |
+| `javascript-interview.md` | JS fundamentals asked in React interviews | ✅ |
+| `typescript-interview.md` | TS questions with React context | ✅ |
+| `scenario-based-questions.md` | "Why is my component…" debugging scenarios | ✅ |
 
 ### Reference & cheat sheets
 
 | File | Topic | Status |
 | --- | --- | --- |
 | [`react-roadmap.md`](./react-roadmap.md) | Stage-by-stage learning roadmap | ✅ |
-| [`cheatsheets/react-cheatsheet.md`](./cheatsheets/react-cheatsheet.md) | Core React syntax | ⬜ |
-| [`cheatsheets/tsx-cheatsheet.md`](./cheatsheets/tsx-cheatsheet.md) | JSX/TSX syntax rules | ⬜ |
-| [`cheatsheets/typescript-react-cheatsheet.md`](./cheatsheets/typescript-react-cheatsheet.md) | Typing React code | ⬜ |
-| [`cheatsheets/hooks-cheatsheet.md`](./cheatsheets/hooks-cheatsheet.md) | Every hook, one page | ⬜ |
-| [`cheatsheets/react-router-cheatsheet.md`](./cheatsheets/react-router-cheatsheet.md) | Router API | ⬜ |
-| [`cheatsheets/api-integration-cheatsheet.md`](./cheatsheets/api-integration-cheatsheet.md) | fetch/axios patterns | ⬜ |
-| [`cheatsheets/redux-cheatsheet.md`](./cheatsheets/redux-cheatsheet.md) | Redux Toolkit patterns | ⬜ |
-| [`cheatsheets/vite-cheatsheet.md`](./cheatsheets/vite-cheatsheet.md) | Vite commands and config | ⬜ |
-| [`cheatsheets/react-interview-cheatsheet.md`](./cheatsheets/react-interview-cheatsheet.md) | Interview rapid revision | ⬜ |
-| [`common-errors.md`](./common-errors.md) | Every common error, decoded | ⬜ |
+| [`cheatsheets/react-cheatsheet.md`](./cheatsheets/react-cheatsheet.md) | Core React syntax | ✅ |
+| [`cheatsheets/tsx-cheatsheet.md`](./cheatsheets/tsx-cheatsheet.md) | JSX/TSX syntax rules | ✅ |
+| [`cheatsheets/typescript-react-cheatsheet.md`](./cheatsheets/typescript-react-cheatsheet.md) | Typing React code | ✅ |
+| [`cheatsheets/hooks-cheatsheet.md`](./cheatsheets/hooks-cheatsheet.md) | Every hook, one page | ✅ |
+| [`cheatsheets/react-router-cheatsheet.md`](./cheatsheets/react-router-cheatsheet.md) | Router API | ✅ |
+| [`cheatsheets/api-integration-cheatsheet.md`](./cheatsheets/api-integration-cheatsheet.md) | fetch/axios patterns | ✅ |
+| [`cheatsheets/redux-cheatsheet.md`](./cheatsheets/redux-cheatsheet.md) | Redux Toolkit patterns | ✅ |
+| [`cheatsheets/vite-cheatsheet.md`](./cheatsheets/vite-cheatsheet.md) | Vite commands and config | ✅ |
+| [`cheatsheets/react-interview-cheatsheet.md`](./cheatsheets/react-interview-cheatsheet.md) | Interview rapid revision | ✅ |
+| [`common-errors.md`](./common-errors.md) | Every common error, decoded | ✅ |
 
 ---
 
@@ -484,10 +487,12 @@ Use this to know where you are. Tick the boxes as you finish each part.
 - [x] **Part 12 — Styling** (5 files) ✅
 - [x] **Part 13 — Testing** (5 files) ✅
 - [x] **Part 14 — Authentication** (6 files) ✅
-- [ ] **Part 15 — Production** (8 files)
-- [ ] **Part 16 — Build Tools** (4 files)
-- [ ] **Part 17 — Projects** (6 files)
-- [ ] **Part 18 — Interview** (4 files)
+- [x] **Part 15 — Production** (8 files) ✅
+- [x] **Part 16 — Build Tools** (4 files) ✅
+- [x] **Part 17 — Projects** (6 files) ✅
+- [x] **Part 18 — Interview** (4 files) ✅
+- [x] **Cheat sheets** (9 files) ✅
+- [x] **Common errors reference** (1 file) ✅
 
 **Milestones** — you are on track if you can do these:
 
