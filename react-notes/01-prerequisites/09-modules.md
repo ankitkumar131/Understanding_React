@@ -261,7 +261,7 @@ import { api } from '../../lib/api';      // two folders up
 
 // 2. Bare specifier — a package in node_modules (or a configured alias)
 import { useState } from 'react';
-import { Link } from 'react-router-dom';
+import { Link } from 'react-router';       // v8: the DOM APIs live in 'react-router/dom', the rest here
 import clsx from 'clsx';
 
 // 3. Alias — configured in tsconfig.json and vite.config.ts (Part 16)

@@ -91,7 +91,8 @@ You do not need React or React Router to change the URL without reloading. Creat
 shop-admin/
 └── src/
     └── dev/
-        └── history-probe.ts
+        ├── jsdom-env.ts        ← creates a fake browser (jsdom) so the probe can run in Node
+        └── history-probe.ts    ← the file below
 ```
 
 ```ts

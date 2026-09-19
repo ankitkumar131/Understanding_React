@@ -29,13 +29,24 @@ npm run verify                        # the gate CI runs: lint -> typecheck -> t
 Nothing in the notes requires a paid service, a backend, or a specific editor. Node 22, npm and a browser are enough.
 
 Both halves are checked automatically — `.github/workflows/ci.yml` runs the lab's gate
-(`npm run lint`, `npm run typecheck`, `npm run test:run`, `npm run build`) and
-`node scripts/check-notes.mjs`, which fails if any relative link between the 151 notes files is
-broken or if a chapter's "File i of j" banner disagrees with its directory. Run it yourself with:
+(`npm run lint`, `npm run typecheck`, `npm run test:run`, `npm run build`) and two audits of the notes:
 
 ```bash
-node scripts/check-notes.mjs      # ✓ notes OK — 151 files, 227 relative links, 139 banners
+node scripts/check-notes.mjs      # links + chapter banners
+# ✓ notes OK — 151 files, 227 relative links, 139 banners
+
+node scripts/check-snippets.mjs   # every import in every code block
+# ✓ every import in every code block resolves
+#   2 315 code blocks · 704 import statements · 107 named imports type-checked with tsc
 ```
+
+The snippet audit is the one that earns its keep: it reads all four languages of code block in the
+notes, and fails if a block imports a package that does not exist, a subpath the package does not
+export, a relative file the notes never define, or a named export the package does not have (checked
+by running `tsc` against the real modules). It found — and this repository fixed — a stale
+`react-router-dom` import, a `src/dr/` path typo, an auth module that existed in one chapter and
+nowhere else, and three components that were imported but never shown. Its output is kept as
+[`react-lab/evidence/snippets-audit.txt`](./react-lab/evidence/snippets-audit.txt).
 
 ---
 

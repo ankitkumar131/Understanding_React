@@ -14,11 +14,10 @@ npm i @reduxjs/toolkit react-redux
 ```ts
 // app/store.ts
 import { configureStore } from '@reduxjs/toolkit';
-import { tasksReducer } from '../features/tasks/tasksSlice';
-import { counterReducer } from '../features/counter/counterSlice';
+import { tasksReducer } from '../features/tasks/tasksSlice';   // defined in §2 below
 
 export const store = configureStore({
-  reducer: { tasks: tasksReducer, counter: counterReducer },
+  reducer: { tasks: tasksReducer },                            // one key per slice: add more as they appear
   middleware: (getDefault) => getDefault(),        // thunk is included; add your own here
   devTools: import.meta.env.DEV,
 });

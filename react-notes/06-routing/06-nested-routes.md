@@ -261,7 +261,7 @@ export function Breadcrumbs() {
 In data mode the same UI is driven by data instead of strings, which is nicer when a crumb needs the record's name (`Order ORD-1001`, not `ORD-1001`):
 
 ```tsx
-// File: src/dr/Breadcrumbs.tsx — data mode only.
+// File: src/routes/Breadcrumbs.tsx — data mode only.
 import { Link, useMatches } from 'react-router';
 
 interface CrumbHandle {
@@ -386,6 +386,29 @@ Then answer:
 ### Beginner
 
 ```tsx
+// File: src/routes/orders/OrdersList.tsx — the index screen of the nested branch.
+import { Link } from 'react-router';
+
+interface OrdersListProps {
+  orders: { id: string; customer: string; total: number }[];
+}
+
+export function OrdersList({ orders }: OrdersListProps) {
+  if (orders.length === 0) return <p>No orders yet.</p>;
+
+  return (
+    <ul aria-label="Orders">
+      {orders.map((order) => (
+        <li key={order.id}>
+          <Link to={order.id}>{order.id}</Link> — {order.customer} · ₹{order.total}
+        </li>
+      ))}
+    </ul>
+  );
+}
+```
+
+```tsx
 // File: src/routes/AppRoutes.tsx
 import { Route, Routes } from 'react-router';
 import { HomePage } from './HomePage';
@@ -478,6 +501,37 @@ export function SettingsLayout() {
       </nav>
       <Outlet context={context} />
     </div>
+  );
+}
+```
+
+The three screens are ordinary components — each one small, and each one free to use the layout's
+context. Here is the folder, so nothing in the snippet above is a mystery:
+
+```text
+src/routes/settings/
+├── SettingsLayout.tsx      ← the fragment above: nav + <Outlet context={context} />
+├── SettingsRoutes.tsx      ← the route table below
+└── pages/
+    ├── ProfileSettings.tsx  ← export function ProfileSettings() { … }
+    ├── BillingSettings.tsx  ← export function BillingSettings() { … }
+    └── TeamSettings.tsx     ← export function TeamSettings() { … }
+```
+
+```tsx
+// File: src/routes/settings/pages/ProfileSettings.tsx — one of the three, all the same shape.
+import { useOutletContext } from 'react-router';
+import type { SettingsContext } from '../SettingsLayout';
+
+export function ProfileSettings() {
+  const { draftVersion, markReviewed } = useOutletContext<SettingsContext>();
+
+  return (
+    <section aria-labelledby="profile-heading">
+      <h2 id="profile-heading">Profile</h2>
+      <p>Draft version: {draftVersion}</p>
+      <button type="button" onClick={markReviewed}>Mark reviewed</button>
+    </section>
   );
 }
 ```

@@ -278,13 +278,40 @@ export function RequireRole({ role, children }: { role: Role; children: ReactNod
 
 Declarative guards render a component that redirects — the protected component never renders, but the *decision* happens in React, after JavaScript has loaded. Data mode moves the decision before rendering:
 
+A loader runs **outside React**, so it cannot call `useAuth()`. That means the session needs a second,
+non-React door — a tiny module the provider also uses, so there is still only one source of truth
+(this is exactly what Part 14, file 05 builds in the lab as `src/auth/tokenStore.ts`):
+
 ```ts
-// File: src/dr/loaders.ts
+// File: src/auth/sessionStore.ts — the non-React door to the session.
+import type { User } from './authContext';
+
+const KEY = 'shop:user';
+
+export const sessionStore = {
+  /** Read the signed-in user, or null. Safe to call from a loader, a component or a test. */
+  read(): User | null {
+    try {
+      const raw = localStorage.getItem(KEY);
+      return raw === null ? null : (JSON.parse(raw) as User);
+    } catch {
+      localStorage.removeItem(KEY);
+      return null;                       // corrupt data must not break the app
+    }
+  },
+  clear(): void {
+    localStorage.removeItem(KEY);
+  },
+};
+```
+
+```ts
+// File: src/routes/loaders.ts
 import { redirect, type LoaderFunctionArgs } from 'react-router';
-import { getUser } from '../auth/session';
+import { sessionStore } from '../auth/sessionStore';
 
 export async function requireUserLoader({ request }: LoaderFunctionArgs): Promise<null> {
-  if (getUser() === null) {
+  if (sessionStore.read() === null) {
     const from = new URL(request.url).pathname;
     throw redirect(`/login?from=${encodeURIComponent(from)}`);
   }
@@ -292,8 +319,12 @@ export async function requireUserLoader({ request }: LoaderFunctionArgs): Promis
 }
 ```
 
+⚠️ A loader only runs on the **client** here. If the app is server-rendered, this module must not read
+`localStorage` (there is none on the server) — the session then arrives as a cookie the server can
+read, which is why Part 14's comparison of storage options is not academic.
+
 ```ts
-// File: src/dr/router.tsx (fragment)
+// File: src/routes/router.tsx (fragment)
 {
   path: 'orders',
   loader: requireUserLoader,          // the guard runs before any component renders
@@ -328,7 +359,7 @@ Why loaders are the better place for the check:
 | Code needed | a `RequireAuth` component per branch | one function, reused by many routes |
 | Works without the component knowing | no (the screen can be rendered elsewhere) | yes (the rule belongs to the route) |
 
-⚠️ In data mode the guard cannot use React context (loaders run outside React). Read the session from wherever it really lives — a cookie, a module-level store (what the lab does), or `localStorage` — through a small module both the loader and the components can import.
+⚠️ In data mode the guard cannot use React context (loaders run outside React). Read the session from wherever it really lives — a cookie, a module-level store (what the lab does), or `localStorage` — through a small module both the loader and the components can import. That module is `src/auth/sessionStore.ts` above; in the lab it is `src/auth/tokenStore.ts` (Part 14, file 05).
 
 ---
 
@@ -417,7 +448,7 @@ Verified behaviour to aim for, summarised: **ask for `/orders` → you end up on
 4. **Put the check where it runs first**: a loader in data mode, a wrapper component in declarative mode.
 5. **Validate every redirect target** (`startsWith('/')` and not `'//'`).
 6. **Show, don't hide**: no CSS-obscured admin panels, no "hidden" menu items as access control.
-7. **Keep one auth module** (`authContext.ts` + `session.ts`) that both loaders and components use, so there is exactly one answer to "who is signed in?".
+7. **Keep one auth module pair** (`authContext.ts` for React + `sessionStore.ts` for everything else) that both loaders and components use, so there is exactly one answer to "who is signed in?".
 8. **Handle expiry globally** at the API layer, and dedupe the redirect.
 9. **Test the four flows** by hand: deep link while signed out, sign-in return, role denial, expiry mid-session.
 10. **Write the rule down in your README**: which routes are public, which need a session, which need a role.

@@ -538,6 +538,21 @@ Point 4: a second `<BrowserRouter>` inside the route table creates a nested rout
 ### Intermediate
 
 ```tsx
+// File: src/routes/Nav.tsx — the shell's navigation (NavLink adds the active styling)
+import { NavLink } from 'react-router';
+
+export function Nav() {
+  return (
+    <nav aria-label="Main">
+      <NavLink to="/" end>Home</NavLink>{' '}
+      <NavLink to="/products">Products</NavLink>{' '}
+      <NavLink to="/admin">Admin</NavLink>
+    </nav>
+  );
+}
+```
+
+```tsx
 // File: src/routes/AppRoutes.tsx
 import { Outlet, Route, Routes } from 'react-router';
 import { Nav } from './Nav';

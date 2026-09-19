@@ -300,7 +300,7 @@ const ReportsPage = lazy(async () => ({ default: (await import('./ReportsPage'))
 ### Data mode: `route.lazy`
 
 ```ts
-// File: src/dr/router.tsx (fragment)
+// File: src/routes/router.tsx (fragment)
 {
   path: 'reports',
   lazy: async () => ({ Component: (await import('../routes/ReportsPage')).ReportsPage }),
