@@ -389,11 +389,11 @@ Legend: ✅ written · 🚧 being written · ⬜ planned
 
 | File | Topic | Status |
 | --- | --- | --- |
-| `01-testing-basics.md` | Why, unit vs component vs integration | ⬜ |
-| `02-vitest.md` | Setup, config, matchers | ⬜ |
-| `03-react-testing-library.md` | Queries, `userEvent`, `render` | ⬜ |
-| `04-component-testing.md` | Testing props, state, forms, a11y | ⬜ |
-| `05-api-testing.md` | Mock Service Worker, async tests | ⬜ |
+| `01-testing-basics.md` | Why, unit vs component vs integration | ✅ |
+| `02-vitest.md` | Setup, config, matchers | ✅ |
+| `03-react-testing-library.md` | Queries, `userEvent`, `render` | ✅ |
+| `04-component-testing.md` | Testing props, state, forms, a11y | ✅ |
+| `05-api-testing.md` | Mock Service Worker, async tests | ✅ |
 
 ### [Part 14 — Authentication](./14-authentication/)
 
@@ -482,7 +482,7 @@ Use this to know where you are. Tick the boxes as you finish each part.
 - [x] **Part 10 — Advanced React** (9 files) ✅
 - [x] **Part 11 — Modern React** (8 files) ✅
 - [x] **Part 12 — Styling** (5 files) ✅
-- [ ] **Part 13 — Testing** (5 files)
+- [x] **Part 13 — Testing** (5 files) ✅
 - [ ] **Part 14 — Authentication** (6 files)
 - [ ] **Part 15 — Production** (8 files)
 - [ ] **Part 16 — Build Tools** (4 files)
