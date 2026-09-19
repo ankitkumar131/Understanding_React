@@ -1,7 +1,7 @@
 # TypeScript + React Cheatsheet — Typing Everything
 
 > **Reference · Cheatsheet 3 of 9**
-> Baseline: TypeScript 5.x, React 19, `strict: true`. If `strict` is off, most of these guarantees do not exist — turn it on first.
+> Baseline: TypeScript 6.x (the lab runs 6.0.3, where `strict` is on by default), React 19, `strict: true`. If `strict` is off, most of these guarantees do not exist — turn it on first.
 
 ---
 

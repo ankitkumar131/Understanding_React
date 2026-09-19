@@ -537,8 +537,10 @@ You will use these tools throughout the notes.
 
 ### 1. Node.js and npm
 
-React projects are built with Node.js tooling. Node 20.19+ or 22.12+ is required
-by current Vite versions — use an LTS release.
+React projects are built with Node.js tooling. Vite 8 asks for Node 20.19+ or 22.12+,
+and React Router 8 (Part 6) asks for **22.22+** — so install an LTS release of at least
+22.22 (the lab that produced every measurement here runs **22.22.3**) and check with
+`node -v` before you blame your code.
 
 ```bash
 node -v
@@ -609,14 +611,14 @@ official documentation. These notes target:
 | React DOM | 19.x | `createRoot` from `react-dom/client` |
 | TypeScript | 6.x | `strict` is **on by default** in TS 6; the template also sets `noUnusedLocals/Parameters`, `erasableSyntaxOnly`, `verbatimModuleSyntax` |
 | Vite | 8.x | `react-ts` template (`npm create vite@latest`) |
-| React Router | 7.x | Data-router APIs available; classic JSX routes shown first |
+| React Router | 8.x | **v8 has no `react-router-dom`** — DOM APIs come from `react-router/dom`. Part 6 uses Data mode; the three modes are compared in 6.2 |
 | TanStack Query | 5.x | Part 9 and 17 |
 | Redux Toolkit | 2.x | Part 9 |
 | Zustand | 5.x | Part 9 |
-| Vitest | 3.x | Part 13 |
+| Vitest | 5.x | Part 13 (the lab runs 5.0.1) |
 | React Testing Library | 16.x | Part 13 |
 | oxlint | 1.x | The linter that ships with the Vite template (`npm run lint`) — no ESLint needed |
-| Node.js | 20.19+ / 22.12+ | Required by Vite 8 |
+| Node.js | 22.22+ (the lab runs 22.22.3) | Vite 8 alone asks for 20.19+/22.12+, but React Router 8 requires **≥ 22.22** — install one LTS version that satisfies both |
 
 **Before using a version-sensitive API in a real job**, check
 <https://react.dev/reference/react> — that page is the source of truth for the

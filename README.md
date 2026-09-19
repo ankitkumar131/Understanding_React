@@ -33,7 +33,7 @@ Both halves are checked automatically — `.github/workflows/ci.yml` runs the la
 
 ```bash
 node scripts/check-notes.mjs      # links + chapter banners
-# ✓ notes OK — 151 files, 244 relative links, 139 banners
+# ✓ notes OK — 151 files, 245 relative links, 139 banners
 
 node scripts/check-snippets.mjs   # every import in every code block
 # ✓ every import in every code block resolves
@@ -100,7 +100,7 @@ Every project is implemented, type-checked, tested and built in this repository 
 - **16 questions per concept**: what, why, what problem, how, syntax, usage, runtime behaviour, line-by-line, simple example, real-world example, when to use, when not to, mistakes, best practices, practice task, solution.
 - **Runnable examples**: file name → complete code → explanation → install → run → expected result → practice → solution.
 - **Errors decoded as**: error → meaning → cause → debug → fix → correct code.
-- **Versions are pinned and stated**: React 19, Vite 8, React Router 8, TypeScript 5, Vitest 5 — with version-sensitive behaviour cross-checked against the official docs, and deprecated approaches (Create React App, class lifecycle methods, `defaultProps`, `React.FC`, index keys) explained as history rather than recommended.
+- **Versions are pinned and stated**: React 19, Vite 8, React Router 8, TypeScript 6, Vitest 5 — with version-sensitive behaviour cross-checked against the official docs, and deprecated approaches (Create React App, class lifecycle methods, `defaultProps`, `React.FC`, index keys) explained as history rather than recommended.
 
 ---
 

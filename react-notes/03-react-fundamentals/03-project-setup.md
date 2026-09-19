@@ -45,16 +45,16 @@ v22.22.3
 10.9.8
 ```
 
-If your Node is older than `20.19` (or you are on 21.x, which is out of support), upgrade. With `nvm`:
+If your Node is older than **22.22** (or you are on 21.x, which is out of support), upgrade — 22.22 satisfies Vite 8 *and* React Router 8, so you never have to revisit it. With `nvm`:
 
 ```bash
 nvm install 22
 nvm use 22
 ```
 
-With `fnm`, `asdf` or a system package manager, the same idea applies: get an **even-numbered LTS release**. Node 20 and 22 are fine; 24 (when LTS) is fine. Odd-numbered versions (21, 23) work but are not maintained for long.
+With `fnm`, `asdf` or a system package manager, the same idea applies: get an **even-numbered LTS release**, at least **22.22**. Node 24 (LTS) is fine. Odd-numbered versions (21, 23) work but are not maintained for long. Node 20 runs Vite 8, but it is **too old for React Router 8** (Part 6) — installing it now only postpones an upgrade.
 
-> ⚠️ **Node 22.12+ vs 22.x:** the engine range is `^20.19.0 || >=22.12.0`. A Node 22.5 install is *too old* for Vite 8 despite being "Node 22". When in doubt, run `node -v` and compare numbers, not vibes.
+> ⚠️ **Node 22.12+ vs 22.x:** Vite 8's engine range is `^20.19.0 || >=22.12.0`, and React Router 8's is `>=22.22.0`. A Node 22.5 install is *too old for both* despite being "Node 22". When in doubt, run `node -v` and compare numbers, not vibes — the lab's own floor is **22.22**, which satisfies every tool in this book.
 
 ### 2.2 A package manager
 
@@ -576,10 +576,10 @@ For a normal local project, **leave the config alone** (the three-line default).
 
 ### 10.2 Vite refuses to start and complains about your Node version
 
-- **Meaning:** your Node is outside `^20.19.0 || >=22.12.0`.
+- **Meaning:** Vite 8 needs Node inside `^20.19.0 || >=22.12.0`, and React Router 8 needs `>=22.22.0`.
 - **Cause:** an old system Node, or an NVM shell that reset to a default.
-- **Debug:** `node -v`, then compare against the range above.
-- **Fix:** `nvm install 22 && nvm use 22` (or your manager's equivalent), then `rm -rf node_modules package-lock.json && npm install` if the install was done with the old Node.
+- **Debug:** `node -v`, then compare against those two ranges — take the stricter one (22.22+).
+- **Fix:** `nvm install 22 && nvm use 22` (any 22.22+ or 24.x release) (or your manager's equivalent), then `rm -rf node_modules package-lock.json && npm install` if the install was done with the old Node.
 
 ### 10.3 `Port 5173 is in use, trying another one...`
 
@@ -694,7 +694,7 @@ body {
 ## 12. Summary
 
 - Start React projects with **Vite**: `npm create vite@latest megashop -- --template react-ts`. CRA is deprecated; frameworks are for SSR/routing needs (Part 18).
-- **Node 20.19+ or 22.12+**, and one lockfile committed. Check with `node -v`.
+- **Node 22.22+** (Vite 8 needs 20.19+/22.12+, React Router 8 needs 22.22+), and one lockfile committed. Check with `node -v`.
 - The scaffold copies files; `npm install` installs; `npm run dev` serves at <http://localhost:5173>; `npm run build` type-checks and bundles into `dist/`; `npm run preview` serves that build on 4173.
 - Know what each file is: `index.html` (mount point + entry script), `main.tsx` (bootstrap), `App.tsx` (your tree), `public/` (served as-is), `src/assets/` (bundler-managed), `vite.config.ts` (build/dev config), three tsconfigs (app vs node vs solution), `.oxlintrc.json` (React correctness rules), `package.json` (scripts + declared ranges).
 - `"jsx": "react-jsx"` means **no `import React`**; `noUnusedLocals` means no dead variables; `erasableSyntaxOnly` means no `enum`; `"build": "tsc -b && vite build"` means **no shipping type errors**.

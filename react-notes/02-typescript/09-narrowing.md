@@ -358,7 +358,9 @@ function broken(user: { name: string } | null): () => string {
 ```
 
 **Limit 2 — narrowing *does* survive inside closures, but only if the variable is
-never reassigned afterwards.** (TypeScript 5.4+; verified in the lab.)
+never reassigned afterwards.** (Introduced in TypeScript 5.4 and unchanged in 6.0.3 —
+re-verified for this book against tsc 6.0.3:
+[`react-lab/evidence/part02-narrowing.txt`](../../react-lab/evidence/part02-narrowing.txt).)
 
 ```ts
 function ok(user: { name: string } | null): () => string {
@@ -463,7 +465,7 @@ const clean = ids.filter((id) => id !== undefined);   // what is the type of cle
 
 **Solution**
 
-**1.** Verified against TypeScript 5.9:
+**1.** Verified against TypeScript 6.0.3 (tsc 6.0.3, `--strict`):
 
 ```text
 Line A: after `value == null` returns, `value` is `string | number`
@@ -939,7 +941,7 @@ function main(): void {
 main();
 
 /* ---------------------------------------------------------------------------
-   COMPILE-TIME FACTS (each verified against TypeScript 5.9)
+   COMPILE-TIME FACTS (each verified against TypeScript 6.0.3)
 
    // 1. `typeof x === 'object'` does NOT remove null:
    function takesObject(o: object): string { return Object.keys(o).join(','); }
@@ -959,7 +961,7 @@ main();
    function use2(value: unknown) { assertString2(value); return value.toUpperCase(); }   // ✅
 
    // 3. Narrowing IS preserved inside a closure, as long as the variable is not
-   //    reassigned afterwards (TypeScript 5.4+ behaviour):
+   //    reassigned afterwards (TypeScript 5.4+ behaviour, unchanged in 6.0.3):
    function ok(user: { name: string } | null) {
      if (user === null) return () => '';
      return () => user.name;        // ✅ narrowed
@@ -1548,7 +1550,7 @@ npx tsx src/config-loader.ts
   explicit annotation; without it, the value stays `unknown` (`TS18046`). They can
   narrow to intersections.
 - **Narrowing survives inside closures when the binding is never reassigned**
-  (TypeScript 5.4+), and is lost after reassignment (`TS18047`). In React,
+  (TypeScript 5.4+ behaviour, unchanged in 6.0.3), and is lost after reassignment (`TS18047`). In React,
   destructure into a `const` to keep narrowing in `onClick`/`useEffect` callbacks.
 - **Guards stored in booleans do not narrow**; keep them inline or in a predicate
   function.
