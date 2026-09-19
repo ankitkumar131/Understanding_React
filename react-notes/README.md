@@ -410,14 +410,14 @@ Legend: ✅ written · 🚧 being written · ⬜ planned
 
 | File | Topic | Status |
 | --- | --- | --- |
-| `01-environment-variables.md` | `.env`, modes, `import.meta.env`, secrets | ⬜ |
-| `02-project-architecture.md` | Layer vs feature architecture | ⬜ |
-| `03-folder-structure.md` | Every folder, every convention | ⬜ |
-| `04-error-handling.md` | Boundaries, API errors, user messages | ⬜ |
-| `05-logging.md` | Client logging, monitoring, breadcrumbs | ⬜ |
-| `06-security.md` | XSS, CSRF, CORS, CSP, dependencies | ⬜ |
-| `07-performance.md` | Budgets, Core Web Vitals, real optimization | ⬜ |
-| `08-production-checklist.md` | The pre-deploy checklist | ⬜ |
+| `01-environment-variables.md` | `.env`, modes, `import.meta.env`, secrets | ✅ |
+| `02-project-architecture.md` | Layer vs feature architecture | ✅ |
+| `03-folder-structure.md` | Every folder, every convention | ✅ |
+| `04-error-handling.md` | Boundaries, API errors, user messages | ✅ |
+| `05-logging.md` | Client logging, monitoring, breadcrumbs | ✅ |
+| `06-security.md` | XSS, CSRF, CORS, CSP, dependencies | ✅ |
+| `07-performance.md` | Budgets, Core Web Vitals, real optimization | ✅ |
+| `08-production-checklist.md` | Deployment, CI/CD, quality gates, the pre-deploy checklist | ✅ |
 
 ### [Part 16 — Build Tools](./16-build-tools/)
 
@@ -484,7 +484,7 @@ Use this to know where you are. Tick the boxes as you finish each part.
 - [x] **Part 12 — Styling** (5 files) ✅
 - [x] **Part 13 — Testing** (5 files) ✅
 - [x] **Part 14 — Authentication** (6 files) ✅
-- [ ] **Part 15 — Production** (8 files)
+- [x] **Part 15 — Production** (8 files) ✅
 - [ ] **Part 16 — Build Tools** (4 files)
 - [ ] **Part 17 — Projects** (6 files)
 - [ ] **Part 18 — Interview** (4 files)
