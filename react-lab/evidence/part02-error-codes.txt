@@ -1,0 +1,62 @@
+error-code audit — every TSxxxx the notes quote, checked against the installed TypeScript
+generated: 2026-09-19 · node 22.22.3 · typescript 6.0.3
+command: node scripts/check-error-codes.mjs --verbose   (from the repository root)
+
+Result:
+✓ error codes OK — 407 mentions, 52 distinct codes, every one a real diagnostic
+  checked against TypeScript 6.0.3 (react-lab/node_modules)
+
+The codes and the wording TypeScript uses for each (a code may carry several messages;
+the notes quote whichever one the situation produces):
+  TS1005  '{0}' expected.
+  TS1016  A required parameter cannot follow an optional parameter.
+  TS1294  This syntax is not allowed when 'erasableSyntaxOnly' is enabled.
+  TS1360  Type '{0}' does not satisfy the expected type '{1}'.
+  TS1382  Unexpected token. Did you mean `{'>'}` or `&gt;`?
+  TS1484  '{0}' is a type and must be imported using a type-only import when 'verbatimModuleSyntax' is enabled.
+  TS2300  Duplicate identifier '{0}'.
+  TS2304  Cannot find name '{0}'.
+  TS2307  Cannot find module '{0}' or its corresponding type declarations.
+  TS2322  Type '{0}' is not assignable to type '{1}'.
+  TS2339  Property '{0}' does not exist on type '{1}'.
+  TS2344  Type '{0}' does not satisfy the constraint '{1}'.
+  TS2345  Argument of type '{0}' is not assignable to parameter of type '{1}'.
+  TS2353  Object literal may only specify known properties, and '{0}' does not exist in type '{1}'.
+  TS2366  Function lacks ending return statement and return type does not include 'undefined'.
+  TS2367  This comparison appears to be unintentional because the types '{0}' and '{1}' have no overlap.
+  TS2375  Type '{0}' is not assignable to type '{1}' with 'exactOptionalPropertyTypes: true'. Consider adding 'undefined' to the types of the target's properties.
+  TS2393  Duplicate function implementation.
+  TS2411  Property '{0}' of type '{1}' is not assignable to '{2}' index type '{3}'.
+  TS2430  Interface '{0}' incorrectly extends interface '{1}'.
+  TS2493  Tuple type '{0}' of length '{1}' has no element at index '{2}'.
+  TS2503  Cannot find namespace '{0}'.
+  TS2532  Object is possibly 'undefined'.
+  TS2540  Cannot assign to '{0}' because it is a read-only property.
+  TS2542  Index signature in type '{0}' only permits reading.
+  TS2554  Expected {0} arguments, but got {1}.
+  TS2559  Type '{0}' has no properties in common with type '{1}'.
+  TS2561  Object literal may only specify known properties, but '{0}' does not exist in type '{1}'. Did you mean to write '{2}'?
+  TS2571  Object is of type 'unknown'.
+  TS2578  Unused '@ts-expect-error' directive.
+  TS2604  JSX element type '{0}' does not have any construct or call signatures.
+  TS2657  JSX expressions must have one parent element.
+  TS2684  The 'this' context of type '{0}' is not assignable to method's 'this' of type '{1}'.
+  TS2706  Required type parameters may not follow optional type parameters.
+  TS2739  Type '{0}' is missing the following properties from type '{1}': {2}
+  TS2741  Property '{0}' is missing in type '{1}' but required in type '{2}'.
+  TS2748  Cannot access ambient const enums when '{0}' is enabled.
+  TS2769  No overload matches this call.
+  TS2786  '{0}' cannot be used as a JSX component.
+  TS5101  Option '{0}' is deprecated and will stop functioning in TypeScript {1}. Specify compilerOption '"ignoreDeprecations": "{2}"' to silence this error.
+  TS6133  '{0}' is declared but its value is never read.
+  TS7005  Variable '{0}' implicitly has an '{1}' type.
+  TS7006  Parameter '{0}' implicitly has an '{1}' type.
+  TS7031  Binding element '{0}' implicitly has an '{1}' type.
+  TS7034  Variable '{0}' implicitly has type '{1}' in some locations where its type cannot be determined.
+  TS7053  Element implicitly has an 'any' type because expression of type '{0}' can't be used to index type '{1}'.
+  TS17001  JSX elements cannot have multiple attributes with the same name.
+  TS17004  Cannot use JSX unless the '--jsx' flag is provided.
+  TS17008  JSX element '{0}' has no corresponding closing tag.
+  TS18046  '{0}' is of type 'unknown'.
+  TS18047  '{0}' is possibly 'null'.
+  TS18048  '{0}' is possibly 'undefined'.

@@ -29,15 +29,18 @@ npm run verify                        # the gate CI runs: lint -> typecheck -> t
 Nothing in the notes requires a paid service, a backend, or a specific editor. Node 22, npm and a browser are enough.
 
 Both halves are checked automatically — `.github/workflows/ci.yml` runs the lab's gate
-(`npm run lint`, `npm run typecheck`, `npm run test:run`, `npm run build`) and two audits of the notes:
+(`npm run lint`, `npm run typecheck`, `npm run test:run`, `npm run build`) and three audits of the notes:
 
 ```bash
 node scripts/check-notes.mjs      # links + chapter banners
-# ✓ notes OK — 151 files, 246 relative links, 139 banners
+# ✓ notes OK — 151 files, 247 relative links, 139 banners
 
 node scripts/check-snippets.mjs   # every import in every code block
 # ✓ every import in every code block resolves
 #   2 313 code blocks · 704 import statements · 107 named imports type-checked with tsc
+
+node scripts/check-error-codes.mjs   # every TSxxxx the book quotes must be real
+# ✓ error codes OK — 407 mentions, 52 distinct codes, every one a real diagnostic
 ```
 
 The snippet audit is the one that earns its keep: it reads all four languages of code block in the
@@ -47,6 +50,11 @@ by running `tsc` against the real modules). It found — and this repository fix
 `react-router-dom` import, a `src/dr/` path typo, an auth module that existed in one chapter and
 nowhere else, and three components that were imported but never shown. Its output is kept as
 [`react-lab/evidence/snippets-audit.txt`](./react-lab/evidence/snippets-audit.txt).
+
+The third audit reads the **407 `TSxxxx` mentions** in the book (52 distinct codes) and fails if any
+of them is not a diagnostic the installed TypeScript can emit — so the error tables cannot drift away
+from the compiler, and a code that a future TypeScript retires is caught here rather than by a reader.
+See [`react-lab/evidence/part02-error-codes.txt`](./react-lab/evidence/part02-error-codes.txt).
 
 ---
 

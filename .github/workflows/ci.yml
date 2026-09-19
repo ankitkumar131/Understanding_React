@@ -73,3 +73,8 @@ jobs:
       # not export (verified with tsc against the real modules).
       - name: Audit the imports in every code block
         run: node scripts/check-snippets.mjs
+
+      # Fails if the notes quote a TSxxxx code that the installed TypeScript does not emit
+      # (a typo, or a code retired by a TypeScript upgrade).
+      - name: Check every quoted TypeScript error code
+        run: node scripts/check-error-codes.mjs

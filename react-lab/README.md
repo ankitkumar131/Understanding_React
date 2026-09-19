@@ -114,8 +114,9 @@ It is what CI runs (`.github/workflows/ci.yml` at the repository root). CI also 
 `../react-notes/`: `../scripts/check-notes.mjs` (links and chapter banners) and
 `../scripts/check-snippets.mjs`, which type-checks the named imports of every code block against these
 very `node_modules` — the audit whose findings fixed a stale `react-router-dom` import, a `src/dr/` typo
-and three components the notes imported but never showed. Its report is kept as
-`evidence/snippets-audit.txt`.
+and three components the notes imported but never showed — and `../scripts/check-error-codes.mjs`,
+which fails if the notes quote a `TSxxxx` code that this TypeScript cannot emit. Their reports are kept
+as `evidence/snippets-audit.txt` and `evidence/part02-error-codes.txt`.
 
 `npm run lint` reports **0 warnings and 0 errors**. Getting to zero was a decision, not a muffling —
 each deviation is documented where it lives:
@@ -142,6 +143,7 @@ part16-env-modes.txt     MODE=test / DEV=true / PROD=false, test.env beating .en
 part17-projects.txt      hydration-warning investigation + the final long-list measurement runs
 part18-final.txt         the final verification: tsc -b, 62 tests, build 330 ms
 snippets-audit.txt       the book's own code blocks: 2 313 blocks, 704 imports, 107 named imports type-checked
+part02-error-codes.txt   all 52 TSxxxx codes the book quotes, checked against tsc 6.0.3 (407 mentions, none invented)
 ```
 
 Regenerate any of them by running the command named at the top of the file.

@@ -4,6 +4,8 @@
 
 How to use this file: find your message (they are grouped and alphabetised within groups), read **what it means** and **why it happens**, then apply the **fix**. The **debug** line tells you how to confirm the diagnosis — do not skip it; guessing is how a five-minute fix becomes an afternoon.
 
+Every `TSxxxx` code in this file is machine-checked against the compiler the notes are written with, so the codes cannot drift out of date: `node scripts/check-error-codes.mjs` at the repository root (407 mentions, 52 distinct codes, output filed as [`react-lab/evidence/part02-error-codes.txt`](../react-lab/evidence/part02-error-codes.txt)).
+
 **The universal debugging loop**
 
 ```text
