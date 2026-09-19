@@ -987,4 +987,4 @@ Vitest + RTL + MSW, Playwright for three critical journeys — fast by default, 
 
 ---
 
-**What's next →** [`02-javascript-interview.md`](./javascript-interview.md) covers the JavaScript questions that decide React interviews: closures, the event loop, promises and async/await, `this`, array methods, destructuring and spread/rest — each with a short answer, the mechanism, and a runnable example.
+**What's next →** [`javascript-interview.md`](./javascript-interview.md) covers the JavaScript questions that decide React interviews: closures, the event loop, promises and async/await, `this`, array methods, destructuring and spread/rest — each with a short answer, the mechanism, and a runnable example.

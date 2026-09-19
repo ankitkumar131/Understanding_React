@@ -508,4 +508,4 @@ declare module 'thing' {
 
 ---
 
-**What's next →** [`04-scenario-based-questions.md`](./scenario-based-questions.md) is the file interviewers actually enjoy: "why is my component rendering twice?", "why is my API called repeatedly?", "the state does not update immediately", "how would you structure a large app?", "would you use Context or Redux?" — each answered as a diagnosis, with the fix and the reasoning.
+**What's next →** [`scenario-based-questions.md`](./scenario-based-questions.md) is the file interviewers actually enjoy: "why is my component rendering twice?", "why is my API called repeatedly?", "the state does not update immediately", "how would you structure a large app?", "would you use Context or Redux?" — each answered as a diagnosis, with the fix and the reasoning.

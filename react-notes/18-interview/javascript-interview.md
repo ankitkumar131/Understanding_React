@@ -514,4 +514,4 @@ console.log(original.user.name);            // 'Asha'
 
 ---
 
-**What's next →** [`03-typescript-interview.md`](./typescript-interview.md) covers the TypeScript questions that come up in React interviews: `interface` versus `type`, generics in components and hooks, unions and discriminated states, narrowing, utility types, and the errors you will actually see (`TS2322`, `TS2339`, `TS7053`, `TS18048`).
+**What's next →** [`typescript-interview.md`](./typescript-interview.md) covers the TypeScript questions that come up in React interviews: `interface` versus `type`, generics in components and hooks, unions and discriminated states, narrowing, utility types, and the errors you will actually see (`TS2322`, `TS2339`, `TS7053`, `TS18048`).
