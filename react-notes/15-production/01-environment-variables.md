@@ -117,7 +117,7 @@ Five facts to take from that:
 }
 ```
 
-⚠️ **Precedence is a common source of "it works on my machine"**: `.env.local` beats `.env.production` beats `.env`. A developer with `VITE_API_URL` in `.env.local` will build a production bundle pointing at *their* API. The fix is not discipline — it is CI: the pipeline builds on a clean checkout where `.env.local` does not exist.
+⚠️ **Precedence is a common source of "it works on my machine"**: the order is `.env.[mode].local` > `.env.[mode]` > `.env.local` > `.env` (measured in Part 16, file 04: a staging build used `.env.staging` while `.env.local` was ignored). The remaining risk is a variable that exists **only** in a developer's `.env.local`: that value will be built in, pointing the artifact at their machine. The fix is not discipline — it is CI: the pipeline builds on a clean checkout where `.env.local` does not exist.
 
 ---
 

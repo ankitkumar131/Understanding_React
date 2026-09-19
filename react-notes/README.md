@@ -423,10 +423,10 @@ Legend: ✅ written · 🚧 being written · ⬜ planned
 
 | File | Topic | Status |
 | --- | --- | --- |
-| `01-vite.md` | What Vite is, dev server, HMR, why so fast | ⬜ |
-| `02-vite-configuration.md` | `vite.config.ts`, aliases, plugins, proxy | ⬜ |
-| `03-build.md` | `npm run build`, output, preview, analysis | ⬜ |
-| `04-environment-config.md` | Modes, env files, per-environment config | ⬜ |
+| `01-vite.md` | What Vite is, dev server, HMR, why so fast | ✅ |
+| `02-vite-configuration.md` | `vite.config.ts`, aliases, plugins, proxy | ✅ |
+| `03-build.md` | `npm run build`, output, preview, analysis | ✅ |
+| `04-environment-config.md` | Modes, env files, per-environment config | ✅ |
 
 ### [Part 17 — Projects](./17-projects/)
 
@@ -485,7 +485,7 @@ Use this to know where you are. Tick the boxes as you finish each part.
 - [x] **Part 13 — Testing** (5 files) ✅
 - [x] **Part 14 — Authentication** (6 files) ✅
 - [x] **Part 15 — Production** (8 files) ✅
-- [ ] **Part 16 — Build Tools** (4 files)
+- [x] **Part 16 — Build Tools** (4 files) ✅
 - [ ] **Part 17 — Projects** (6 files)
 - [ ] **Part 18 — Interview** (4 files)
 
