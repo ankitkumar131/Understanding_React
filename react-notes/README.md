@@ -352,15 +352,15 @@ Legend: ✅ written · 🚧 being written · ⬜ planned
 
 | File | Topic | Status |
 | --- | --- | --- |
-| `01-rendering.md` | Render phase, commit phase, reconciliation | ⬜ |
-| `02-re-rendering.md` | What causes a re-render, render ≠ DOM update | ⬜ |
-| `03-memoization.md` | `React.memo`, `useMemo`, `useCallback` correctly | ⬜ |
-| `04-performance.md` | Profiling, DevTools, virtualization, images | ⬜ |
-| `05-lazy-loading.md` | `lazy`, dynamic `import()` | ⬜ |
-| `06-code-splitting.md` | Route-level and component-level splitting | ⬜ |
-| `07-suspense.md` | Suspense boundaries, fallbacks, streaming | ⬜ |
-| `08-error-boundaries.md` | Catching render errors | ⬜ |
-| `09-concurrent-features.md` | `useTransition`, `useDeferredValue`, scheduling | ⬜ |
+| `01-rendering.md` | Render phase, commit phase, reconciliation | ✅ |
+| `02-re-rendering.md` | What causes a re-render, render ≠ DOM update | ✅ |
+| `03-memoization.md` | `React.memo`, `useMemo`, `useCallback` correctly | ✅ |
+| `04-performance.md` | Profiling, DevTools, virtualization, images | ✅ |
+| `05-lazy-loading.md` | `lazy`, dynamic `import()` | ✅ |
+| `06-code-splitting.md` | Route-level and component-level splitting | ✅ |
+| `07-suspense.md` | Suspense boundaries, fallbacks, streaming | ✅ |
+| `08-error-boundaries.md` | Catching render errors | ✅ |
+| `09-concurrent-features.md` | `useTransition`, `useDeferredValue`, scheduling | ✅ |
 
 ### [Part 11 — Modern React](./11-modern-react/)
 
@@ -479,7 +479,7 @@ Use this to know where you are. Tick the boxes as you finish each part.
 - [x] **Part 7 — API Integration** (11 files) ✅
 - [x] **Part 8 — Forms and Validation** (5 files) ✅
 - [x] **Part 9 — State Management** (6 files) ✅
-- [ ] **Part 10 — Advanced React** (9 files)
+- [x] **Part 10 — Advanced React** (9 files) ✅
 - [ ] **Part 11 — Modern React** (8 files)
 - [ ] **Part 12 — Styling** (5 files)
 - [ ] **Part 13 — Testing** (5 files)

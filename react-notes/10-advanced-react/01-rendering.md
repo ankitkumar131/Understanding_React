@@ -4,7 +4,7 @@
 
 Why this file exists: for nine parts you have written components and let React do the rest. That is the right way to learn React, and it is also why "rendering" still sounds like one magic step. It is not: React does two very different things in sequence — the **render phase**, where your functions run and produce a description of the UI, and the **commit phase**, where React writes to the DOM, calls refs, runs layout effects, paints, and finally runs passive effects. Almost every advanced topic in this part (why a component re-rendered, what `useMemo` saves, when Suspense can show a fallback, why a transition can interrupt a render) is a statement about *which* of those two phases you are in. This file makes the boundary visible, with a component tree instrumented so you can read the order of events and count exactly what happened — and then it does the same for reconciliation, the algorithm that decides which DOM nodes to keep, move, or throw away.
 
-Transcripts come from `npx tsx --tsconfig tsconfig.app.json src/dev/run-render-probe.tsx` (React 19.2.8, jsdom 27).
+Transcripts come from `npx tsx --tsconfig tsconfig.app.json src/dev/run-render-probe.tsx` (React 19.3.0, jsdom 30.1.0).
 
 ---
 
