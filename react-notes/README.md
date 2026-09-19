@@ -399,12 +399,12 @@ Legend: ✅ written · 🚧 being written · ⬜ planned
 
 | File | Topic | Status |
 | --- | --- | --- |
-| `01-authentication-basics.md` | Sessions vs tokens, the flow | ⬜ |
-| `02-login.md` | Building login and register | ⬜ |
-| `03-jwt.md` | Access/refresh tokens, expiry | ⬜ |
-| `04-protected-routes.md` | Guards, redirects, return-to | ⬜ |
-| `05-token-management.md` | localStorage vs cookies — trade-offs | ⬜ |
-| `06-role-based-ui.md` | Roles, permissions, guarded UI | ⬜ |
+| `01-authentication-basics.md` | Sessions vs tokens, the flow | ✅ |
+| `02-login.md` | Building login and register | ✅ |
+| `03-jwt.md` | Access/refresh tokens, expiry | ✅ |
+| `04-protected-routes.md` | Guards, redirects, return-to | ✅ |
+| `05-token-management.md` | localStorage vs cookies — trade-offs | ✅ |
+| `06-role-based-ui.md` | Roles, permissions, guarded UI | ✅ |
 
 ### [Part 15 — Production](./15-production/)
 
@@ -483,7 +483,7 @@ Use this to know where you are. Tick the boxes as you finish each part.
 - [x] **Part 11 — Modern React** (8 files) ✅
 - [x] **Part 12 — Styling** (5 files) ✅
 - [x] **Part 13 — Testing** (5 files) ✅
-- [ ] **Part 14 — Authentication** (6 files)
+- [x] **Part 14 — Authentication** (6 files) ✅
 - [ ] **Part 15 — Production** (8 files)
 - [ ] **Part 16 — Build Tools** (4 files)
 - [ ] **Part 17 — Projects** (6 files)
