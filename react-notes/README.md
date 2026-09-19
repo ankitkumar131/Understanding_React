@@ -302,14 +302,14 @@ Legend: ✅ written · 🚧 being written · ⬜ planned
 
 | File | Topic | Status |
 | --- | --- | --- |
-| `01-routing-basics.md` | URLs, SPAs, why a router is needed | ⬜ |
-| `02-react-router.md` | Install, `BrowserRouter`, first routes | ⬜ |
-| `03-routes.md` | `Routes`, `Route`, layouts, 404 | ⬜ |
-| `04-route-parameters.md` | `:id`, `useParams`, typed params | ⬜ |
-| `05-query-parameters.md` | `useSearchParams` | ⬜ |
-| `06-nested-routes.md` | `Outlet`, nested layouts | ⬜ |
-| `07-protected-routes.md` | Auth guards and redirects | ⬜ |
-| `08-navigation.md` | `Link`, `NavLink`, `useNavigate`, lazy routes | ⬜ |
+| `01-routing-basics.md` | URLs, SPAs, why a router is needed | ✅ |
+| `02-react-router.md` | Install, `BrowserRouter`, first routes | ✅ |
+| `03-routes.md` | `Routes`, `Route`, layouts, 404 | ✅ |
+| `04-route-parameters.md` | `:id`, `useParams`, typed params | ✅ |
+| `05-query-parameters.md` | `useSearchParams` | ✅ |
+| `06-nested-routes.md` | `Outlet`, nested layouts | ✅ |
+| `07-protected-routes.md` | Auth guards and redirects | ✅ |
+| `08-navigation.md` | `Link`, `NavLink`, `useNavigate`, lazy routes | ✅ |
 
 ### [Part 7 — API Integration](./07-api-integration/)
 
@@ -475,7 +475,7 @@ Use this to know where you are. Tick the boxes as you finish each part.
 - [x] **Part 3 — React Fundamentals** (12 files) ✅
 - [x] **Part 4 — State and Hooks** (10 files) ✅
 - [x] **Part 5 — React Concepts** (9 files) ✅
-- [ ] **Part 6 — Routing** (8 files)
+- [x] **Part 6 — Routing** (8 files) ✅
 - [ ] **Part 7 — API Integration** (11 files)
 - [ ] **Part 8 — Forms and Validation** (5 files)
 - [ ] **Part 9 — State Management** (6 files)
