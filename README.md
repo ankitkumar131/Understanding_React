@@ -33,7 +33,7 @@ Both halves are checked automatically — `.github/workflows/ci.yml` runs the la
 
 ```bash
 node scripts/check-notes.mjs      # links + chapter banners
-# ✓ notes OK — 151 files, 245 relative links, 139 banners
+# ✓ notes OK — 151 files, 246 relative links, 139 banners
 
 node scripts/check-snippets.mjs   # every import in every code block
 # ✓ every import in every code block resolves

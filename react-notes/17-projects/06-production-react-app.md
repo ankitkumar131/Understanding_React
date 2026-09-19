@@ -295,7 +295,7 @@ The lab ran into this warning from React Router 8:
 No `HydrateFallback` element provided to render during initial hydration
 ```
 
-Adding `HydrateFallback` **inside the lazy module** did not silence it, so the lab instrumented the router (`src/perf/hydrate.test.tsx`) and compared three route shapes:
+Adding `HydrateFallback` **inside the lazy module** did not silence it, so the lab instrumented the router with a throwaway probe (`src/perf/hydrate.test.tsx`, deleted once the investigation was written up — its output is in [`react-lab/evidence/part17-projects.txt`](../../react-lab/evidence/part17-projects.txt)) and compared three route shapes:
 
 | Setup | Result |
 | --- | --- |

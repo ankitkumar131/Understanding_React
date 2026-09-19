@@ -4,7 +4,7 @@
 
 Why this file exists: "React is fast until it is not, and you cannot guess which it will be." This file starts from a measurement made in this lab — a 1000-row list where a single state update re-rendered all 1000 rows (56 ms) and `memo` + `useCallback` reduced that to **0 row renders and 7.7 ms** — and builds the whole performance model on evidence: what actually causes re-renders, which fixes work and when, how to measure (render counts and the Profiler, not vibes), why long lists need virtualisation rather than memoization, how code splitting changes the first load, and what React Compiler now does automatically. It ends with the rule that saves the most time: **measure first, and optimise the thing that is actually slow.**
 
-Measured: [`react-lab/evidence/part15-perf.txt`](../../react-lab/evidence/part15-perf.txt) (`npx vitest run src/perf/probe.test.tsx`, jsdom).
+Measured: [`react-lab/evidence/part15-perf.txt`](../../react-lab/evidence/part15-perf.txt) — the probe is now `src/perf/renders.test.tsx`, so run it as `npx vitest run src/perf/renders.test.tsx` (jsdom). The transcript was captured when the file was still called `probe.test.tsx`; that is the name you will see in its output lines.
 
 ---
 
@@ -24,7 +24,8 @@ Measured: [`react-lab/evidence/part15-perf.txt`](../../react-lab/evidence/part15
 ## 2. The measurement
 
 ```tsx
-// src/perf/probe.test.tsx (this lab) — render counts are the reliable signal
+// src/perf/renders.test.tsx (this lab; named probe.test.tsx in the transcript) —
+// render counts are the reliable signal
 function Row({ index, onSelect }: RowProps) {
   rowRenders += 1;
   return <li><button onClick={() => onSelect(index)}>Row {index}</button></li>;
