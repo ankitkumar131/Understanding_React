@@ -341,12 +341,12 @@ Legend: ✅ written · 🚧 being written · ⬜ planned
 
 | File | Topic | Status |
 | --- | --- | --- |
-| `01-state-management.md` | The progression: useState → lift → context → reducer → store | ⬜ |
-| `02-context-api.md` | Context as a state tool, pitfalls | ⬜ |
-| `03-redux.md` | Store, actions, reducers, dispatch, middleware | ⬜ |
-| `04-redux-toolkit.md` | `createSlice`, typed hooks, async thunks | ⬜ |
-| `05-zustand.md` | Minimal global store, selectors | ⬜ |
-| `06-server-state.md` | Client vs server state, TanStack Query | ⬜ |
+| `01-state-management.md` | The progression: useState → lift → context → reducer → store | ✅ |
+| `02-context-api.md` | Context as a state tool, pitfalls | ✅ |
+| `03-redux.md` | Store, actions, reducers, dispatch, middleware | ✅ |
+| `04-redux-toolkit.md` | `createSlice`, typed hooks, async thunks | ✅ |
+| `05-zustand.md` | Minimal global store, selectors | ✅ |
+| `06-server-state.md` | Client vs server state, TanStack Query | ✅ |
 
 ### [Part 10 — Advanced React](./10-advanced-react/)
 
@@ -478,7 +478,7 @@ Use this to know where you are. Tick the boxes as you finish each part.
 - [x] **Part 6 — Routing** (8 files) ✅
 - [x] **Part 7 — API Integration** (11 files) ✅
 - [x] **Part 8 — Forms and Validation** (5 files) ✅
-- [ ] **Part 9 — State Management** (6 files)
+- [x] **Part 9 — State Management** (6 files) ✅
 - [ ] **Part 10 — Advanced React** (9 files)
 - [ ] **Part 11 — Modern React** (8 files)
 - [ ] **Part 12 — Styling** (5 files)
