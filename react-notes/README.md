@@ -379,11 +379,11 @@ Legend: ✅ written · 🚧 being written · ⬜ planned
 
 | File | Topic | Status |
 | --- | --- | --- |
-| `01-css.md` | Global CSS, imports, inline styles | ⬜ |
-| `02-css-modules.md` | Scoped class names | ⬜ |
-| `03-scss.md` | Nesting, variables, mixins | ⬜ |
-| `04-tailwind.md` | Utility-first with Vite | ⬜ |
-| `05-component-styling.md` | Choosing a strategy, trade-offs | ⬜ |
+| `01-css.md` | Global CSS, imports, inline styles | ✅ |
+| `02-css-modules.md` | Scoped class names | ✅ |
+| `03-scss.md` | Nesting, variables, mixins | ✅ |
+| `04-tailwind.md` | Utility-first with Vite | ✅ |
+| `05-component-styling.md` | Choosing a strategy, trade-offs | ✅ |
 
 ### [Part 13 — Testing](./13-testing/)
 
@@ -481,7 +481,7 @@ Use this to know where you are. Tick the boxes as you finish each part.
 - [x] **Part 9 — State Management** (6 files) ✅
 - [x] **Part 10 — Advanced React** (9 files) ✅
 - [x] **Part 11 — Modern React** (8 files) ✅
-- [ ] **Part 12 — Styling** (5 files)
+- [x] **Part 12 — Styling** (5 files) ✅
 - [ ] **Part 13 — Testing** (5 files)
 - [ ] **Part 14 — Authentication** (6 files)
 - [ ] **Part 15 — Production** (8 files)
