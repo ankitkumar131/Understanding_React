@@ -273,16 +273,16 @@ Legend: ✅ written · 🚧 being written · ⬜ planned
 
 | File | Topic | Status |
 | --- | --- | --- |
-| `01-state.md` | What state is, why variables fail, immutability | ⬜ |
-| `02-usestate.md` | `useState` in extreme detail | ⬜ |
-| `03-useeffect.md` | Effects, dependencies, cleanup, loops | ⬜ |
-| `04-useref.md` | DOM refs, mutable values, previous values | ⬜ |
-| `05-usecontext.md` | Context, prop drilling, providers | ⬜ |
-| `06-usereducer.md` | Reducers, actions, dispatch, complex state | ⬜ |
-| `07-usememo.md` | Expensive computation, referential equality | ⬜ |
-| `08-usecallback.md` | Stable function identities | ⬜ |
-| `09-custom-hooks.md` | Extracting logic, `use` naming rule | ⬜ |
-| `10-hooks-rules.md` | Rules of hooks and why they exist | ⬜ |
+| `01-state.md` | What state is, why variables fail, immutability | ✅ |
+| `02-usestate.md` | `useState` in extreme detail | ✅ |
+| `03-useeffect.md` | Effects, dependencies, cleanup, loops | ✅ |
+| `04-useref.md` | DOM refs, mutable values, previous values | ✅ |
+| `05-usecontext.md` | Context, prop drilling, providers | ✅ |
+| `06-usereducer.md` | Reducers, actions, dispatch, complex state | ✅ |
+| `07-usememo.md` | Expensive computation, referential equality | ✅ |
+| `08-usecallback.md` | Stable function identities | ✅ |
+| `09-custom-hooks.md` | Extracting logic, `use` naming rule | ✅ |
+| `10-hooks-rules.md` | Rules of hooks and why they exist | ✅ |
 
 ### [Part 5 — React Concepts](./05-react-concepts/)
 
@@ -473,7 +473,7 @@ Use this to know where you are. Tick the boxes as you finish each part.
 - [x] **Part 1 — Prerequisites** (11 files) ✅
 - [x] **Part 2 — TypeScript** (11 files) ✅
 - [x] **Part 3 — React Fundamentals** (12 files) ✅
-- [ ] **Part 4 — State and Hooks** (10 files)
+- [x] **Part 4 — State and Hooks** (10 files) ✅
 - [ ] **Part 5 — React Concepts** (9 files)
 - [ ] **Part 6 — Routing** (8 files)
 - [ ] **Part 7 — API Integration** (11 files)
