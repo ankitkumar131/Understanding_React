@@ -1,64 +1,193 @@
-# 05 — POST APIs: Creating Records, Validation, and the Double-Submit Problem
+# 05 — POST APIs: Creating Records, Server Validation, and the Double-Submit Problem
 
 > **Part 7 · API Integration · File 5 of 11**
-> Why this file exists: reads fail harmlessly; writes are permanent. This file builds a real create form end to end — typed state, field-by-field validation *before* the request, a submit handler that cannot fire twice, `201 Created` and the server-assigned id, and `422` field errors mapped back onto the exact inputs that caused them. Two measurements drive the design: a state-only double-submit guard let **two** `POST`s through in one tick, a synchronous ref guard let **one**.
+> Why this file exists: `POST` is where your app stops reading the server's data and starts changing it. Everything that makes a write risky lives here — a payload that has to be exactly right, a request that must not be sent twice, validation that only the server can do, and a response that tells you what the server actually stored. This file builds the create half of the shop-admin CRUD screen and measures every failure path.
 
 ---
 
-## 1. What `POST` means
+## 1. What POST means
 
-`POST` **creates a new resource** in a collection. The client sends data; the server decides the identity (usually an id) and returns the created record.
+`POST` sends data **to** a resource so that the server creates something. Four properties to hold on to:
 
-```text
-POST /api/products
-Content-Type: application/json
+| Property | Meaning | Consequence |
+| --- | --- | --- |
+| **Not idempotent** | sending the same POST twice creates two records | you must prevent accidental duplicates |
+| **Not cacheable** | browsers and proxies do not cache POST responses | no stale-data surprises |
+| **Has a body** | the payload lives in the request body, not the URL | `Content-Type: application/json` matters |
+| **Usually returns `201 Created`** | the response often includes the new resource, with its server-assigned `id` | use the server's copy, not your local guess |
 
-{ "name": "Desk Lamp", "priceMinor": 129950, "category": "accessories", "blurb": "Warm light, USB-C.", "inStock": false }
-```
-
-```text
-201 Created
-{ "name": "Desk Lamp", "priceMinor": 129950, …, "id": "w0xjz_C" }
-```
-
-Verified against the lab API:
+The id is the part people get wrong: **the client does not decide the id.** The server does, and it tells you in the response body (and sometimes a `Location` header pointing at the new resource).
 
 ```text
-POST /products → 201 · server-assigned id="TV3WWSe"
-   body back: {"name":"Scratch Webcam Cover","priceMinor":49900,"category":"accessories","blurb":"Created by the CRUD probe.","inStock":true,"id":"TV3WWSe"}
+POST /products           →  201 Created
+{ "name": "Desk Lamp", ... }   { "id": "w0xjz_C", "name": "Desk Lamp", ... }
 ```
 
-Two facts from file 01 that shape everything here:
+⚠️ If you write your own id (a `Date.now()` or a UUID) and *also* let the server assign one, you now have two identities for one record. Save the id from the response and use it.
 
-1. **`POST` is not idempotent.** Sending it twice creates two records (file 01, section 4) — and the lab made this concrete: a body-less `POST` returned `201` and left a stray seventh product in the database. The double-submit section below is not theoretical pedantry; it is the difference between one order and two.
-2. **`201 Created` carries the new resource in the body.** That response is your only reliable source of the server-assigned id, timestamps, and any server-side defaults — so put it into your state instead of refetching.
+---
 
-### `POST` versus `PUT` versus `PATCH`
+## 2. Where POST sits in the CRUD shape of an app
 
-| Question | `POST /collection` | `PUT /collection/id` | `PATCH /collection/id` |
+| Verb | Purpose | Idempotent? | Returns |
 | --- | --- | --- | --- |
-| Who decides the id? | the **server** | the **client** | — |
-| Creates a record? | yes | only if the server implements "upsert" (json-server answered `404` instead) | no |
-| Sends the whole record? | yes (a new one) | yes (a replacement) | no, only the changed fields |
-| Safe to repeat? | **no** | yes | yes (usually) |
-| Typical use | "Create product" | "Save this product" (file 06) | "Toggle in stock" (file 07) |
+| `GET /products` | read a list | yes | `200` + array |
+| `GET /products/:id` | read one | yes | `200` or `404` |
+| **`POST /products`** | **create** | **no** | `201` + created record |
+| `PUT /products/:id` | replace | yes | `200` (+ updated record) |
+| `PATCH /products/:id` | update partly | no (in theory) | `200` |
+| `DELETE /products/:id` | remove | yes | `200`/`204` |
+
+A create screen is a form (Part 8 goes deep) plus one POST. The interesting engineering is in the four "what ifs": what if the data is invalid, what if the user clicks twice, what if the server says no, and what if the response is not what you expected.
 
 ---
 
-## 2. The form component, in one piece
+## 3. The request, piece by piece
+
+```ts
+const response = await fetch('/api/products', {
+  method: 'POST',
+  headers: {
+    Accept: 'application/json',
+    'Content-Type': 'application/json',
+  },
+  body: JSON.stringify(draft),
+});
+```
+
+| Part | Why | What breaks without it |
+| --- | --- | --- |
+| `method: 'POST'` | declares a create | `fetch` defaults to `GET`, and a GET with a body is silently dropped |
+| `Content-Type: application/json` | tells the server how to parse the body | Express's `json()` body parser ignores the body → your fields arrive `undefined` |
+| `JSON.stringify` | converts the object to text | passing an object sends `[object Object]` |
+| `Accept: application/json` | asks for JSON back | some servers default to HTML errors, which you then try to `JSON.parse` |
+
+`JSON.stringify` has three behaviours worth knowing before they surprise you on the wire:
+
+```ts
+JSON.stringify({ a: undefined, b: null, c: () => {}, d: new Date(0), e: Symbol('x') });
+// → '{"b":null,"d":"1970-01-01T00:00:00.000Z"}'
+```
+
+- **`undefined` values and functions disappear entirely.** This is the trap Part 7's PATCH file revisits: an omitted key and a `null` key mean different things to a server.
+- **`null` survives** as `null` — "explicitly empty" is a value.
+- **`Date` becomes an ISO string**, so a `Date` in your state arrives as a string on the server. Type it accordingly.
+
+The lab's typed helper hides all of this, and it is the only place in the app that knows about `fetch`, headers, and status codes:
+
+```ts
+// File: src/api/http.ts (excerpt)
+export async function sendJson<T>(path: string, method: 'POST' | 'PUT' | 'PATCH' | 'DELETE', payload?: unknown): Promise<T> {
+  const response = await fetch(url(path), {
+    method,
+    headers: payload === undefined
+      ? { Accept: 'application/json' }
+      : { Accept: 'application/json', 'Content-Type': 'application/json' },
+    body: payload === undefined ? undefined : JSON.stringify(payload),
+  });
+
+  if (!response.ok) {
+    const { parsed, raw } = await readJson(response).catch(() => ({ parsed: null, raw: '' }));
+    throw new HttpError(response.status, `Request failed with ${response.status}`, parsed ?? raw);
+  }
+
+  return response.status === 204 ? (undefined as T) : ((await response.json()) as T);
+}
+```
+
+Three decisions in that function that pay off at every call site:
+
+1. **Only sends `Content-Type` when there is a body.** A `POST` without a payload with a JSON content type confuses some servers.
+2. **Turns non-2xx into an `HttpError` that carries the parsed body.** That is what the form uses to read the server's field errors (section 8).
+3. **Handles `204 No Content`** so a delete does not try to parse an empty body (a real crash, and the reason `response.json()` needs guarding).
+
+---
+
+## 4. The draft: what actually goes on the wire
+
+The form holds strings (what the user typed) and the API holds typed, normalised data. Converting between them is the form's job, at the edge:
+
+```ts
+function toDraft(values: FormValues): ApiProductDraft {
+  return {
+    name: values.name.trim(),
+    priceMinor: Math.round(Number(values.price) * 100),   // rupees → paise, integer
+    category: values.category,
+    blurb: values.blurb.trim() === '' ? null : values.blurb.trim(),
+    inStock: values.inStock,
+  };
+}
+```
+
+Measured, with real numbers:
 
 ```text
-shop-admin/src/
-├── api/
-│   ├── http.ts          ← getJson / sendJson / HttpError (file 04)
-│   ├── types.ts         ← ApiProduct, ApiProductDraft
-│   └── products.ts      ← createProduct, replaceProduct, updateProduct, deleteProduct
-└── part7/
-    └── ProductForm.tsx  ← this file: create mode and edit mode in one component
+=== C. a valid create (POST → 201) ===
+   filled in: name="Desk Lamp" price="1299.5" inStock=false
+   while the request is in flight: button="Saving…" disabled=true
+   after the response: Created Desk Lamp (id w0xjz_C)
+   request: POST http://127.0.0.1:3001/products?delay=400
+   body sent: {"name":"Desk Lamp","priceMinor":129950,"category":"accessories","blurb":"Warm light, USB-C.","inStock":false}
+   form reset? name="" price=""
+   server now has: w0xjz_C "Desk Lamp" 129950 inStock=false blurb="Warm light, USB-C."
+   ↑ 1299.5 rupees became 129950 paise — the form converts at the edge, with Math.round
+```
+
+Four conversion rules, each with a reason:
+
+| Input | Output | Why |
+| --- | --- | --- |
+| `"1299.5"` | `129950` (`priceMinor`) | integers avoid float drift; the API's contract says minor units |
+| `"Warm light "` | `"Warm light"` | trim before sending: the server should not store your stray spaces |
+| `""` (empty textarea) | `null` | the API distinguishes "no description" from "an empty description" |
+| `"accessories"` | `"accessories"` (literal union) | `ApiProductDraft['category']` types it, so a typo is a compile error |
+
+⚠️ `Math.round(Number(price) * 100)` is the *last* line of defence, not a validator: `Number('abc') * 100` is `NaN`, and `NaN` serialised to JSON is `null`. Validate first (section 6), convert second.
+
+---
+
+## 5. The complete create screen
+
+```text
+shop-admin/
+├── src/
+│   ├── api/
+│   │   ├── http.ts          ← getJson / sendJson / HttpError
+│   │   ├── products.ts      ← createProduct, replaceProduct, updateProduct, deleteProduct
+│   │   └── types.ts         ← ApiProduct, ApiProductDraft
+│   ├── part7/
+│   │   ├── ProductForm.tsx      ← the form (create AND edit modes)
+│   │   ├── NewProductPage.tsx   ← uses ProductForm with no product
+│   │   └── ProductsTable.tsx    ← the list screen (file 08)
+│   └── main.tsx
+└── server/
+    ├── db.json              ← the "database"
+    └── middlewares.cjs      ← /profile, ?fail=…, ?delay=…
 ```
 
 ```tsx
-// File: src/part7/ProductForm.tsx (complete)
+// File: src/part7/NewProductPage.tsx
+import { useNavigate } from 'react-router';
+import { ProductForm } from './ProductForm';
+
+export function NewProductPage() {
+  const navigate = useNavigate();
+
+  return (
+    <section>
+      <h2>New product</h2>
+      <ProductForm
+        onSaved={(product) => {
+          navigate(`/products/${product.id}`);   // use the id the SERVER assigned
+        }}
+      />
+    </section>
+  );
+}
+```
+
+```tsx
+// File: src/part7/ProductForm.tsx (the create path, annotated)
 import { useRef, useState, type FormEvent } from 'react';
 import { HttpError } from '../api/http';
 import { createProduct, replaceProduct } from '../api/products';
@@ -68,23 +197,13 @@ type FieldErrors = Partial<Record<'name' | 'price' | 'blurb' | 'category', strin
 
 interface FormValues {
   name: string;
-  price: string; // rupees, as typed
+  price: string;                                  // rupees, as typed
   category: ApiProductDraft['category'];
   blurb: string;
   inStock: boolean;
 }
 
 const emptyValues: FormValues = { name: '', price: '', category: 'accessories', blurb: '', inStock: true };
-
-function valuesFrom(product: ApiProduct): FormValues {
-  return {
-    name: product.name,
-    price: (product.priceMinor / 100).toFixed(2),
-    category: product.category,
-    blurb: product.blurb ?? '',
-    inStock: product.inStock,
-  };
-}
 
 function validate(values: FormValues): FieldErrors {
   const errors: FieldErrors = {};
@@ -109,21 +228,20 @@ export function ProductForm({ product, onSaved }: { product?: ApiProduct; onSave
   const [formError, setFormError] = useState<string | null>(null);
   const [pending, setPending] = useState(false);
   const [saved, setSaved] = useState<ApiProduct | null>(null);
-  const submittingRef = useRef(false);          // the synchronous guard (section 7)
 
-  function setField<K extends keyof FormValues>(field: K, value: FormValues[K]) {
-    setValues((current) => ({ ...current, [field]: value }));
-  }
+  // A ref, not state: it must be readable SYNCHRONOUSLY by a second click handler
+  // in the same tick, before React has re-rendered the disabled button.
+  const submittingRef = useRef(false);
 
   async function handleSubmit(event: FormEvent<HTMLFormElement>) {
     event.preventDefault();
-    if (submittingRef.current) return;
+    if (submittingRef.current) return;             // ← the guard that actually works (section 7)
 
     const errors = validate(values);
     setFieldErrors(errors);
     setFormError(null);
     setSaved(null);
-    if (Object.keys(errors).length > 0) return;
+    if (Object.keys(errors).length > 0) return;    // no request while the form is invalid
 
     const draft: ApiProductDraft = {
       name: values.name.trim(),
@@ -167,49 +285,7 @@ export function ProductForm({ product, onSaved }: { product?: ApiProduct; onSave
 
   return (
     <form className="product-form" onSubmit={handleSubmit} noValidate>
-      <h2>{isEdit ? `Edit ${product.name}` : 'New product'}</h2>
-
-      {saved && <p className="saved" role="status">{isEdit ? 'Saved' : 'Created'} <strong>{saved.name}</strong> (id {saved.id})</p>}
-      {formError && <p className="form-error" role="alert">{formError}</p>}
-
-      <label>
-        Name
-        <input
-          className="f-name"
-          value={values.name}
-          onChange={(event) => setField('name', event.target.value)}
-          aria-invalid={fieldErrors.name !== undefined}
-          aria-describedby={fieldErrors.name ? 'name-error' : undefined}
-        />
-      </label>
-      {fieldErrors.name && <p className="f-name-error" id="name-error">{fieldErrors.name}</p>}
-
-      <label>
-        Price (₹)
-        <input className="f-price" inputMode="decimal" value={values.price} onChange={(event) => setField('price', event.target.value)} />
-      </label>
-      {fieldErrors.price && <p className="f-price-error">{fieldErrors.price}</p>}
-
-      <label>
-        Category
-        <select className="f-category" value={values.category} onChange={(event) => setField('category', event.target.value as FormValues['category'])}>
-          <option value="audio">Audio</option>
-          <option value="keyboards">Keyboards</option>
-          <option value="accessories">Accessories</option>
-        </select>
-      </label>
-
-      <label>
-        Description
-        <textarea className="f-blurb" value={values.blurb} onChange={(event) => setField('blurb', event.target.value)} />
-      </label>
-      {fieldErrors.blurb && <p className="f-blurb-error">{fieldErrors.blurb}</p>}
-
-      <label>
-        <input className="f-instock" type="checkbox" checked={values.inStock} onChange={(event) => setField('inStock', event.target.checked)} />
-        In stock
-      </label>
-
+      {/* …fields (see Part 8)… */}
       <button className="f-submit" type="submit" disabled={pending}>
         {pending ? 'Saving…' : isEdit ? 'Save changes' : 'Create product'}
       </button>
@@ -218,124 +294,42 @@ export function ProductForm({ product, onSaved }: { product?: ApiProduct; onSave
 }
 ```
 
-Line by line, the parts that are doing real work:
+Line by line, the create-specific parts:
 
-| Line | Why it is there |
+| Line | Why it is like that |
 | --- | --- |
-| `useState<FormValues>(() => …)` | **every field is a string or boolean**, exactly as the DOM hands it over. Numbers are converted once, at the edge (section 4) |
-| `validate(values)` returning an **object keyed by field** | the error belongs to an input, not to the form; a single `message` string cannot be shown in the right place |
-| `setSubmitted(false)`… `if (Object.keys(errors).length > 0) return;` | validation happens **before** any network work, so an empty form cannot even reach the API |
-| `Math.round(Number(values.price) * 100)` | rupees → paise, with rounding, because `1299.5 * 100` is `129949.999…` in floating point in general |
-| `blurb.trim() === '' ? null : values.blurb.trim()` | the API's contract is `string | null`; "no description" is `null`, not `""` |
-| `if (submittingRef.current) return;` | the *synchronous* double-submit guard (section 7 explains why `pending` alone is too slow) |
-| `submittingRef.current = true; setPending(true);` | the ref protects the logic, the state drives the UI. Both, always |
-| `finally { submittingRef.current = false; setPending(false); }` | every exit path — success, validation error, `500`, abort — must release the guard, or the form is dead forever |
-| `saved && <p role="status">` | `role="status"` announces the success politely to screen readers (Part 6, file 08) |
-| `aria-invalid` + `aria-describedby` | the error text is *associated* with the field, so assistive tech reads it with the input |
-| `noValidate` on the `<form>` | stops the browser's own bubble messages so the app's messages are the single, consistent source of feedback |
+| `if (submittingRef.current) return;` | reads a **ref** written synchronously — the only guard that sees a second click in the same tick (measured in section 7) |
+| `if (Object.keys(errors).length > 0) return;` | zero requests for an invalid form (transcript A) |
+| `Math.round(Number(values.price) * 100)` | rupees → paise, exact, at the boundary |
+| `blurb.trim() === '' ? null : …` | the API distinguishes empty from missing |
+| `await createProduct(draft)` | POST + 201 + parsed record, from `sendJson` |
+| `setValues(emptyValues)` **only when creating** | a create form clears so the user can add another; an edit form must keep showing what was saved |
+| `onSaved?.(result)` | the parent decides what happens next (navigate, toast, close a modal) |
+| the `catch` block | `422` → field errors; `401` → session message; anything else → a message the user can act on |
 
 ---
 
-## 3. Controlled inputs: one source of truth per field
-
-Every input is controlled — `value={values.name}` with `onChange` writing back into the same state object. The mechanics were established in Part 5 (files 03–05); the Part 7 rules are:
-
-1. **The form's state type is `FormValues`**, not `ApiProductDraft`. The two differ on purpose: the UI works in strings (a number input holds `""` while the user types `2`, and `Number("")` is `0`), while the API wants numbers and `null`.
-2. **The conversion happens exactly once**, in `handleSubmit`, so there is exactly one place where "what the user typed" becomes "what we send".
-3. **Validate the *parsed* value, not the string.** `Number("abc")` is `NaN` — that is a valid check (`Number.isNaN`), while `"abc" > 0` is nonsense.
-4. **Never trust the field type.** `<input type="number">` still gives you a string in `event.target.value`, and a determined user can type `1e5` or paste text into it.
-
-⚠️ **Client-side validation is for the user's benefit, not for security.** It gives fast, friendly feedback; it stops nothing. Anyone can call your API with `curl` (file 01, section 10) — so the server must re-validate everything, and its answer is the authoritative one. That is exactly why the 422 path below exists.
-
----
-
-## 4. Units, `null`, and other edge conversions
-
-Small decisions in `handleSubmit` that prevent an entire class of bugs:
-
-| Field | User sees | State holds | Sent to the API |
-| --- | --- | --- | --- |
-| price | `1299.5` | `"1299.5"` (string) | `priceMinor: 129950` (integer paise) |
-| description | (empty textarea) | `""` | `blurb: null` |
-| description | `"  Warm light "` | with spaces | `blurb: "Warm light"` (trimmed) |
-| in stock | unchecked | `false` | `inStock: false` |
-| category | "Accessories" | `"accessories"` | `category: "accessories"` |
-
-Two rules generalise:
-
-- **Money is stored in the smallest unit as an integer.** `1299.5 * 100` exactly is `129950` here, but `0.1 + 0.2 !== 0.3` in binary floating point, and a rounding bug in a price is a business bug. Convert once with `Math.round`, and keep every server-side amount an integer.
-- **"Empty" has exactly one representation on the wire.** Sending `blurb: ""` and `blurb: null` and omitting the field are three different things to a server; pick one contract (`null` above) and convert in the same place every time.
-
----
-
-## 5. What `201` gives you, and what to do with it
-
-Verified response body from the lab:
+## 6. Client-side validation: the request that never happens
 
 ```text
-body sent: {"name":"Desk Lamp","priceMinor":129950,"category":"accessories","blurb":"Warm light, USB-C.","inStock":false}
-server now has: w0xjz_C "Desk Lamp" 129950 inStock=false blurb="Warm light, USB-C."
+=== A. create mode: client-side validation runs before any request ===
+   first paint: name="" price="" submit="Create product"
+   after submitting an empty form: Name must be at least 3 characters. | Enter a price, for example 2499 or 2499.50.
+   POSTs sent: 0  ← validate() stopped it before the network
+
+=== B. field-by-field validation ===
+   after typing a valid name: Enter a price, for example 2499 or 2499.50.
+   after typing "abc" as the price: Enter a price, for example 2499 or 2499.50.
+   after typing "-5" as the price: Price must be greater than zero.
 ```
 
-The server echoed the record back **with an id the client never had**. Now choose deliberately:
-
-| After a successful create | When it is right | What to write |
-| --- | --- | --- |
-| **Append the returned record to the list** | the list is already on screen | `setItems((items) => [...items, created])` |
-| **Refetch the list** | there is sorting/filtering/pagination the server does | `setReloadToken((token) => token + 1)` — the same lever as file 04 |
-| **Navigate to the new record** | the next step is editing it | `navigate(`/products/${created.id}`)` (Part 6, file 08) |
-| **Reset the form for another entry** | data entry in bulk | `setValues(emptyValues)` — verified: `form reset? name="" price=""` |
-
-Everything except "append" needs the id from the response, which is why **`POST` responses are never ignored**.
-
-⚠️ The one thing you must *not* do is invent the id client-side (`id: crypto.randomUUID()`) to "save a round trip" unless the API explicitly supports client-generated ids — otherwise your optimistic row and the server's record will disagree forever.
+"POSTs sent: 0" is the number that matters. A client-side check is not a security boundary — the server must validate again — but it is the difference between a fast, friendly form and one that fires a doomed request per click. Note also that `"abc"` and `""` share a message (both are "not a number"), while `-5` is a different problem (a number, but out of range): message quality comes from being precise about *which* rule failed.
 
 ---
 
-## 6. Server-side validation errors: `422` mapped back onto fields
+## 7. The double-submit problem
 
-The lab's `?fail=422` middleware answers with the shape real APIs use:
-
-```text
-POST /products?fail=422 → 422 · content-type=application/json; charset=utf-8
-{
-  "error": "validation_failed",
-  "message": "The product could not be saved.",
-  "errors": { "name": "Name must be at least 3 characters.", "priceMinor": "Price must be a positive number." }
-}
-```
-
-And the component turns that into field-level feedback:
-
-```text
-=== E. the server says no: 422 with field errors ===
-   request: POST http://127.0.0.1:3001/products?fail=422
-   messages: The server rejected this product. Fix the fields below. | Name must be at least 3 characters. | Price must be a positive number.
-   ↑ the field errors came from the SERVER body (errors.name / errors.priceMinor), not from validate()
-```
-
-Notice the mapping in the code: the server speaks `priceMinor`, the form speaks `price` — the boundary translates once, and the rest of the component never learns the API's field names. That mapping is the same discipline file 11 formalises.
-
-Three rules for server errors:
-
-1. **`422` (or `400`) with a field map → show the messages under the fields.** Never show a generic "Something went wrong" when the server told you precisely which field failed.
-2. **`401` → "your session expired", and send the user to sign in** (Part 6, file 07). Do not retry a `401` (file 10).
-3. **Keep the user's input.** A failed submit must never clear the form; the user retypes nothing.
-
-```ts
-// The shape used above, typed instead of guessed
-interface ValidationErrorBody {
-  error: 'validation_failed';
-  message: string;
-  errors?: Partial<Record<'name' | 'priceMinor' | 'blurb' | 'category', string>>;
-}
-```
-
----
-
-## 7. The double-submit problem (measured, not guessed)
-
-A user double-clicks. A slow network makes them click again. A `POST` that runs twice creates two records. The obvious fix — `if (pending) return;` — is **not enough**, because React state updates are asynchronous: in the same tick, the second click handler still sees the old `pending === false`.
+Every create button eventually gets clicked twice — a double-click, an impatient second tap, a slow network, or a keyboard `Enter` followed by a click. Measured:
 
 ```text
 === D. double submit: a synchronous ref guard versus a state-only guard ===
@@ -347,267 +341,194 @@ A user double-clicks. A slow network makes them click again. A `POST` that runs 
    server-side totals: "Ref Guard Lamp"=1, "Naive Lamp"=2
 ```
 
-Read those numbers as the three-layer defence, weakest to strongest:
-
-| Layer | What it stops | What it misses | Cost |
-| --- | --- | --- | --- |
-| `disabled={pending}` on the button | real user clicks after the re-render (~16 ms later) | two clicks in the same tick, Enter pressed twice, a keyboard repeat | one prop |
-| `if (pending) return;` | nothing extra, for the same-tick case | the same tick | one line |
-| `if (submittingRef.current) return;` **plus** setting it synchronously | every client-side duplicate, including same-tick | two different tabs, a proxy retry, a flaky network | one `useRef` |
-| **Server-side idempotency** (unique constraint, idempotency key) | everything, including the cases the client cannot see | — (costs server work) | the real fix |
-
-The `useRef` guard is not a hack: it is a *synchronous* flag, and synchronous is exactly what "has this submit already started?" needs to be.
-
-```ts
-const submittingRef = useRef(false);
-
-async function handleSubmit(event: FormEvent<HTMLFormElement>) {
-  event.preventDefault();
-  if (submittingRef.current) return;      // ← synchronous check
-  // …validate…
-  submittingRef.current = true;           // ← set BEFORE the first await
-  setPending(true);
-  try {
-    await createProduct(draft);
-  } finally {
-    submittingRef.current = false;        // ← released on every path
-    setPending(false);
-  }
-}
-```
-
-💡 The same reasoning explains two other "impossible" bugs: a `POST` retried automatically by your own retry policy (file 10 — never retry non-idempotent requests), and a form submitted twice because pressing Enter in a text input fires `submit` *and* clicking the button fires another one.
-
-Verified in the transcript: while the server was slow, the button read `Saving…` with `disabled=true`, and two impatient clicks produced **no** extra request. The moment the request finished, the guard released and the form was usable again.
-
----
-
-## 8. Optimistic or pessimistic? (for a create, pessimistic wins)
-
-| Approach | What the user sees | Fits a create? |
-| --- | --- | --- |
-| **Pessimistic** (wait, then show) | spinner on the button → "Created Desk Lamp (id w0xjz_C)" | ✅ **yes** — you cannot show a row without the server's id, and the server may reject the data |
-| Optimistic (show first, fix later) | the row appears instantly, rolls back on failure | ❌ for a create; ✅ for a delete (file 08) and usually for a field toggle (file 07) |
-
-The rule: **optimistic UI is for changes you are confident about and can undo locally.** Creating a record is neither — you lack the identity and the validation decision.
-
----
-
-## 9. Where the create form lives in the app
+Why the "obvious" guard fails:
 
 ```tsx
-// File: src/part7/NewProductPage.tsx
-import { Link, useNavigate } from 'react-router';
-import { ProductForm } from './ProductForm';
+// ❌ the guard everyone writes first
+if (pending) return;
+setPending(true);
+```
 
-export function NewProductPage() {
-  const navigate = useNavigate();
+`pending` is a **state value captured by the render**. Two clicks in the same tick run the *same* handler closure, which still sees `pending === false`. React has not re-rendered between them, so `disabled={pending}` is not set yet either. Result: two POSTs, two records (verified: `"Naive Lamp"=2`).
 
-  return (
-    <section>
-      <nav aria-label="Breadcrumb">
-        <Link to="/products">← All products</Link>
-      </nav>
-      <ProductForm
-        onSaved={(created) => {
-          // Option A: stay here for bulk entry (the form already reset itself).
-          // Option B: go to the record that was just created.
-          void navigate(`/products/${created.id}`, { replace: true });
-        }}
-      />
-    </section>
-  );
+```tsx
+// ✅ a ref, written before the first await
+const submittingRef = useRef(false);
+
+async function handleSubmit(event) {
+  event.preventDefault();
+  if (submittingRef.current) return;
+  …
+  submittingRef.current = true;
+  setPending(true);
+  try { … } finally { submittingRef.current = false; setPending(false); }
 }
 ```
 
-The `onSaved` callback is the composition lesson from Part 5: `ProductForm` knows how to create a product; the *page* decides what happens next. The same component is reused in edit mode (file 06) — a small `product` prop is the only difference.
+A ref's `.current` is read and written **immediately**, with no render in between, so the second call in the same tick sees `true` and returns. `setPending` is still there — for the *visual* state (disabled button, "Saving…") — but it is no longer the thing preventing duplicates.
+
+Three layers, in order of strength:
+
+| Layer | Catches | Cost |
+| --- | --- | --- |
+| `submittingRef` (sync guard) | same-tick double clicks, Enter + click | 4 lines |
+| `disabled={pending}` + "Saving…" | a user who clicks again after a render | 1 line, also good UX |
+| idempotency key / unique constraint on the server | retries, flaky networks, two devices, a user who reloads mid-submit | server work; the only layer that survives a page reload |
+
+⚠️ **Client guards are never enough.** A retried request (mobile networks retry `POST` in some cases), a user on two tabs, or a reload mid-flight can still duplicate. The professional version of this screen sends an idempotency key (a UUID generated once per form instance) in a header, and the server returns the *same* record for a repeat. The lab does not implement it; know that it exists and when you need it (payments, orders, anything with side effects beyond a row).
+
+💡 The measured line `two impatient clicks while disabled → 1 POST(s)` shows the *disabled button* doing its job once React has re-rendered. That is why the layer is still worth adding — it stops the accidental click, while the ref stops the same-tick race.
 
 ---
 
-## 10. Sending something other than JSON
+## 8. When the server says no: `422` and field errors
 
-`sendJson` from file 04 always JSON-encodes. Two other bodies you will meet:
+Client validation can only check what the client knows. The lab's mock API rejects short names and non-positive prices with `422` and a body of field errors:
 
-```ts
-// 1. File upload — never set Content-Type yourself; the browser adds the multipart boundary.
-const data = new FormData();
-data.set('name', values.name);
-data.set('priceMinor', String(draft.priceMinor));
-data.set('image', fileInput.files![0]);
-
-await fetch('/api/products', { method: 'POST', body: data });
+```text
+=== E. the server says no: 422 with field errors ===
+   request: POST http://127.0.0.1:3001/products?fail=422
+   messages: The server rejected this product. Fix the fields below. | Name must be at least 3 characters. | Price must be a positive number.
+   ↑ the field errors came from the SERVER body (errors.name / errors.priceMinor), not from validate()
 ```
 
+The mapping is the interesting part. The server's vocabulary is `priceMinor`; the form's is `price`:
+
 ```ts
-// 2. Traditional form encoding, for backends that expect it.
-const body = new URLSearchParams({ name: values.name, priceMinor: String(draft.priceMinor) });
-await fetch('/api/products', { method: 'POST', body });     // Content-Type: application/x-www-form-urlencoded
+const body = error.body as { errors?: Record<string, string>; message?: string } | null;
+if (error.status === 422 && body?.errors) {
+  setFieldErrors({
+    name: body.errors.name,
+    price: body.errors.priceMinor,       // ← API key → form key
+    blurb: body.errors.blurb,
+    category: body.errors.category,
+  });
+  setFormError('The server rejected this product. Fix the fields below.');
+}
 ```
 
-⚠️ Setting `Content-Type: multipart/form-data` by hand **breaks** the upload: `FormData` needs a generated `boundary` parameter that only the browser knows. Let the browser set it, and never set `Content-Type` yourself when the body is `FormData`.
+Rules for handling a rejected write:
+
+1. **Never clear the form.** The user's typing is the most valuable state on the screen; keep it and let them fix one field.
+2. **Put the message next to the field it belongs to** (mapped, not dumped at the top). A banner alone makes the user hunt.
+3. **Keep a form-level summary** as well — it tells the user that *something* changed after they pressed the button.
+4. **Don't retry a `422` automatically.** It is a data problem; retrying sends the same bad data.
+5. **Handle `401` separately** ("your session expired") because the fix is different: sign in again, and the data should ideally survive that trip.
 
 ---
 
-## 11. Common mistakes
+## 9. What the response is for
+
+After a successful create, use the response — not your local object:
+
+| Response field | Use it for | Why not your local copy |
+| --- | --- | --- |
+| `id` | navigating to the new record, inserting into a list | the server generated it; you cannot guess it |
+| normalised values | showing what was stored (trimmed, defaults applied) | the server may have changed your payload |
+| `createdAt`, `updatedAt`, `version` | display, cache keys, conflict detection | only the server knows these |
+| status `201` | the success branch | `response.ok` also covers `200`/`204` |
+
+```tsx
+const created = await createProduct(draft);
+// ✅ created.id exists and is authoritative
+navigate(`/products/${created.id}`);
+// ❌ never: insert { id: crypto.randomUUID(), ...draft } into your list and hope it matches
+```
+
+The lab's success path does exactly this: `setSaved(result)` renders `Created Desk Lamp (id w0xjz_C)` — with the id from the response.
+
+---
+
+## 10. Common mistakes
 
 | # | Mistake | Symptom | Fix |
 | --- | --- | --- | --- |
-| 1 | `if (pending) return;` as the only double-submit guard | duplicate records from a fast double-click (verified: 2 POSTs) | a `useRef` flag set before the first `await` |
-| 2 | forgetting `finally` | the form is permanently stuck on `Saving…` after one error | release the guard and `pending` in `finally` |
-| 3 | sending the form state as-is | `priceMinor: "1299"` (a string) or `blurb: ""` | convert once, in the submit handler |
-| 4 | `Number(values.price)` without validation | `priceMinor: 0` from `NaN` | check `Number.isNaN` and `> 0` first |
-| 5 | `Math.round(x * 100)` skipped | prices like `129949.999` | round to the smallest unit, always |
-| 6 | clearing the form on failure | the user retypes everything after a `500` | reset only on success |
-| 7 | client-side validation treated as protection | invalid data reaches the database | re-validate on the server; map its `422` back |
-| 8 | ignoring the `201` body | the list is stale, the id is unknown | use the returned record |
-| 9 | `fetch` without `Content-Type` | the server sees an empty body and still answers `201` (verified in file 01) | always send the header with JSON |
-| 10 | setting `Content-Type` on a `FormData` upload | `400`/boundary errors, or an empty file | let the browser set it |
-| 11 | `noValidate` missing | browser bubbles and app messages disagree | `noValidate` on the form, your messages win |
-| 12 | error text rendered far from the field | the user cannot tell which input is wrong | one error node per field, `aria-describedby` linking them |
+| 1 | Forgetting `method: 'POST'` | the request goes out as `GET` and nothing is created | set the method explicitly (or use `sendJson`) |
+| 2 | Forgetting `Content-Type: application/json` | the server sees an empty body | set it whenever you send a body |
+| 3 | Sending an object instead of a string | the body is `[object Object]` | `JSON.stringify` |
+| 4 | Guessing the id client-side | duplicates or a broken link after refresh | use the id from the response |
+| 5 | `if (pending) return` as the double-submit guard | two records in the database | use a ref written before the first `await` |
+| 6 | Disabling the button but not guarding the handler | a fast double-click still fires twice | do both |
+| 7 | Losing the form on failure | users retype everything after a `500` | never reset in `catch` |
+| 8 | Dumping the error at the top of the page | the user cannot tell which field is wrong | map errors to fields |
+| 9 | `Number(price)` without validating | `NaN` → `null` on the wire → a `400`/`500` later | validate, then convert |
+| 10 | Sending floats for money | `1299.499999` in the database | integer minor units, `Math.round` once |
+| 11 | Retrying a `422` | the same rejection, forever | only retry `429`/`5xx`/network errors |
+| 12 | `response.json()` on a `204` | `Unexpected end of JSON input` | check the status, or use a helper that does |
 
 ---
 
-## 12. Best practices
+## 11. Best practices
 
-1. **Model the form as its own type** (strings and booleans) and convert to the API shape in exactly one function.
-2. **Validate before the request and show errors next to the fields**, with `aria-invalid` and `aria-describedby`.
-3. **Guard submits synchronously** with a ref, and also disable the button for the user's benefit.
-4. **Keep the input on failure**, reset only on success.
-5. **Use the `201` body**: append the returned record, or refetch with the same lever as file 04.
-6. **Map server field errors onto the same `fieldErrors` state** the client validator uses — one rendering path for both sources of truth.
-7. **Treat `401` as a workflow** ("session expired, sign in"), not as a generic error.
-8. **Never retry a `POST` automatically** (file 10) — make the server idempotent if retries are needed.
-9. **Prefer pessimistic UI for creates** and optimistic only where rollback is trivial.
-10. **Test the sad paths** — `?fail=422`, `?fail=500`, and a slow server — as the transcripts in this file do; the happy path is the one case that never breaks.
-
----
-
-## 13. Practice
-
-### Beginner — create a product by hand and by form
-
-1. With the API running, create a product using `curl` (file 01, section 10). Then do the same in the browser form and compare: which fields did you *not* have to send, and who decided the id?
-2. Delete one of the two records with `curl -X DELETE`. Explain in one sentence why the `POST` created two records but the `DELETE` twice would leave the same state.
-3. Open the Network tab, submit an empty form, and confirm **no request** is sent. Then submit a valid one and read: status `201`, `content-type`, and the `id` in the response body.
-4. Double-click the submit button as fast as you can on a throttled connection ("Slow 3G" in DevTools). Then repeat with your `submittingRef` removed. Count the records created each time.
-
-### Intermediate — test the form properly
-
-1. Write a jsdom probe (start from `src/dev/form-probe.tsx`) that asserts all of these, printing `PASS`/`FAIL` per line:
-   - an empty submit sends **0** requests and shows both field errors;
-   - a valid submit sends **1** request with `priceMinor` as an integer;
-   - two clicks in one tick send **1** request;
-   - a `422` response renders the server's messages under the right fields;
-   - a `500` keeps the typed values and shows a form-level error.
-2. Add a `unitMinor` and a `taxPercent` field to the API record (edit `server/db.json` and `types.ts`), and send both from the form. Verify with `curl` that the stored record matches what the form sent.
-3. Add client-side validation for a **unique name** by calling `GET /api/products?name=<value>` on blur. Explain why the server still needs a unique constraint, and what status code it should return for a conflict (`409`, file 01).
-
-### Challenge — a create flow with navigation and a list that stays correct
-
-1. Build `POST /api/orders` support: add `ApiOrderDraft` and `createOrder` to `src/api/orders.ts`, with fields `customer`, `status` (default `packed`), and three line items summing into `totalMinor`.
-2. Build `NewOrderPage` with a validated form, the ref guard, `422` handling, and a success path that navigates to the new order's detail route (Part 6, file 08).
-3. Make the orders list (file 04's challenge) update correctly after a create: the new order appears in the right *sort position*, on the correct page, without a full reload. Decide between appending, refetching, and navigating, and write a comment explaining the choice.
-4. Prove double-submit safety at the server too: add a middleware that rejects a `POST /orders` whose `customer` + `totalMinor` match a record created in the last 5 seconds with `409 Conflict`, then show your client handling a `409` gracefully (message, no data loss).
+1. **One typed create function per resource** (`createProduct(draft)`) — components never see `fetch`.
+2. **Build the draft explicitly.** Trimming, type conversion and `null` decisions belong in one function, not scattered across inputs.
+3. **Validate locally first, then trust the server.** Zero requests for an obviously invalid form; server errors rendered on the fields.
+4. **Convert units exactly once**, at the boundary, with integers (`Math.round`), and never for a float.
+5. **Guard with a ref, visualise with state.** A disabled button is UX; the ref is correctness.
+6. **Use the response.** The id, the normalised fields and the status are the server's answer to "what is true now".
+7. **Keep the values on failure** and give the error a home: field-level messages plus a form-level summary.
+8. **Tell the user something happened**: a success message with the created name/id, or a navigation to the new record.
+9. **Consider idempotency** for anything with real-world side effects (orders, payments, emails), and say why in a comment.
+10. **Test the four paths**: valid, invalid (client), rejected (server `422`), and broken (server `500`) — the lab's probe does, and the transcripts in this file are its output.
 
 ---
 
-## 14. Solutions
+## 12. Practice
 
 ### Beginner
 
-1. `curl -X POST http://127.0.0.1:3001/products -H 'Content-Type: application/json' -d '{"name":"Desk Lamp","priceMinor":129950,"category":"accessories","blurb":null,"inStock":true}'` → `201` with `"id":"…"` added by the server. The form sent the same fields — you never sent an `id`, and you never set the price in paise yourself. **The server decides identity; the client decides content.**
-2. `POST` is not idempotent — two calls create two records (two different ids). `DELETE` is idempotent — the second call answers `404` but the server state is the same as after one call (file 01, section 4).
-3. No request appears in the Network tab for an empty submit because `validate()` returns errors and the handler returns before `createProduct` is called. A valid submit shows `POST /api/products` → `201`, `content-type: application/json; charset=utf-8`, and a body containing `"id":"w0xjz_C"`-style text.
-4. With the ref guard: 1 record. Without it: 2 records (verified: `"Naive Lamp"=2`). The repeat is exactly the duplicate the guard exists to prevent.
+1. Add a **SKU** field to `FormValues` and `ApiProductDraft`-style validation: required, uppercase letters/digits only, 3–10 characters. Post a valid product and confirm the SKU appears in the response and in a follow-up GET.
+2. Change the create form so that the same product name cannot be submitted twice in a row (keep the last created name in state and show a warning). Then explain why this is *not* the same as the server's uniqueness check.
+3. Log `JSON.stringify({ name: undefined, priceMinor: null, tags: [], note: '' })` in the console and write down exactly what goes on the wire. Which of those four keys would the server fail to see?
 
 ### Intermediate
 
-```ts
-// File: src/dev/form-assert-probe.tsx (outline of the five checks)
-let posts = 0;
-spyFetch(() => posts++);
-
-// 1. empty submit
-await submit(container);
-check('empty submit sends no request', posts === 0);
-check('both field errors are shown', container.querySelectorAll('.f-name-error, .f-price-error').length === 2);
-
-// 2. valid submit
-await type(container, '.f-name', 'Probe Lamp');
-await type(container, '.f-price', '1299.5');
-await submit(container);
-check('one request for one submit', posts === 1);
-
-// 3. same-tick double click
-await act(async () => {
-  button.click();
-  button.click();
-});
-check('two clicks in one tick send one request', posts === 2);   // +1 from the previous step
-```
-
-Expected output:
-
-```text
-PASS  empty submit sends no request
-PASS  both field errors are shown
-PASS  one request for one submit
-PASS  two clicks in one tick send one request
-PASS  the 422 body is rendered per field
-PASS  a 500 keeps the typed values
-```
-
-2. Sending `unitMinor` and `taxPercent` means: adding them to `ApiProductDraft` (or a new draft type), adding inputs, converting with `Number(...)`/`Math.round` for money, and validating ranges (`taxPercent` between 0 and 100). `curl` verification: `curl -s http://127.0.0.1:3001/products/<id>` shows exactly what the form sent — and if it does not, the difference tells you which side converted wrongly.
-3. The uniqueness check on blur is a **courtesy**: it gives the user fast feedback before they submit. It cannot be trusted, because two users can pass the check at the same moment and both submit. The server must enforce uniqueness (a database constraint) and answer **`409 Conflict`**; your client shows "A product with that name already exists" and keeps the form data.
+1. Reproduce the double-submit bug on purpose: build a `NaiveForm` with `if (pending) return`, click twice in one tick in a probe, and show two records in the database. Then fix it with a ref and prove one record.
+2. Add optimistic list insertion: after a successful create, insert the returned product at the top of an already-loaded list (no refetch). Which fields can you trust? What breaks if the list is sorted by price?
+3. Send an intentional `422` and render the server's messages; then send a `500` and render a *retry* button that resends the same draft. Confirm the values are still in the form after the failure.
+4. Add an idempotency key: generate `crypto.randomUUID()` once per form instance (in a ref), send it as `Idempotency-Key`, and explain what the *server* would need to do to make a duplicate POST return the first record.
 
 ### Challenge
 
-```ts
-// File: src/api/orders.ts (additions)
-export interface ApiOrderDraft {
-  customer: string;
-  status: ApiOrder['status'];
-  items: { productId: string; quantity: number }[];
-  totalMinor: number;
-}
-
-export function createOrder(draft: ApiOrderDraft): Promise<ApiOrder> {
-  return sendJson<ApiOrder>('orders', 'POST', draft);
-}
-```
-
-```tsx
-// File: src/part7/NewOrderPage.tsx (success path)
-const created = await createOrder(draft);
-// Choice: navigate to the detail route, because the next action is usually
-// "review the order" — and the list needs a refetch either way, since a new
-// order changes the total count and the page the user was on.
-void navigate(`/orders/${created.id}`, { replace: true });
-```
-
-The comment is the important part of the answer: appending is correct when the list is sorted client-side and unpaginated; refetching is correct when the server sorts or counts. Guessing wrong is how "the new order never appears" bugs get shipped.
-
-Handling `409`:
-
-```ts
-if (error instanceof HttpError && error.status === 409) {
-  setFormError('An order for that customer with the same total was just created. Check the list before submitting again.');
-  return;   // keep the values, offer a way to retry deliberately
-}
-```
+1. Build a "create many" screen: paste a CSV of products, validate each row locally, `POST` them with `Promise.allSettled`, and show a per-row result table (created / rejected with reason / failed to send). Then answer: how many concurrent requests is too many, and what does the UI do at row 400?
+2. Add a draft-preserving flow: if the user navigates away with unsaved input, keep the draft in `sessionStorage`, restore it on return, and clear it after a successful create. What are the privacy considerations (what should *not* be persisted)?
+3. Design the create flow for a resource with a side effect (an order): idempotency key, a "processing" state that survives reloads, a server-side unique constraint, and a UI that can tell the user "this may already have been created". Write the sequence as a numbered list of state transitions, then implement the happy path.
 
 ---
 
-## 15. Summary
+## 13. Solutions
 
-- `POST` creates a record in a collection; the **server assigns the id**, and the **`201` body is your source for it** (verified: `id w0xjz_C`).
-- **Validate before the request** with a per-field error map, and re-validate on the server — client validation is UX, never security.
-- Convert at the edge: rupees → **integer paise with `Math.round`**, empty description → **`null`**, one conversion point in `handleSubmit`.
-- **Double submits are real** and a state-only guard misses same-tick clicks (verified: 2 `POST`s). A `useRef` flag set before the first `await` sends 1, and a server-side guard is the only complete answer.
-- **Use the returned record**: append it, refetch with a reload token, or navigate to it.
-- **Map server `422` field errors onto the same field state** the client validator uses; treat `401` as "sign in again"; keep the user's input on every failure.
-- Creates are **pessimistic**: you need the server's id and its validation verdict before you can show anything true.
+### Beginner
+
+1. Add `sku: string` to `FormValues`, validate with `if (!/^[A-Z0-9]{3,10}$/.test(values.sku)) errors.sku = 'SKU must be 3–10 uppercase letters or digits.'`, and include `sku: values.sku` in the draft. The response contains it (json-server stores whatever you send), and a follow-up `GET /products/:id` proves persistence. Note that nothing stops a *second* product from having the same SKU — that is a server rule.
+2. Keeping the last name in state prevents an accidental duplicate *from this form in this session*, and nothing more: another tab, another user, a refresh, or a direct API call all bypass it. Uniqueness is a fact about the database, so only the server can enforce it (usually with a unique index, returning `409`/`422`).
+3. `JSON.stringify` produces `{"priceMinor":null,"tags":[]}`. `undefined` and functions are dropped entirely (so `name` is absent, and the server stores its default), `null` survives, `[]` survives (an empty array is a value), and `''` survives as an empty string. Missing vs empty is a real distinction on the wire — that is the lesson.
+
+### Intermediate
+
+1. The bug reproduces because two clicks in one tick share one closure with `pending === false`. The database shows two rows (the lab's own transcript: `"Naive Lamp"=2`). The fix is the ref; the disabled button is the visible half.
+2. Insert `created` at the top — it is the server's record, so `id` and all fields are correct. If the list is sorted by price, insert by sorting again with the same comparator, or refetch; appending blindly puts the row in the wrong place, and pagination counts go stale (that is why Part 7's delete file prefers removing-and-reconciling over hand-maintaining counters).
+3. On `422`, set field errors from the body (keep the values). On `500`, set a form-level message with a Retry button that calls the same `handleSubmit` logic with the **same draft** — but only after re-checking the ref guard, and never automatically in a loop.
+4. `crypto.randomUUID()` in a `useRef` gives one key per form instance (a new key per *submission attempt* would defeat the purpose). Server-side, the key is stored with the created record; a repeat POST with a known key returns the stored record and `200`/`201` instead of creating a second one. The client cannot implement this alone — it is a contract.
+
+### Challenge
+
+1. `Promise.allSettled` gives you `[{status:'fulfilled', value}, {status:'rejected', reason}]` in input order, so mapping results back to rows is straightforward. Practical limits: browsers cap concurrent connections per host (≈6 over HTTP/1.1, more over HTTP/2), and a server has its own limits; a concurrency pool of 4–8 with a progress bar is friendlier than 400 parallel requests, and it lets you cancel the run. At row 400, batch endpoints (`POST /products/bulk`) or a job queue are the real answer — one request that the server processes in bulk beats 400 requests.
+2. Persist only what is cheap to lose and safe to store: the form fields, not tokens, not payment details, not anything personal that the user did not type into the form. Clear it on success, expire it (a timestamp), and key it per user. Restoring a draft is a feature that surprises people if it is silent — show a "we restored your draft" banner with a discard button.
+3. The sequence: (1) user submits → generate/lookup idempotency key; (2) POST with the key; (3) server checks the key: new → create, known → return the existing order; (4) client stores the key + a `pending` marker before the request, so a reload can re-send the same key instead of creating a new order; (5) on success show the order; on failure keep the key for retry, or expire it after a timeout; (6) a "check status" path for the ambiguous case (the request timed out but the server may have created it). The rule behind all of it: **the client can retry safely only if the server can recognise a repeat.**
 
 ---
 
-**What's next →** [`06-put-api.md`](./06-put-api.md): full replacement. The same form in edit mode, why `PUT` silently deleted a `blurb` field in the lab (`keys after the PUT: id, name, priceMinor, category, inStock`), how to prefill from the server and keep the form in sync when the record changes, `409`/`412` conflict handling for stale edits, and how to decide between `PUT` and `PATCH` for the screen in front of you.
+## 14. Summary
+
+- `POST` creates; it is **not idempotent**, so preventing duplicate submits is a design requirement, not a polish item.
+- A create request is `method`, `Content-Type: application/json`, `JSON.stringify(body)`, and a body that matches the API's field names and units (measured: `1299.5` → `129950`).
+- **Validate locally first** — the probe sends **0** requests for an invalid form — and still handle the server's `422` by mapping `errors.priceMinor` onto the form's `price` field.
+- **A same-tick double click beats every state-based guard** (measured: 2 POSTs vs 1). Use a `useRef` written before the first `await`; keep `disabled`/`pending` for the visible state; use an idempotency key when the write has real-world side effects.
+- **Use the response**: the server's `id` and normalised values are the truth; your local copy is a guess.
+- On failure, **keep the values**, put messages next to fields, and distinguish `422` (fix the data) from `401` (sign in) from `500` (try later).
+- The next three files do the same job for the other three write verbs: `PUT` (replace), `PATCH` (partially update), `DELETE` (remove, with undo).
+
+---
+
+**What's next →** [`06-put-api.md`](./06-put-api.md) turns this form into an **edit** form: prefilling from the server, the "whole record replaced" semantics of `PUT` (including the fields you forget to send), and the lost-update problem that appears the moment two people edit the same row.

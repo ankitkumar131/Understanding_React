@@ -331,11 +331,11 @@ Legend: ✅ written · 🚧 being written · ⬜ planned
 
 | File | Topic | Status |
 | --- | --- | --- |
-| `01-forms.md` | How HTML forms actually submit | ⬜ |
-| `02-controlled-forms.md` | Multi-field form state, generic handlers | ⬜ |
-| `03-form-validation.md` | Hand-rolled validation, error display | ⬜ |
-| `04-react-hook-form.md` | RHF: register, errors, performance | ⬜ |
-| `05-zod.md` | Schemas, `z.infer`, resolver integration | ⬜ |
+| `01-forms.md` | How HTML forms actually submit | ✅ |
+| `02-controlled-forms.md` | Multi-field form state, generic handlers | ✅ |
+| `03-form-validation.md` | Hand-rolled validation, error display | ✅ |
+| `04-react-hook-form.md` | RHF: register, errors, performance | ✅ |
+| `05-zod.md` | Schemas, `z.infer`, resolver integration | ✅ |
 
 ### [Part 9 — State Management](./09-state-management/)
 
@@ -477,7 +477,7 @@ Use this to know where you are. Tick the boxes as you finish each part.
 - [x] **Part 5 — React Concepts** (9 files) ✅
 - [x] **Part 6 — Routing** (8 files) ✅
 - [x] **Part 7 — API Integration** (11 files) ✅
-- [ ] **Part 8 — Forms and Validation** (5 files)
+- [x] **Part 8 — Forms and Validation** (5 files) ✅
 - [ ] **Part 9 — State Management** (6 files)
 - [ ] **Part 10 — Advanced React** (9 files)
 - [ ] **Part 11 — Modern React** (8 files)
