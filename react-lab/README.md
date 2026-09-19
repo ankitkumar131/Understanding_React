@@ -5,13 +5,22 @@ This is the project that every measurement in [`../react-notes/`](../react-notes
 ```bash
 npm install        # install dependencies
 npm run dev        # http://localhost:5199 — the Taskboard capstone (no backend needed)
-npm test -- --run  # 12 test files, 62 tests
+npm test -- --run  # 12 test files, 62 tests (npm run test:run is the same thing)
 npm run build      # tsc -b && vite build (type-check + production build)
 npm run preview    # serve dist/ and check the lazy chunk loads on demand
-npm run lint       # oxlint
+npm run verify     # THE GATE: lint → typecheck → test → build (what CI runs)
 ```
 
-Verified in this repository at the time of writing: `tsc -b` clean, **12 test files / 62 tests passing**, production build green in ~330 ms (lazy `ReportsPage` chunk 2.09 kB, vendor 345.82 kB / 107.76 kB gzip).
+| Script | What it does |
+| --- | --- |
+| `npm run dev` | Vite dev server on port 5199 with HMR |
+| `npm test` | Vitest in watch mode (`npm run test:run` for a single pass) |
+| `npm run typecheck` | `tsc -b` — the step `vite build` does **not** perform |
+| `npm run build` | `tsc -b && vite build` → `dist/` |
+| `npm run lint` | oxlint (0 warnings, 0 errors — see §5) |
+| `npm run verify` | lint → typecheck → test → build, in that order |
+
+Verified in this repository at the time of writing: **lint 0 warnings**, `tsc -b` clean, **12 test files / 62 tests passing**, production build green in ~310 ms (lazy `ReportsPage` chunk 2.09 kB, vendor 345.82 kB / 107.76 kB gzip).
 
 ---
 
@@ -98,7 +107,28 @@ Environment files: `.env` (development), `.env.production`, `.env.staging` — u
 
 ---
 
-## 5. Evidence
+## 5. Quality gates, and the two suppressions in this repo
+
+`npm run verify` is the single command that means "this is correct": **lint → typecheck → test → build**.
+It is what CI runs (`.github/workflows/ci.yml` at the repository root, with a second job that checks
+the notes' links and banners).
+
+`npm run lint` reports **0 warnings and 0 errors**. Getting to zero was a decision, not a muffling —
+each deviation is documented where it lives:
+
+| Deviation | Why | Where it is declared |
+| --- | --- | --- |
+| `react/only-export-components`, `react/globals`, `react/immutability`, `react/rules-of-hooks` off in `src/dev/**` and `src/perf/**` | those files are **measurement probes**: counting renders by reassigning a module-level counter, or demonstrating in-place mutation, is the entire point of the code | `.oxlintrc.json` → `overrides` |
+| `react/only-export-components` off in `src/part11/**` | chapter demos that export a helper next to the component they demonstrate | `.oxlintrc.json` → `overrides` |
+| `react/set-state-in-effect` on the session restore in `src/auth/AuthContext.tsx` | the value lives in `localStorage`, so reading it during render would break server rendering; the `status: 'loading'` state is what makes the extra render safe (Part 14, file 01) | inline `oxlint-disable-next-line` **with a reason** |
+| `react/only-export-components` on the route table in `src/projects/taskboard/App.tsx` | the shell and its routes are read together, and Part 17 file 06 quotes this file as a whole | inline `oxlint-disable-next-line` **with a reason** |
+
+The teaching point: a lint rule may be relaxed, but the reason must sit next to the code — otherwise
+the next person cannot tell a deliberate exception from an oversight.
+
+---
+
+## 6. Evidence
 
 `evidence/*.txt` are the raw command outputs behind the numbers in the notes — for example:
 
@@ -113,7 +143,7 @@ Regenerate any of them by running the command named at the top of the file.
 
 ---
 
-## 6. Notes on the code
+## 7. Notes on the code
 
 - **Type-checking is separate from bundling.** `vite build` does not type-check; `npm run build` runs `tsc -b` first. A deliberate type error will still produce a bundle — that is measured in `evidence/part16-vite.txt`.
 - **`erasableSyntaxOnly` is on.** No `enum`, no `namespace`, and no constructor parameter properties — error classes use explicit `readonly` fields (this bit the lab twice; see `TS1294` in `react-notes/common-errors.md`).
@@ -122,7 +152,7 @@ Regenerate any of them by running the command named at the top of the file.
 
 ---
 
-## 7. Related files
+## 8. Related files
 
 - The book: [`../react-notes/README.md`](../react-notes/README.md) — start with the roadmap: [`../react-notes/react-roadmap.md`](../react-notes/react-roadmap.md).
 - Error decoding for the things you are about to hit: [`../react-notes/common-errors.md`](../react-notes/common-errors.md).

@@ -23,10 +23,19 @@ cd react-lab
 npm install
 npm run dev                           # http://localhost:5199 (the Taskboard capstone, no backend needed)
 npm test -- --run                     # 12 test files, 62 tests
-npm run build                         # tsc -b && vite build
+npm run verify                        # the gate CI runs: lint -> typecheck -> test -> build
 ```
 
 Nothing in the notes requires a paid service, a backend, or a specific editor. Node 22, npm and a browser are enough.
+
+Both halves are checked automatically — `.github/workflows/ci.yml` runs the lab's gate
+(`npm run lint`, `npm run typecheck`, `npm run test:run`, `npm run build`) and
+`node scripts/check-notes.mjs`, which fails if any relative link between the 151 notes files is
+broken or if a chapter's "File i of j" banner disagrees with its directory. Run it yourself with:
+
+```bash
+node scripts/check-notes.mjs      # ✓ notes OK — 151 files, 227 relative links, 139 banners
+```
 
 ---
 

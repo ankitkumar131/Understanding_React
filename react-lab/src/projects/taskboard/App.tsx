@@ -52,6 +52,9 @@ function Layout() {
   );
 }
 
+// The route table lives here (not in a separate module) because the shell and the routes it
+// maps are read together — and because Part 17, file 06 quotes this file as a whole.
+// oxlint-disable-next-line react/only-export-components -- route table is part of the shell
 export const taskboardRoutes: RouteObject[] = [
   {
     path: '/',
@@ -72,6 +75,7 @@ export const taskboardRoutes: RouteObject[] = [
   },
 ];
 
+// oxlint-disable-next-line react/only-export-components -- same file as the shell, by design
 export function createAppRouter() {
   return createBrowserRouter(taskboardRoutes);
 }

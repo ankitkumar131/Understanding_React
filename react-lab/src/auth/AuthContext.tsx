@@ -23,8 +23,16 @@ export function AuthProvider({ children, initialSession }: { children: ReactNode
   const [error, setError] = useState<string | null>(null);
 
   // Restore the stored session once, on mount (never during render — Part 4).
+  // Deliberate: the value lives in the browser (localStorage), so it cannot be read during render
+  // without breaking server rendering. One extra render here is the price of that correctness,
+  // and `status: 'loading'` is what makes it safe (Part 14, file 01).
   useEffect(() => {
     const stored = initialSession !== undefined ? initialSession : tokenStore.read();
+    // Suppressed deliberately: this app is a client-only SPA, and the store it reads
+    // (localStorage) exists only in the browser, so the value cannot be read during render
+    // without breaking server rendering. `status: 'loading'` is what makes the extra render
+    // safe — Part 14, file 01 explains the three-status model this implements.
+    // oxlint-disable-next-line react/set-state-in-effect -- restoring a browser-only store on mount
     setSession(stored);
     setStatus(stored === null ? 'anonymous' : 'authenticated');
   }, [initialSession]);
@@ -73,6 +81,10 @@ export function AuthProvider({ children, initialSession }: { children: ReactNode
   return <AuthContext value={value}>{children}</AuthContext>;
 }
 
+// The provider and its hook live together on purpose: contexts are private, and this is the
+// only supported way in (Part 5, file 09). Fast Refresh still reloads the component; only the
+// file-level export optimisation is lost.
+// oxlint-disable-next-line react/only-export-components -- provider + hook are one unit
 export function useAuth(): AuthValue {
   const value = useContext(AuthContext);
   if (value === null) throw new Error('useAuth must be used inside <AuthProvider>');

@@ -1,0 +1,61 @@
+name: CI
+
+on:
+  push:
+    branches: [main, 'arena/**']
+  pull_request:
+
+jobs:
+  verify:
+    name: verify react-lab
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: react-lab
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+          cache-dependency-path: react-lab/package-lock.json
+
+      - name: Install dependencies
+        run: npm ci
+
+      # The same gate described in react-notes/15-production/08-production-checklist.md §8:
+      # lint -> types -> tests -> build, in that order, failing on the first problem.
+      - name: Lint
+        run: npm run lint
+
+      - name: Type-check
+        run: npm run typecheck
+
+      - name: Test
+        run: npm run test:run
+
+      - name: Build
+        run: npm run build
+
+      - name: Upload the production build
+        uses: actions/upload-artifact@v4
+        with:
+          name: react-lab-dist
+          path: react-lab/dist
+          retention-days: 7
+
+  notes:
+    name: check the notes
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+
+      # Fails if any relative link between the 151 markdown files is broken,
+      # or if a file's "File i of j" banner disagrees with its directory.
+      - name: Check markdown links and banners
+        run: node scripts/check-notes.mjs
