@@ -256,18 +256,18 @@ Legend: ✅ written · 🚧 being written · ⬜ planned
 
 | File | Topic | Status |
 | --- | --- | --- |
-| `01-what-is-react.md` | React, components, the DOM, Virtual DOM | ⬜ |
-| `02-why-react.md` | React vs vanilla JS vs Angular vs Vue | ⬜ |
-| `03-project-setup.md` | Node, Vite, `npm create vite`, every generated file | ⬜ |
-| `04-project-structure.md` | `src/`, `public/`, `index.html`, configs | ⬜ |
-| `05-jsx.md` | JSX from zero: expressions, attributes, fragments | ⬜ |
-| `06-tsx.md` | TypeScript + JSX, typing components | ⬜ |
-| `07-components.md` | Function components, composition, the component tree | ⬜ |
-| `08-props.md` | Passing data down, destructuring, defaults, `children` | ⬜ |
-| `09-rendering-data.md` | `{}` expressions, rendering values safely | ⬜ |
-| `10-conditional-rendering.md` | `if`, ternary, `&&`, early return, loading/error UI | ⬜ |
-| `11-rendering-lists.md` | `map`, keys, why index keys break | ⬜ |
-| `12-events.md` | `onClick`, `onChange`, `onSubmit`, typed events | ⬜ |
+| `01-what-is-react.md` | React, components, the DOM, Virtual DOM | ✅ |
+| `02-why-react.md` | React vs vanilla JS vs Angular vs Vue | ✅ |
+| `03-project-setup.md` | Node, Vite, `npm create vite`, every generated file | ✅ |
+| `04-project-structure.md` | `src/`, `public/`, `index.html`, configs | ✅ |
+| `05-jsx.md` | JSX from zero: expressions, attributes, fragments | ✅ |
+| `06-tsx.md` | TypeScript + JSX, typing components | ✅ |
+| `07-components.md` | Function components, composition, the component tree | ✅ |
+| `08-props.md` | Passing data down, destructuring, defaults, `children` | ✅ |
+| `09-rendering-data.md` | `{}` expressions, rendering values safely | ✅ |
+| `10-conditional-rendering.md` | `if`, ternary, `&&`, early return, loading/error UI | ✅ |
+| `11-rendering-lists.md` | `map`, keys, why index keys break | ✅ |
+| `12-events.md` | `onClick`, `onChange`, `onSubmit`, typed events | ✅ |
 
 ### [Part 4 — State and Hooks](./04-state-and-hooks/)
 
@@ -472,7 +472,7 @@ Use this to know where you are. Tick the boxes as you finish each part.
 
 - [x] **Part 1 — Prerequisites** (11 files) ✅
 - [x] **Part 2 — TypeScript** (11 files) ✅
-- [ ] **Part 3 — React Fundamentals** (12 files)
+- [x] **Part 3 — React Fundamentals** (12 files) ✅
 - [ ] **Part 4 — State and Hooks** (10 files)
 - [ ] **Part 5 — React Concepts** (9 files)
 - [ ] **Part 6 — Routing** (8 files)
@@ -537,7 +537,7 @@ they are used in every chapter:
 
 | Extension | Why you need it |
 | --- | --- |
-| ESLint | Shows mistakes as you type |
+| Oxc (`oxlint`) | Shows mistakes as you type — it is the linter the Vite template uses (Part 3). Install the ESLint extension as well only if a project you join uses ESLint |
 | Prettier | Formats code consistently |
 | TypeScript / JS Snippets built-ins | Come with VS Code already |
 
@@ -582,15 +582,16 @@ official documentation. These notes target:
 | --- | --- | --- |
 | React | 19.x (current release line) | Function components + hooks only |
 | React DOM | 19.x | `createRoot` from `react-dom/client` |
-| TypeScript | 5.x | `strict` mode on |
-| Vite | 7.x | `react-ts` template |
+| TypeScript | 6.x | `strict` is **on by default** in TS 6; the template also sets `noUnusedLocals/Parameters`, `erasableSyntaxOnly`, `verbatimModuleSyntax` |
+| Vite | 8.x | `react-ts` template (`npm create vite@latest`) |
 | React Router | 7.x | Data-router APIs available; classic JSX routes shown first |
 | TanStack Query | 5.x | Part 9 and 17 |
 | Redux Toolkit | 2.x | Part 9 |
 | Zustand | 5.x | Part 9 |
 | Vitest | 3.x | Part 13 |
 | React Testing Library | 16.x | Part 13 |
-| Node.js | 20.19+ / 22.12+ | Required by Vite 7 |
+| oxlint | 1.x | The linter that ships with the Vite template (`npm run lint`) — no ESLint needed |
+| Node.js | 20.19+ / 22.12+ | Required by Vite 8 |
 
 **Before using a version-sensitive API in a real job**, check
 <https://react.dev/reference/react> — that page is the source of truth for the
