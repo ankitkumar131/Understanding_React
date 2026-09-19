@@ -1,0 +1,148 @@
+=== Part 17 — the six projects, measured ===
+
+--- full test suite (all projects + earlier parts) ---
+ ✓ src/projects/taskboard/taskboard.test.tsx > taskboard > loads tasks and shows the signed-in user 217ms
+ ✓ src/projects/taskboard/taskboard.test.tsx > taskboard > shows a loading state, then an empty state when there is nothing 57ms
+ ✓ src/projects/taskboard/taskboard.test.tsx > taskboard > creates a task through the form and clears the inputs 217ms
+ ✓ src/projects/taskboard/taskboard.test.tsx > taskboard > refuses invalid input and does not call the API 83ms
+ ✓ src/projects/taskboard/taskboard.test.tsx > taskboard > moves a task optimistically, and rolls back when the server refuses 181ms
+ ✓ src/projects/taskboard/taskboard.test.tsx > taskboard > deletes a task 53ms
+ ✓ src/projects/taskboard/taskboard.test.tsx > taskboard > renders the error state with a retry when the list request fails 38ms
+ ✓ src/projects/taskboard/taskboard.test.tsx > taskboard > loads the report route lazily and computes the numbers from the cache 77ms
+ ✓ src/projects/todo/TodoApp.test.tsx > <TodoApp /> > adds a todo and clears the input 307ms
+ ✓ src/projects/todo/TodoApp.test.tsx > <TodoApp /> > does not add an empty todo and keeps the button disabled 63ms
+ ✓ src/projects/todo/TodoApp.test.tsx > <TodoApp /> > toggles completion, updates the count and filters 187ms
+ ✓ src/projects/todo/TodoApp.test.tsx > <TodoApp /> > deletes a todo and clears completed ones 129ms
+ ✓ src/projects/todo/TodoApp.test.tsx > <TodoApp /> > persists todos in localStorage and reloads them 86ms
+ ✓ src/projects/todo/TodoApp.test.tsx > <TodoApp /> > ignores corrupt stored data instead of crashing 5ms
+ ✓ src/projects/library/library.test.tsx > library app > lists the books from the API 372ms
+ ✓ src/projects/library/library.test.tsx > library app > shows an empty state when there are no books 22ms
+ ✓ src/projects/library/library.test.tsx > library app > creates a book through the form and lands on its detail page 350ms
+ ✓ src/projects/library/library.test.tsx > library app > blocks submission with validation errors instead of calling the API 71ms
+ ✓ src/projects/library/library.test.tsx > library app > prefills the edit form and saves changes 177ms
+ ✓ src/projects/library/library.test.tsx > library app > deletes a book from the list 59ms
+ ✓ src/projects/library/library.test.tsx > library app > explains a missing book and offers a way back 16ms
+ ✓ src/projects/library/library.test.tsx > library app > renders the not-found route for an unknown path 8ms
+ ✓ src/projects/auth-app/auth-app.test.tsx > auth app > registers a new user, adopts the session and lands on the dashboard 446ms
+ ✓ src/projects/auth-app/auth-app.test.tsx > auth app > shows a field error when the email is already registered and stores nothing 100ms
+ ✓ src/projects/auth-app/auth-app.test.tsx > auth app > blocks the team page for an anonymous visitor and returns there after sign-in 186ms
+ ✓ src/projects/auth-app/auth-app.test.tsx > auth app > lets an admin in but denies a viewer with an explanation 41ms
+ ✓ src/projects/auth-app/auth-app.test.tsx > auth app > signs out, clearing storage and returning to the sign-in screen 22ms
+ ✓ src/projects/auth-app/auth-app.test.tsx > auth app > treats an expired stored session as signed out 7ms
+ ✓ src/projects/auth-app/auth-app.test.tsx > auth app > shows a readable message when the admin endpoint rejects the token 23ms
+ ✓ src/projects/weather/WeatherApp.test.tsx > <WeatherApp /> > starts idle and explains what to do 167ms
+ ✓ src/projects/weather/WeatherApp.test.tsx > <WeatherApp /> > shows a loading state, then the weather 163ms
+ ✓ src/projects/weather/WeatherApp.test.tsx > <WeatherApp /> > reports an unknown city without offering a retry 89ms
+ ✓ src/projects/weather/WeatherApp.test.tsx > <WeatherApp /> > maps a server failure to a retryable message, and retry works 70ms
+ ✓ src/projects/weather/WeatherApp.test.tsx > <WeatherApp /> > treats a network failure as retryable 56ms
+ ✓ src/projects/weather/WeatherApp.test.tsx > <WeatherApp /> > keeps only the latest search when one is still in flight 208ms
+ ✓ src/projects/weather/WeatherApp.test.tsx > <WeatherApp /> > rejects a malformed body instead of rendering undefined degrees 61ms
+ ✓ src/auth/session.test.tsx > session handling > redirects to the login page when there is no session, remembering where the user was going 175ms
+ ✓ src/auth/session.test.tsx > session handling > renders a protected route for an authenticated session 15ms
+ ✓ src/auth/session.test.tsx > session handling > blocks a route when the user lacks the role 18ms
+ ✓ src/auth/session.test.tsx > session handling > signs in, stores the session and returns to the intended route 212ms
+ ✓ src/auth/session.test.tsx > session handling > shows a message for wrong credentials and does not store anything 115ms
+ ✓ src/auth/session.test.tsx > session handling > treats an expired stored session as no session at all 1ms
+ ✓ src/projects/counter/Counter.test.tsx > <Counter /> > renders the initial value 27ms
+ ✓ src/projects/counter/Counter.test.tsx > <Counter /> > increments and decrements by the step 187ms
+ ✓ src/projects/counter/Counter.test.tsx > <Counter /> > cannot go below the minimum (the button is disabled) 25ms
+ ✓ src/projects/counter/Counter.test.tsx > <Counter /> > cannot go above the maximum 39ms
+ ✓ src/projects/counter/Counter.test.tsx > <Counter /> > reports every change through onChange 41ms
+ ✓ src/projects/counter/Counter.test.tsx > <Counter /> > resets to the initial value and disables Reset when unchanged 31ms
+ ✓ src/projects/counter/Counter.test.tsx > <Counter /> > loses no clicks when pressed rapidly (functional updater) 20ms
+ ✓ src/components/SearchBox.test.tsx > SearchBox > filters the list as the user types 238ms
+ ✓ src/components/SearchBox.test.tsx > SearchBox > announces an empty result instead of showing an empty list 66ms
+ ✓ src/components/SearchBox.test.tsx > SearchBox > clears back to the full list when the query is emptied 71ms
+ ✓ src/components/Counter.test.tsx > Counter > shows the initial value and increments by the step 229ms
+ ✓ src/components/Counter.test.tsx > Counter > disables Reset at the initial value and re-enables it after a change 47ms
+ ✓ src/components/ProductList.test.tsx > ProductList > shows a loading state, then the products the API returned 195ms
+ ✓ src/components/ProductList.test.tsx > ProductList > renders an alert when the API fails 17ms
+ ✓ src/components/ProductList.test.tsx > ProductList > calls onLoad once with the parsed products 15ms
+ ✓ src/hooks/useDebouncedValue.test.tsx > useDebouncedValue > returns the initial value immediately 15ms
+ ✓ src/hooks/useDebouncedValue.test.tsx > useDebouncedValue > updates only after the delay has passed 6ms
+ ✓ src/hooks/useDebouncedValue.test.tsx > useDebouncedValue > cancels the pending update when the value changes again quickly 4ms
+ Test Files  11 passed (11)
+      Tests  60 passed (60)
+   Duration  19.71s (environment 44%, tests 34%, setup 14%, import 4%, transform 4%, worker 1%)
+
+--- production build (the lazy Reports route becomes its own chunk) ---
+computing gzip size...
+dist/index.html                       0.53 kB │ gzip:  0.32 kB
+dist/assets/index-DI2rjQ02.css        8.59 kB │ gzip:  2.61 kB
+dist/assets/lazy-panel-DV0C4Lcy.js    0.37 kB │ gzip:  0.28 kB
+dist/assets/index-DtEs5sNE.js         4.59 kB │ gzip:  2.22 kB
+dist/assets/vendor-Dd8u2uol.js      218.97 kB │ gzip: 68.33 kB
+
+✓ built in 507ms
+
+--- dev server for the capstone (live preview) ---
+   ╵
+    src/styles/Button.module.scss 12:25  root stylesheet
+
+5:04:16 PM [vite] (client) Re-optimizing dependencies because vite config has changed
+Port 5199 is in use on a wildcard address, but localhost:5199 is available. There may be another server running on a wildcard IP on port 5199.
+5:04:16 PM [vite] server restarted.
+
+=== Part 17 / file 05 — long-list measurements (React 19.3.0, jsdom, development build) ===
+
+--- mounting (every row is rendered once) ---
+mount 500 rows                                89.7 ms
+mount 1000 rows                              133.5 ms
+mount 2000 rows                              178.9 ms
+mount 4000 rows                              200.2 ms
+mount 20 000 rows, windowed to 50             12.3 ms
+--- one row changes state (1 000 rows) ---
+compiler memoised list                         4.4 ms   rows re-rendered 0
+"use no memo" list                            91.1 ms   rows re-rendered 1000
+"use no memo" list + memo(Row)                14.4 ms   rows re-rendered 0
+--- one row changes state (4 000 rows) ---
+compiler memoised list                         1.3 ms   rows re-rendered 0
+"use no memo" list                           169.9 ms   rows re-rendered 4000
+"use no memo" list + memo(Row)                46.6 ms   rows re-rendered 0
+ Test Files  1 passed (1)
+      Tests  2 passed (2)
+
+=== HydrateFallback investigation (react-router 8.4.0) ===
+A. HydrateFallback declared only inside the lazy module, app starts on /reports  -> warning IS logged
+B. HydrateFallback on the non-lazy parent route, app starts on /reports        -> NO warning
+C. app starts on a non-lazy route                                              -> NO warning
+conclusion: put HydrateFallback on a NON-lazy route (a lazy module's fallback is not known when the first render happens)
+shipped taskboardRoutes (fix B applied), starting on /reports: NO HydrateFallback warning - verified
+
+source of the warning: node_modules/react-router/dist/development/lib/hooks.js:776
+
+=== FINAL long-list measurement run (quoted in react-notes/17-projects/05-performance-lab.md) ===
+--- mounting (every row is rendered once) ---
+mount 500 rows                                83.5 ms
+mount 1000 rows                              145.4 ms
+mount 2000 rows                              184.3 ms
+mount 4000 rows                              207.9 ms
+mount 20 000 rows, windowed to 50              7.4 ms
+--- one row changes state (1 000 rows) ---
+compiler memoised list                         5.5 ms   rows re-rendered 0
+"use no memo" list                            61.0 ms   rows re-rendered 1000
+"use no memo" list + memo(Row)                17.8 ms   rows re-rendered 0
+--- one row changes state (4 000 rows) ---
+compiler memoised list                         1.3 ms   rows re-rendered 0
+"use no memo" list                           188.0 ms   rows re-rendered 4000
+"use no memo" list + memo(Row)                72.2 ms   rows re-rendered 0
+ Test Files  1 passed (1)
+      Tests  2 passed (2)
+
+=== FINAL long-list measurement run (quoted in react-notes/17-projects/05-performance-lab.md) ===
+--- mounting (every row is rendered once) ---
+mount 500 rows                                91.6 ms
+mount 1000 rows                              145.9 ms
+mount 2000 rows                              178.9 ms
+mount 4000 rows                              254.9 ms
+mount 20 000 rows, windowed to 50              3.2 ms
+--- one row changes state (1 000 rows) ---
+compiler memoised list                         5.8 ms   rows re-rendered 0
+"use no memo" list                            54.6 ms   rows re-rendered 1000
+"use no memo" list + memo(Row)                14.6 ms   rows re-rendered 0
+--- one row changes state (4 000 rows) ---
+compiler memoised list                         1.3 ms   rows re-rendered 0
+"use no memo" list                           212.6 ms   rows re-rendered 4000
+"use no memo" list + memo(Row)                52.6 ms   rows re-rendered 0
+ Test Files  1 passed (1)
+      Tests  2 passed (2)

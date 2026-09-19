@@ -1,0 +1,39 @@
+
+=== A. Async transition: isPending is true while the action awaits ===
+   before: pending=false saved=0
+   mid-flight: pending=true saved=0
+   after: pending=false saved=1
+   renders: PendingCase:render=5
+
+=== B. Two overlapping actions: React does not cancel or reorder them ===
+   after the fast one resolved: label=fast pending=true  ← the slow action is still in flight
+   resolution order so far: resolved fast
+   after the slow one resolved: label=slow pending=false
+   completion order: resolved fast → resolved slow
+   both actions committed, in the order their awaits finished — so the label ends up
+   "slow" even though "fast" was clicked last. An action is not a request canceller:
+   guard with a request id or an AbortController when the newest answer must win
+
+=== C. An error thrown inside an action reaches the error boundary ===
+Error: the action failed
+    at <anonymous> (/home/user/lab/react-lab/src/dev/actions2-probe.tsx:108:13) {
+  [stack]: [Getter/Setter],
+  [message]: 'the action failed'
+}
+
+The above error occurred in the <ThrowingCase> component.
+
+React will try to recreate this component tree from scratch using the error boundary you provided, Boundary.
+
+   boundary rendered: "something failed"
+   the action error was not swallowed: React re-threw it during the commit it triggered
+
+=== D. startTransition also works outside a component ===
+   startTransition called from module scope: marking the update non-urgent
+   renders before/after the module-scope call: 1/1 (no state changed, so no render)
+   outsideRendered flag: true
+
+=== E. Cleaning up ===
+   trees unmounted
+
+=== done ===

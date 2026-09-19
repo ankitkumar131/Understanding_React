@@ -1,0 +1,31 @@
+
+[1m[30m[46m RUN [49m[39m[22m [36mv5.0.1 [39m[90m/home/user/lab/react-lab[39m
+
+[90mstdout[2m | src/security/xss.probe.test.tsx[2m > [22m[2mxss probe[2m > [22m[2mescapes text children (the default)
+[22m[39mtext child -> DOM: <p>&lt;img src=x onerror="alert(1)"&gt;</p>
+text child -> textContent: <img src=x onerror="alert(1)">
+
+[90mstdout[2m | src/security/xss.probe.test.tsx[2m > [22m[2mxss probe[2m > [22m[2mdoes NOT escape attributes into safety, but does escape values
+[22m[39mattribute -> DOM: <div title="<img src=x onerror=&quot;alert(1)&quot;>" data-x="y">x</div>
+
+[90mstdout[2m | src/security/xss.probe.test.tsx[2m > [22m[2mxss probe[2m > [22m[2mcreates real elements with dangerouslySetInnerHTML
+[22m[39mdangerouslySetInnerHTML -> DOM: <div><img src="x" onerror="alert(1)"></div>
+an <img> element was created: [33mtrue[39m | onerror attribute present: alert(1)
+
+[90mstdout[2m | src/security/xss.probe.test.tsx[2m > [22m[2mxss probe[2m > [22m[2mshows that React itself blocks javascript: URLs in JSX props
+[22m[39mjs: URL via JSX -> DOM: <a href="javascript:throw new Error('React has blocked a javascript: URL as a security precaution.')">click</a>
+
+[90mstdout[2m | src/security/xss.probe.test.tsx[2m > [22m[2mxss probe[2m > [22m[2mshows that Raw HTML bypasses that protection too
+[22m[39mjs: URL via dangerouslySetInnerHTML -> DOM: <div><a href="javascript:alert(1)">click</a></div>
+
+ [32m✓[39m src/security/xss.probe.test.tsx[2m > [22mxss probe[2m > [22mescapes text children (the default)[32m 25[2mms[22m[39m
+ [32m✓[39m src/security/xss.probe.test.tsx[2m > [22mxss probe[2m > [22mdoes NOT escape attributes into safety, but does escape values[32m 5[2mms[22m[39m
+ [32m✓[39m src/security/xss.probe.test.tsx[2m > [22mxss probe[2m > [22mcreates real elements with dangerouslySetInnerHTML[32m 7[2mms[22m[39m
+ [32m✓[39m src/security/xss.probe.test.tsx[2m > [22mxss probe[2m > [22mshows that React itself blocks javascript: URLs in JSX props[32m 4[2mms[22m[39m
+ [32m✓[39m src/security/xss.probe.test.tsx[2m > [22mxss probe[2m > [22mshows that Raw HTML bypasses that protection too[32m 5[2mms[22m[39m
+
+[2m Test Files [22m [1m[32m1 passed[39m[22m[90m (1)[39m
+[2m      Tests [22m [1m[32m5 passed[39m[22m[90m (5)[39m
+[2m   Start at [22m 17:00:02
+[2m   Duration [22m 1.15s[2m (environment 68%, setup 20%, transform 6%, tests 5%, worker 1%, import 1%)[22m
+

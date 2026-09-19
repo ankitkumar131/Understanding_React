@@ -1,0 +1,25 @@
+
+=== Vite 8 measure: what happens to console calls in the production bundle ===
+-- default build (no minify options) --
+console.log            FOUND (221695 bytes)
+console.debug          FOUND
+the logged string      FOUND ('[cart] add item')
+the logged email       FOUND ('buyer@example.com')
+
+-- esbuild: { drop: ['console','debugger'] } --
+Both esbuild and oxc options were set. oxc options will be used and esbuild options will be ignored. The following esbuild options were set: `{ drop: [ 'console', 'debugger' ] }`
+bundle identical: 221695 bytes, console.log still FOUND
+
+-- build.minify: 'terser' + terserOptions.compress.drop_console: true --
+console.log            not found   (221232 bytes)
+console.error          not found   <- drop_console removes ALL console methods
+the logged email       not found
+
+-- terserOptions.compress.pure_funcs: ['console.log','console.debug','console.info'] --
+[cart] add item        not found
+[cart] debug detail    not found
+console.log            not found
+console.debug          not found
+console.error          FOUND
+buyer@example.com      not found
+size 221440

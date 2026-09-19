@@ -1,0 +1,22 @@
+=== development build (mode=development, loads .env) ===
+--- /tmp/dist-dev/assets/index-C_qJJnmv.js ---
+dev API URL inlined:        found
+prod API URL inlined:       NOT found
+secret leaked into bundle:  NOT found
+import.meta.env remains:    NOT found
+
+=== production build (mode=production, loads .env.production and .env) ===
+--- dist/assets/index-B_kXvhTo.js ---
+dev API URL inlined:        NOT found
+prod API URL inlined:       found
+secret leaked into bundle:  NOT found
+import.meta.env remains:    NOT found
+
+
+=== the inlined values, verbatim ===
+dev bundle app name:      React Lab (dev)
+prod bundle app name:     dev bundle mode string:   prod bundle mode string:  NODE_ENV in prod bundle:  0
+dev bundle contains "React Lab (dev)": true
+prod bundle contains "React Lab (dev)": false
+prod bundle contains "api.react-lab.example": true
+dev bundle contains "api.react-lab.example": false

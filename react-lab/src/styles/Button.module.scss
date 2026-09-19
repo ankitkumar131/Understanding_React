@@ -1,0 +1,21 @@
+@use 'tokens' as *;
+
+// A CSS Module written in SCSS: the class names are hashed, the tokens are shared.
+.button {
+  background: $brand;
+  color: white;
+  padding: 0.5rem 1rem;
+  border: 0;
+  border-radius: $radius;
+  cursor: pointer;
+
+  &:hover { background: darken($brand, 8%); }
+  &:disabled { opacity: 0.5; cursor: not-allowed; }
+
+  .icon { margin-right: 0.5rem; }
+}
+
+.card {
+  @include card(1.25rem);
+  background: white;
+}

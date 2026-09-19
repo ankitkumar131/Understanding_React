@@ -1,0 +1,18 @@
+
+[1m[30m[46m RUN [49m[39m[22m [36mv5.0.1 [39m[90m/home/user/lab/react-lab[39m
+
+[90mstdout[2m | src/dev/env-mode.test.ts[2m > [22m[2mtest-mode environment[2m > [22m[2mreports the mode and the values set in vite.config test.env
+[22m[39mMODE           = test
+DEV            = [33mtrue[39m
+PROD           = [33mfalse[39m
+VITE_API_URL   = http://localhost:3001/api
+VITE_APP_NAME  = React Lab (test)
+.env said      = http://localhost:3001/api (dev) / https://api.staging.react-lab.example/api (staging)
+
+ [32m✓[39m src/dev/env-mode.test.ts[2m > [22mtest-mode environment[2m > [22mreports the mode and the values set in vite.config test.env[32m 3[2mms[22m[39m
+
+[2m Test Files [22m [1m[32m1 passed[39m[22m[90m (1)[39m
+[2m      Tests [22m [1m[32m1 passed[39m[22m[90m (1)[39m
+[2m   Start at [22m 17:07:03
+[2m   Duration [22m 1.05s[2m (environment 70%, setup 22%, transform 6%, tests 1%, worker 1%)[22m
+

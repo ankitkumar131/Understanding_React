@@ -1,0 +1,22 @@
+
+=== FINAL verification (all parts) ===
+2026-09-19T17:38:07Z
+
+--- npx tsc -b ---
+type-check clean
+
+--- npx vitest run ---
+ Test Files  12 passed (12)
+      Tests  62 passed (62)
+   Duration  31.98s (tests 60%, environment 28%, setup 8%, import 2%, transform 2%)
+
+--- npm run build ---
+computing gzip size...
+dist/index.html                             0.62 kB │ gzip:   0.34 kB
+dist/assets/index-DtetkJLr.css              8.24 kB │ gzip:   2.50 kB
+dist/assets/rolldown-runtime-CbXtAM7H.js    0.58 kB │ gzip:   0.36 kB
+dist/assets/ReportsPage-PWQmZQ35.js         2.09 kB │ gzip:   1.03 kB
+dist/assets/index-B42t09Hu.js              12.04 kB │ gzip:   4.76 kB
+dist/assets/vendor-DwDvQbTE.js            345.82 kB │ gzip: 107.76 kB
+
+✓ built in 320ms

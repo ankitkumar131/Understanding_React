@@ -1,0 +1,34 @@
+
+=== A. <Context value> replaces <Context.Provider value> ===
+   rendered: dark
+   no deprecation warning was logged: React 19 accepts the context as the provider
+
+=== B. ref callbacks can return a cleanup function ===
+   after mount: attach INPUT
+   after unmount: attach INPUT | cleanup
+
+=== C. <Activity mode="hidden"> preserves state and detaches effects ===
+   visible value: "kept while hidden"
+   hidden: wrapper style="display: none !important;", DOM nodes still present: true
+   effects: Heavy:effect=1 Heavy:cleanup=1
+   after showing again: value="kept while hidden" effects=Heavy:effect=2 Heavy:cleanup=1
+
+=== D. useEffectEvent: one effect run, always-fresh values ===
+   effect event fired with "first"
+   effect event fired with "first"
+   effect event fired with "second"
+   effects: Echo:effect=1
+   effect event fired with "second"
+   effect event fired with "second"
+
+=== E. Document metadata written from a component is hoisted to <head> ===
+   effect event fired with "second"
+   document.title: "Product page — React Lab"
+   meta in <head>: true
+   article body: body
+   after unmount, document.title: ""
+
+=== F. Cleaning up ===
+   trees unmounted
+
+=== done ===

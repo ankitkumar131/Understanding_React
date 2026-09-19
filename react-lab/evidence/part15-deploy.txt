@@ -1,0 +1,30 @@
+--- plain static server (no SPA fallback) ---
+GET /            -> 200
+GET /products    -> 404
+GET /assets/<js> -> 200 221451 bytes, cache={"server":["SimpleHTTP/0.6 Python/3.11.2"],
+"date":["Sat, 19 Sep 2026 16:59:16 GMT"],
+"content-type":["text/javascript"],
+"content-length":["221451"],
+"last-modified":["Sat, 19 Sep 2026 16:59:14 GMT"]
+}
+
+--- dist/index.html (the only HTML file; hashed asset reference) ---
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>react-lab</title>
+    <script type="module" crossorigin src="/assets/index-B_kXvhTo.js"></script>
+    <link rel="stylesheet" crossorigin href="/assets/index-D0dZhWMe.css">
+  </head>
+  <body>
+    <div id="root"></div>
+  </body>
+</html>
+
+--- rebuild with the same source: does the hash change? ---
+index-B_kXvhTo.js
+index-D0dZhWMe.css
+identical source -> identical hash/content: true
