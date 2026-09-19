@@ -366,14 +366,14 @@ Legend: ✅ written · 🚧 being written · ⬜ planned
 
 | File | Topic | Status |
 | --- | --- | --- |
-| `01-react-19.md` | What changed in React 19 | ⬜ |
-| `02-actions.md` | Actions and async transitions | ⬜ |
-| `03-forms-actions.md` | `<form action>`, `useFormStatus` | ⬜ |
-| `04-useactionstate.md` | Pending + error state for actions | ⬜ |
-| `05-usetransition.md` | Non-blocking updates, `startTransition` | ⬜ |
-| `06-useoptimistic.md` | Optimistic UI with rollback | ⬜ |
-| `07-use.md` | `use()`, promises and context | ⬜ |
-| `08-react-compiler.md` | What it optimizes, what it does not | ⬜ |
+| `01-react-19.md` | What changed in React 19 | ✅ |
+| `02-actions.md` | Actions and async transitions | ✅ |
+| `03-forms-actions.md` | `<form action>`, `useFormStatus` | ✅ |
+| `04-useactionstate.md` | Pending + error state for actions | ✅ |
+| `05-usetransition.md` | Non-blocking updates, `startTransition` | ✅ |
+| `06-useoptimistic.md` | Optimistic UI with rollback | ✅ |
+| `07-use.md` | `use()`, promises and context | ✅ |
+| `08-react-compiler.md` | What it optimizes, what it does not | ✅ |
 
 ### [Part 12 — Styling](./12-styling/)
 
@@ -480,7 +480,7 @@ Use this to know where you are. Tick the boxes as you finish each part.
 - [x] **Part 8 — Forms and Validation** (5 files) ✅
 - [x] **Part 9 — State Management** (6 files) ✅
 - [x] **Part 10 — Advanced React** (9 files) ✅
-- [ ] **Part 11 — Modern React** (8 files)
+- [x] **Part 11 — Modern React** (8 files) ✅
 - [ ] **Part 12 — Styling** (5 files)
 - [ ] **Part 13 — Testing** (5 files)
 - [ ] **Part 14 — Authentication** (6 files)
