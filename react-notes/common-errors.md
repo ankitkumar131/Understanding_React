@@ -380,7 +380,7 @@ const handleChange = (event: ChangeEvent<HTMLInputElement>) => setQuery(event.ta
 "paths": { "@/*": ["./src/*"] }
 ```
 ```ts
-// vite.config.ts
+// vite.config.ts — the resolve part
 resolve: { alias: { '@': path.resolve(import.meta.dirname, './src') } }
 ```
 

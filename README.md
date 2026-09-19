@@ -33,7 +33,7 @@ Both halves are checked automatically — `.github/workflows/ci.yml` runs the la
 
 ```bash
 node scripts/check-notes.mjs      # links + chapter banners
-# ✓ notes OK — 151 files, 227 relative links, 139 banners
+# ✓ notes OK — 151 files, 244 relative links, 139 banners
 
 node scripts/check-snippets.mjs   # every import in every code block
 # ✓ every import in every code block resolves
@@ -85,9 +85,11 @@ Plus: [`react-notes/cheatsheets/`](./react-notes/cheatsheets/) (9 one-page refer
 | Todo app | 17.2 | 6 |
 | Weather app (MSW, cancellation) | 17.3 | 7 |
 | Library CRUD (router + TanStack Query) | 17.4 | 8 |
-| Authentication app | 17.5 | 12 |
+| Authentication app | 17.5 | 7 |
 | **Taskboard capstone** (optimistic updates, error boundary, lazy route, dev mock API) | 17.6 | 8 |
 | Performance lab (compiler vs `memo` vs windowing) | 17.7 | 2 |
+
+That is **45 project tests across 7 files**. The lab's remaining 17 tests (5 files: `session`, `Counter`, `ProductList`, `SearchBox`, `useDebouncedValue`) belong to Part 13's testing chapters — **12 files / 62 tests** in total.
 
 Every project is implemented, type-checked, tested and built in this repository — see [`react-lab/evidence/part18-final.txt`](./react-lab/evidence/part18-final.txt) for the last full verification.
 

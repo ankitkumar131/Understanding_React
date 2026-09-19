@@ -4,7 +4,7 @@
 
 Why this project: create / read / update / delete is the shape of most business software, and it is where three chapters finally meet — routing (Part 6), forms (Part 7/8) and server state (Part 9). The interesting questions are all about *agreement*: after a create, does the list show the new item? After an edit, is the detail page fresh? If a validation rule lives in the form, does the API layer respect it too? This project answers them with a small library app — books, five endpoints, four screens — and eight tests that walk the lifecycle.
 
-Measured: the finished project's tests run in **817 ms** (8 tests) in this lab's suite — `/home/user/lab/part17-projects.txt`.
+Measured: the finished project's tests run in **817 ms** (8 tests) in this lab's suite — [`react-lab/evidence/part17-projects.txt`](../../react-lab/evidence/part17-projects.txt).
 
 ---
 

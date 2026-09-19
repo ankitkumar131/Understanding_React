@@ -128,7 +128,7 @@ features/products/components/ProductTable/
 
 ## 5. Path aliases instead of `../../..`
 
-```ts
+```jsonc
 // tsconfig.app.json
 {
   "compilerOptions": {

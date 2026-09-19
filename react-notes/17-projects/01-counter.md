@@ -4,7 +4,7 @@
 
 Why this project: the counter is the "hello world" of interactive React, and it is deceptively complete. Building it properly forces you to decide what lives in state and what is a prop, how an event handler updates state safely, what "disabled" means for a user who cannot use a mouse, and how to test behaviour instead of implementation. Everything later in this part is a larger version of these same decisions — which is why the first project is small, finished and *correct*, not a fragment.
 
-Measured: the finished project's tests run in **347 ms** (7 tests) as part of this lab's suite — `/home/user/lab/part17-projects.txt`.
+Measured: the finished project's tests run in **347 ms** (7 tests) as part of this lab's suite — [`react-lab/evidence/part17-projects.txt`](../../react-lab/evidence/part17-projects.txt).
 
 ---
 

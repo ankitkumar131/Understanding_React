@@ -4,7 +4,7 @@
 
 Why this project: this is the first project whose data comes from outside your program, which means the data arrives late, can be wrong, can arrive out of order, and can fail entirely. A weather app is the smallest honest version of that problem: one input, one request, four states (`idle`, `loading`, `success`, `error`), one cancellation rule, and typed responses that are checked instead of assumed. The habits you build here — parse at the boundary, cancel stale requests, distinguish retryable from permanent failures, test every state with a fake network — are the same ones a payments screen needs.
 
-Measured: the finished project's tests run in **750 ms** (7 tests) in this lab's suite — `/home/user/lab/part17-projects.txt`.
+Measured: the finished project's tests run in **750 ms** (7 tests) in this lab's suite — [`react-lab/evidence/part17-projects.txt`](../../react-lab/evidence/part17-projects.txt).
 
 ---
 

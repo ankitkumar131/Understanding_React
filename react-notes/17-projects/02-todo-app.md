@@ -4,7 +4,7 @@
 
 Why this project: a todo app is the second thing everyone builds and the first thing that touches *real* UI problems — a list that changes length, a form that must clear itself, filters that must agree with the data, keys that must be stable, and persistence that must survive a reload (and a corrupt value). This project's structure is the lesson: **all the logic lives in one hook (`useTodos`), the components only render**, and the tests walk through the whole journey. Everything you learn here reappears in the CRUD app, the auth app and the capstone, only with a server underneath.
 
-Measured: the finished project's tests run in **943 ms** (6 tests) in this lab's suite — `/home/user/lab/part17-projects.txt`.
+Measured: the finished project's tests run in **943 ms** (6 tests) in this lab's suite — [`react-lab/evidence/part17-projects.txt`](../../react-lab/evidence/part17-projects.txt).
 
 ---
 

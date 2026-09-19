@@ -4,7 +4,7 @@
 
 Why this file exists: Part 15, file 01 established the rule that matters most — anything in a `VITE_` variable is public — and this file covers the mechanics underneath: the four modes a real project lives in (development, production, staging, test), the precedence between `.env` files (measured here: `.env.staging` beat `.env.local`, and a staging build contained the staging API URL while a production build contained the production one), what `import.meta.env` contains in each mode (measured in a test: `MODE = test`, `DEV = true`, `PROD = false`, and `test.env` values winning over `.env`), reading non-`VITE_` variables inside `vite.config.ts` with `loadEnv` (measured: `API_TARGET` visible only when the prefix argument is `''`), and how to keep every environment consistent without forking the code.
 
-Measured: `/home/user/lab/part16-env.txt` and `/home/user/lab/part16-env-modes.txt`.
+Measured: [`react-lab/evidence/part16-env.txt`](../../react-lab/evidence/part16-env.txt) and [`react-lab/evidence/part16-env-modes.txt`](../../react-lab/evidence/part16-env-modes.txt).
 
 ---
 

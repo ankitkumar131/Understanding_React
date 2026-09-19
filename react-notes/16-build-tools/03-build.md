@@ -4,7 +4,7 @@
 
 Why this file exists: `npm run build` is treated as a ritual — run it, upload `dist/`, hope. This file makes the output readable, with measurements from this lab: `npx vite build` produced `index.html` 0.45 kB, CSS 8.38 kB, and **223.35 kB of JavaScript (70.26 kB gzipped)** in 467 ms; adding one `lazy(() => import(...))` produced a second chunk (`lazy-panel`, 0.37 kB); adding `manualChunks` split the entry into **4.59 kB of app code and 218.97 kB of vendor code**; and, importantly, a build with a deliberate type error **succeeded** under `npx vite build` while `npm run build` (`tsc -b && vite build`) failed with `error TS2322` — because Vite does not type-check. Once you can read the output, you can control it.
 
-Measured: `/home/user/lab/part16-vite.txt`.
+Measured: [`react-lab/evidence/part16-vite.txt`](../../react-lab/evidence/part16-vite.txt).
 
 ---
 

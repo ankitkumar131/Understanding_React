@@ -4,7 +4,7 @@
 
 Why this file exists: the browser has three security mechanisms most React developers use daily without being able to explain — the same-origin policy that makes CORS necessary, the cookie rules that make CSRF possible, and the escaping rules that make React safe by default and dangerous the moment you step outside them. This file explains each one from the browser's point of view, with a lab measurement that shows exactly what React escapes and what it does not: rendering `<img src=x onerror="alert(1)">` as a text child produced **escaped text, no element**, while the same string through `dangerouslySetInnerHTML` produced **a real `<img>` element with a working `onerror`**, and React's own `javascript:` URL protection in JSX turned out **not** to apply to raw HTML. It ends with CORS, cookies and CSRF, content security policy, supply-chain hygiene, and a review checklist.
 
-Measured: `/home/user/lab/part15-xss.txt`.
+Measured: [`react-lab/evidence/part15-xss.txt`](../../react-lab/evidence/part15-xss.txt).
 
 ---
 

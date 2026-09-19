@@ -6,7 +6,7 @@ Why this project: authentication is the first feature that changes *every other 
 
 ⚠️ **The single most important sentence in this file**, repeated from Part 15, file 06 because it is load-bearing: **anything enforced only in the browser is not security.** A route guard prevents a *confusing experience*; the API's authorization check prevents *data loss*. Every guard you write here is UX, and the tests prove the API is the real boundary.
 
-Measured: the project's tests run in **1.3 s** (7 tests) in this lab's suite — `/home/user/lab/part17-projects.txt`.
+Measured: the project's tests run in **1.3 s** (7 tests) in this lab's suite — [`react-lab/evidence/part17-projects.txt`](../../react-lab/evidence/part17-projects.txt).
 
 ---
 

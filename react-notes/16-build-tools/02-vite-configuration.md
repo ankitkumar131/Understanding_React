@@ -4,7 +4,7 @@
 
 Why this file exists: the config file is where a Vite project's behaviour is decided, and most teams only ever copy snippets into it. This file goes through the fields you will actually touch, with measured evidence for each: `resolve.alias` resolving `@/lib/env` to `/src/lib/env.ts` in the transformed output (and the TypeScript-side `paths` that must match — including the `baseUrl` deprecation that broke this lab's build until it was removed), `server.proxy` forwarding `/api/ping` to a backend on another port (with the `x-api-server` header proving it arrived), the `test` block that needs a `/// <reference types="vitest/config" />` reference to type-check, plugins (React with the React Compiler, whose output was visible in the transformed module), and the settings that are better left alone.
 
-Measured: `/home/user/lab/part16-vite.txt`.
+Measured: [`react-lab/evidence/part16-vite.txt`](../../react-lab/evidence/part16-vite.txt).
 
 ---
 

@@ -4,7 +4,7 @@
 
 Why this project: the previous five files each isolated one skill. This one puts them in a single application with a real shape — feature folders, a typed data layer, server state with optimistic writes and rollback, an auth context, an error boundary, a lazily loaded route, a dev-only fake backend so it runs with no server, and tests that cover the failure paths. If you can build this from a blank folder, you have the working knowledge the whole book was aiming at; if you can *explain* every file's boundaries while building it, you have more than that.
 
-Measured: the capstone's own tests run in **1.1 s** (8 tests). The complete lab suite is **12 files / 62 tests, all green**, and the production build is **368 ms** producing a 2.09 kB lazy chunk. Raw output: `/home/user/lab/part17-projects.txt`.
+Measured: the capstone's own tests run in **1.1 s** (8 tests). The complete lab suite is **12 files / 62 tests, all green**, and the production build is **~0.3 s** (304–368 ms across runs), producing a 2.09 kB lazy chunk. Raw output: [`react-lab/evidence/part17-projects.txt`](../../react-lab/evidence/part17-projects.txt).
 
 ---
 
@@ -481,7 +481,7 @@ Read that table as a budget: **the Reports page costs nobody anything until some
 - **Lazy routes pay off** (a 2.09 kB chunk fetched on demand) and come with a real gotcha the lab investigated and fixed: `HydrateFallback` must be declared on a **non-lazy** ancestor route.
 - **The capstone runs with no backend** thanks to a `DEV`-guarded fetch mock — and that mock is the same idea as MSW, one layer further out.
 - **Eight tests cover the failure paths**, including rollback-to-original-status and the lazy route, in 1.1 s — fast enough to run on every save.
-- **Everything in Part 17 was built and measured in this repo** (`/home/user/lab/part17-projects.txt`): seven projects, 50 project tests, 13 files and 64 tests across the whole lab, a clean `tsc -b`, and a green production build in 368 ms.
+- **Everything in Part 17 was built and measured in this repo** ([`react-lab/evidence/part17-projects.txt`](../../react-lab/evidence/part17-projects.txt)): six apps plus the performance lab, **45 project tests** (43 app + 2 perf) out of 12 files and **62 tests** across the whole lab, a clean `tsc -b`, and a green production build in ~0.3 s (304–368 ms across runs).
 
 **You can now build.** What is left is the part that makes the knowledge *yours*: a portfolio project of your own, deployed, with a README that explains the trade-offs you chose — and then, when you have to go deeper, the deployment and team practices in Part 18.
 

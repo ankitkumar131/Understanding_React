@@ -4,7 +4,7 @@
 
 Why this file exists: an app on your machine is a project; an app at a URL real people use is a product, and the difference is a set of unglamorous things — a build, a host, a routing fallback, cache headers, a pipeline, a way to roll back, and a checklist for the moment after the deploy. This file walks the whole path with evidence from this lab: the production build produced a `dist/` with content-hashed assets (`index-B_kXvhTo.js`, 221 451 bytes, plus a hashed CSS file) and a single `index.html`; serving that folder with a plain static server returned **200 for `/` but 404 for `/products`**, because a static server knows nothing about client-side routes. It then covers hosting choices, caching rules, CI/CD, previews, the failed-chunk-after-deploy problem, monitoring, rollback — and, because a deploy is only safe if the code going out is sane, the code-quality gates (linting with oxlint/ESLint, types, formatting, pre-commit hooks, what reviewers look for) and the pre-deploy checklist that closes Part 15.
 
-Measured: `/home/user/lab/part15-deploy.txt`.
+Measured: [`react-lab/evidence/part15-deploy.txt`](../../react-lab/evidence/part15-deploy.txt).
 
 ---
 

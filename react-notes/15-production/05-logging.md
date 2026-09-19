@@ -4,7 +4,7 @@
 
 Why this file exists: in development you have the browser, the React DevTools and a stack trace; in production you have a user saying "it broke yesterday". Logging and monitoring are how an app explains itself when you are not watching — and how you find out about failures before your users tell you. This file starts with a measurement that surprises almost everyone: **your `console.log` calls (and whatever they print) ship to every user's browser**, and in Vite 8 the old esbuild trick to remove them is *ignored* — this lab verified that `esbuild: { drop: ['console'] }` produced an identical bundle while printing "oxc options will be used and esbuild options will be ignored". It then covers log levels, a logger module that behaves correctly per environment, what you must never log, how to get logs from the browser to somewhere you can query, breadcrumbs and correlation ids, and how to turn all of it into alerts that page a human.
 
-Measured: `/home/user/lab/part15-logs.txt`.
+Measured: [`react-lab/evidence/part15-logs.txt`](../../react-lab/evidence/part15-logs.txt).
 
 ---
 

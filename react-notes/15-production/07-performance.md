@@ -4,7 +4,7 @@
 
 Why this file exists: "React is fast until it is not, and you cannot guess which it will be." This file starts from a measurement made in this lab — a 1000-row list where a single state update re-rendered all 1000 rows (56 ms) and `memo` + `useCallback` reduced that to **0 row renders and 7.7 ms** — and builds the whole performance model on evidence: what actually causes re-renders, which fixes work and when, how to measure (render counts and the Profiler, not vibes), why long lists need virtualisation rather than memoization, how code splitting changes the first load, and what React Compiler now does automatically. It ends with the rule that saves the most time: **measure first, and optimise the thing that is actually slow.**
 
-Measured: `/home/user/lab/part15-perf.txt` (`npx vitest run src/perf/probe.test.tsx`, jsdom).
+Measured: [`react-lab/evidence/part15-perf.txt`](../../react-lab/evidence/part15-perf.txt) (`npx vitest run src/perf/probe.test.tsx`, jsdom).
 
 ---
 

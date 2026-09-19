@@ -63,7 +63,7 @@ Two facts to take from that output:
 1. **The CSS is a separate asset**, linked from the HTML — not inlined into the JS. A stylesheet blocks first paint, so its size and content matter (file 04 shows what that costs with a utility framework).
 2. **All imported CSS is concatenated into one file**, in import order. Which brings us to the thing that bites teams: order is all that stands between two rules with the same specificity.
 
-```tsx
+```css
 // src/styles/global.css
 .button { background: rebeccapurple; }        /* file 01: a global, generic name */
 ```

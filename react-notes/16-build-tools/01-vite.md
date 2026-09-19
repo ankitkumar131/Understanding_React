@@ -4,7 +4,7 @@
 
 Why this file exists: you have been running `npm run dev` since Part 1 without knowing what happens between saving a file and seeing it on screen. This file makes that mechanism concrete, using measurements from this lab: the dev server reported **`ready in 276 ms`**, the HTML it served contained `/@vite/client` and `/@react-refresh` (the HMR machinery), `/src/main.tsx` came back **transformed on demand** with its imports rewritten to `/node_modules/.vite/deps/react.js?v=fb4b5974` and an inline source map, and `node_modules/.vite/deps` held 15 files covering 6 dependencies, each marked `needsInterop: true`. Once you can see what the server is doing, the rest of this part — configuration, builds, modes — stops being magic.
 
-Measured: `/home/user/lab/part16-vite.txt` (Vite 8.3.0, Node 22).
+Measured: [`react-lab/evidence/part16-vite.txt`](../../react-lab/evidence/part16-vite.txt) (Vite 8.3.0, Node 22).
 
 ---
 

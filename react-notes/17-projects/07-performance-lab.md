@@ -4,7 +4,7 @@
 
 Why this project: performance is the topic where beginners are given the most advice and the fewest measurements. This file is a **measurement lab**, not a lecture: it renders the same list four ways, prints what each one costs, and then explains every number. By the end you will know which of `memo`, `useMemo`, `useCallback`, the React Compiler and list windowing actually change the outcome, which ones only add noise, and how to tell the difference *before* you change code.
 
-Everything here was measured in this lab's own suite — React 19.3.0, React Compiler 1.0 enabled, jsdom, **development** build — and the raw output is in `/home/user/lab/part17-projects.txt`. Read the warning in section 2 before you quote any absolute number.
+Everything here was measured in this lab's own suite — React 19.3.0, React Compiler 1.0 enabled, jsdom, **development** build — and the raw output is in [`react-lab/evidence/part17-projects.txt`](../../react-lab/evidence/part17-projects.txt). Read the warning in section 2 before you quote any absolute number.
 
 The suite this file's harness belongs to: **12 test files, 62 tests, all green** (`npx vitest run`, 32.0 s including environment setup).
 
