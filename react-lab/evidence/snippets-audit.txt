@@ -1,6 +1,6 @@
 snippet import audit
   markdown files     151
-  code blocks        2315
+  code blocks        2313
   import statements  704
   distinct specifiers 219
   named imports type-checked with tsc: 107

@@ -141,7 +141,7 @@ part16-vite.txt          Vite 8 dev server, dependency pre-bundling, proxy, alia
 part16-env-modes.txt     MODE=test / DEV=true / PROD=false, test.env beating .env
 part17-projects.txt      hydration-warning investigation + the final long-list measurement runs
 part18-final.txt         the final verification: tsc -b, 62 tests, build 330 ms
-snippets-audit.txt       the book's own code blocks: 2 315 blocks, 704 imports, 107 named imports type-checked
+snippets-audit.txt       the book's own code blocks: 2 313 blocks, 704 imports, 107 named imports type-checked
 ```
 
 Regenerate any of them by running the command named at the top of the file.

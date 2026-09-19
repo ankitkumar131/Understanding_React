@@ -37,7 +37,7 @@ node scripts/check-notes.mjs      # links + chapter banners
 
 node scripts/check-snippets.mjs   # every import in every code block
 # ✓ every import in every code block resolves
-#   2 315 code blocks · 704 import statements · 107 named imports type-checked with tsc
+#   2 313 code blocks · 704 import statements · 107 named imports type-checked with tsc
 ```
 
 The snippet audit is the one that earns its keep: it reads all four languages of code block in the
