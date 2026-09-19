@@ -288,15 +288,15 @@ Legend: ✅ written · 🚧 being written · ⬜ planned
 
 | File | Topic | Status |
 | --- | --- | --- |
-| `01-component-communication.md` | Parent→child, child→parent, siblings | ⬜ |
-| `02-lifting-state.md` | Lifting state up, single source of truth | ⬜ |
-| `03-controlled-components.md` | React as the source of truth for inputs | ⬜ |
-| `04-uncontrolled-components.md` | Letting the DOM own the value | ⬜ |
-| `05-forms.md` | Inputs, select, checkbox, radio, textarea, reset | ⬜ |
-| `06-refs.md` | Refs vs state, `forwardRef`, `useImperativeHandle` | ⬜ |
-| `07-composition.md` | Composition over inheritance, slots, layouts | ⬜ |
-| `08-children.md` | `React.ReactNode`, rendering children | ⬜ |
-| `09-context.md` | Deep dive: theme, auth, avoiding misuse | ⬜ |
+| `01-component-communication.md` | Parent→child, child→parent, siblings | ✅ |
+| `02-lifting-state.md` | Lifting state up, single source of truth | ✅ |
+| `03-controlled-components.md` | React as the source of truth for inputs | ✅ |
+| `04-uncontrolled-components.md` | Letting the DOM own the value | ✅ |
+| `05-forms.md` | Inputs, select, checkbox, radio, textarea, reset | ✅ |
+| `06-refs.md` | Refs vs state, `forwardRef`, `useImperativeHandle` | ✅ |
+| `07-composition.md` | Composition over inheritance, slots, layouts | ✅ |
+| `08-children.md` | `React.ReactNode`, rendering children | ✅ |
+| `09-context.md` | Deep dive: theme, auth, avoiding misuse | ✅ |
 
 ### [Part 6 — Routing](./06-routing/)
 
@@ -474,7 +474,7 @@ Use this to know where you are. Tick the boxes as you finish each part.
 - [x] **Part 2 — TypeScript** (11 files) ✅
 - [x] **Part 3 — React Fundamentals** (12 files) ✅
 - [x] **Part 4 — State and Hooks** (10 files) ✅
-- [ ] **Part 5 — React Concepts** (9 files)
+- [x] **Part 5 — React Concepts** (9 files) ✅
 - [ ] **Part 6 — Routing** (8 files)
 - [ ] **Part 7 — API Integration** (11 files)
 - [ ] **Part 8 — Forms and Validation** (5 files)
