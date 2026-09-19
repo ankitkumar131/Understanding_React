@@ -1,0 +1,16 @@
+/* Global CSS (Part 12, file 01): everything here is visible to every component. */
+@import 'tailwindcss';
+
+:root {
+  --brand: #0f766e;
+  font-family: system-ui, sans-serif;
+}
+
+/* A deliberately generic class name: this is the collision this chapter is about. */
+.button {
+  background: rebeccapurple; /* fights the module's .button unless import order is managed */
+}
+
+@media (prefers-reduced-motion: reduce) {
+  * { animation-duration: 0.01ms !important; transition-duration: 0.01ms !important; }
+}

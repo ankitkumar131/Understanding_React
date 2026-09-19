@@ -1,0 +1,29 @@
+
+=== A. <form action={fn}> + useActionState + useFormStatus ===
+   before: saved=0 last= pending=false
+   mid-flight button: "saving Write the probe (get)" disabled=true
+   after: saved=1 last=Write the probe pending=false
+   input value after a successful action: "" (React reset the uncontrolled field)
+   server calls: 1
+   renders: ActionFormCase:render=4 SubmitButton:render pending=false=2 SubmitButton:render pending=true=1
+
+=== B. useOptimistic: the row appears before the server answers, and rolls back on failure ===
+   mid-flight list: Read part 11New lamp
+   mid-flight saving row: New lamp
+   after the server answered: Read part 11New lamp
+
+=== C. The same flow when the server refuses ===
+   mid-flight list: Read part 11Rejected lamp
+   after the failure: Read part 11
+   the optimistic row was rolled back because the action threw
+
+=== D. use() with a promise: Suspense while pending, the value after resolution ===
+   first frame: loading label
+   after resolution: label for products
+   loadLabel returns the same promise for the same key: true
+   renders: Label:render #1=1
+
+=== E. Cleaning up ===
+   trees unmounted
+
+=== done ===

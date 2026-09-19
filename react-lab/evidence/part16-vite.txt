@@ -1,0 +1,174 @@
+=== Part 16, file 01/02/03 — Vite 8 measurements (lab: react-lab) ===
+
+--- dev server startup (from the log) ---
+
+  VITE v8.3.0  ready in 276 ms
+
+  ➜  Local:   http://localhost:5199/
+  ➜  Network: use --host to expose
+
+--- GET / (the HTML shell Vite serves in dev) ---
+<!doctype html>
+<html lang="en">
+  <head>
+    <script type="module">import { injectIntoGlobalHook } from "/@react-refresh";
+injectIntoGlobalHook(window);
+window.$RefreshReg$ = () => {};
+window.$RefreshSig$ = () => (type) => type;</script>
+
+    <script type="module" src="/@vite/client"></script>
+
+    <meta charset="UTF-8" />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>react-lab</title>
+  </head>
+  <body>
+    <div id="root"></div>
+    <script type="module" src="/src/main.tsx"></script>
+  </body>
+</html>
+
+--- GET /src/main.tsx (source is transformed on demand, not bundled) ---
+const StrictMode = __vite__cjsImport0_react["StrictMode"];const createRoot = __vite__cjsImport1_reactDom_client["createRoot"];const _jsxDEV = __vite__cjsImport4_react_jsxDevRuntime["jsxDEV"];import __vite__cjsImport0_react from "/node_modules/.vite/deps/react.js?v=fb4b5974";
+import __vite__cjsImport1_reactDom_client from "/node_modules/.vite/deps/react-dom_client.js?v=0c5ed7a2";
+import "/src/styles/global.css";
+import { StylingDemo } from "/src/part12/StylingDemo.tsx";
+var _jsxFileName = "/home/user/lab/react-lab/src/main.tsx";
+import __vite__cjsImport4_react_jsxDevRuntime from "/node_modules/.vite/deps/react_jsx-dev-runtime.js?v=fb4b5974";
+createRoot(document.getElementById("root")).render(/* @__PURE__ */ _jsxDEV(StrictMode, { children: /* @__PURE__ */ _jsxDEV(StylingDemo, {}, void 0, false, {
+	fileName: _jsxFileName,
+	lineNumber: 8,
+	columnNumber: 5
+}, this) }, void 0, false, {
+	fileName: _jsxFileName,
+	lineNumber: 7,
+	columnNumber: 3
+}, this));
+
+//# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJtYXBwaW5ncyI6IkFBQUEsU0FBUyxrQkFBa0I7QUFDM0IsU0FBUyxrQkFBa0I7QUFDM0IsT0FBTztBQUNQLFNBQVMsbUJBQW1COzs7QUFFNUIsV0FBVyxTQUFTLGVBQWUsTUFBTSxDQUFFLENBQUMsQ0FBQyxPQUMzQyx3QkFBQyxZQUFELFlBQ0Usd0JBQUMsYUFBRCxDQUFjOzs7O1NBQ0o7Ozs7UUFDZCIsIm5hbWVzIjpbXSwiaWdub3JlTGlzdCI6W10sInNvdXJjZXMiOlsibWFpbi50c3giXSwic291cmNlc0NvbnRlbnQiOlsiaW1wb3J0IHsgU3RyaWN0TW9kZSB9IGZyb20gJ3JlYWN0JztcbmltcG9ydCB7IGNyZWF0ZVJvb3QgfSBmcm9tICdyZWFjdC1kb20vY2xpZW50JztcbmltcG9ydCAnLi9zdHlsZXMvZ2xvYmFsLmNzcyc7XG5pbXBvcnQgeyBTdHlsaW5nRGVtbyB9IGZyb20gJy4vcGFydDEyL1N0eWxpbmdEZW1vJztcblxuY3JlYXRlUm9vdChkb2N1bWVudC5nZXRFbGVtZW50QnlJZCgncm9vdCcpISkucmVuZGVyKFxuICA8U3RyaWN0TW9kZT5cbiAgICA8U3R5bGluZ0RlbW8gLz5cbiAgPC9TdHJpY3RNb2RlPixcbik7XG4iXSwiZmlsZSI6Ii9ob21lL3VzZXIvbGFiL3JlYWN0LWxhYi9zcmMvbWFpbi50c3gifQ==
+--- node_modules/.vite/deps (pre-bundled dependencies) ---
+_metadata.json
+package.json
+react-dom.js
+react-dom.js.map
+react-dom_client.js
+react-dom_client.js.map
+react.js
+react.js.map
+react_compiler-runtime.js
+react_compiler-runtime.js.map
+react_jsx-dev-runtime.js
+react_jsx-dev-runtime.js.map
+total files: 15
+
+--- _metadata.json (why each dep was pre-bundled) ---
+hash: 042c7437 | lockfile: undefined | configHash: c4e94444
+  react-dom -> react-dom.js                           needsInterop: true | src: ../../react-dom/index.js
+  react-dom/client -> react-dom_client.js                    needsInterop: true | src: ../../react-dom/client.js
+  react -> react.js                               needsInterop: true | src: ../../react/index.js
+  react/compiler-runtime -> react_compiler-runtime.js              needsInterop: true | src: ../../react/compiler-runtime.js
+  react/jsx-dev-runtime -> react_jsx-dev-runtime.js               needsInterop: true | src: ../../react/jsx-dev-runtime.js
+  react/jsx-runtime -> react_jsx-runtime.js                   needsInterop: true | src: ../../react/jsx-runtime.js
+
+--- GET a pre-bundled dependency (dev transforms deps once, then serves the cached file) ---
+import { t as __commonJSMin } from "/node_modules/.vite/deps/rolldown-runtime-BvCyGRYZ.js?v=ce93cd0a";
+//#region node_modules/react/cjs/react.development.js
+/**
+
+--- response headers for the same file ---
+HTTP/1.1 200 OK
+Vary: Origin
+Content-Type: text/javascript
+Cache-Control: max-age=31536000,immutable
+Etag: W/"9b8b-mAE9ybdfTCKkw8FW34GFKuakNmY"
+Date: Sat, 19 Sep 2026 17:03:49 GMT
+Connection: keep-alive
+Keep-Alive: timeout=5
+
+=== Part 16, file 02 — resolve.alias and server.proxy, measured ===
+--- dev server log ---
+error when starting dev server:
+Error: Port 5199 is already in use
+    at httpServerStart (file:///home/user/lab/react-lab/node_modules/vite/dist/node/chunks/node.js:14167:10)
+    at process.processTicksAndRejections (node:internal/process/task_queues:103:5)
+    at async startServer (file:///home/user/lab/react-lab/node_modules/vite/dist/node/chunks/node.js:24582:30)
+    at async Object.listen (file:///home/user/lab/react-lab/node_modules/vite/dist/node/chunks/node.js:24396:4)
+    at async CAC.<anonymous> (file:///home/user/lab/react-lab/node_modules/vite/dist/node/cli.js:725:3)
+
+--- direct to the backend (port 8098) ---
+HTTP/1.1 200 OK
+content-type: application/json
+x-api-server: the-real-backend-on-8098
+Date: Sat, 19 Sep 2026 17:04:16 GMT
+Connection: keep-alive
+
+--- through the Vite dev server (port 5199, same path) ---
+HTTP/1.1 200 OK
+Vary: Origin
+content-type: application/json
+x-api-server: the-real-backend-on-8098
+date: Sat, 19 Sep 2026 17:04:16 GMT
+connection: close
+content-length: 45
+
+
+--- a path that is NOT proxied ---
+GET /nope -> 200
+
+--- the alias resolves in the transformed source ---
+1:import { createHotContext as __vite__createHotContext } from "/@vite/client";import.meta.hot = __vite__createHotContext("/src/part12/StylingDemo.tsx");const _c = __vite__cjsImport0_react_compilerRuntime["c"];const lazy = __vite__cjsImport2_react["lazy"]; const Suspense = __vite__cjsImport2_react["Suspense"]; const useState = __vite__cjsImport2_react["useState"];const _jsxDEV = __vite__cjsImport4_react_jsxDevRuntime["jsxDEV"];import __vite__cjsImport0_react_compilerRuntime from "/node_modules/.vite/deps/react_compiler-runtime.js?v=ebd34293";
+3:import styles from "/src/styles/Button.module.scss";
+4:import __vite__cjsImport2_react from "/node_modules/.vite/deps/react.js?v=ebd34293";
+5:import { readEnv } from "/src/lib/env.ts";
+7:import __vite__cjsImport4_react_jsxDevRuntime from "/node_modules/.vite/deps/react_jsx-dev-runtime.js?v=ebd34293";
+9:// Part 16, file 03: a dynamic import becomes a separate chunk in the production build
+
+--- alias in the type-checker and in the bundler ---
+tsc -b: passed with \@/*\: [\src/*\] in tsconfig.app.json
+transformed import (the alias resolved by Vite):
+from "/src/lib/env.ts"
+
+--- dev-server SPA fallback: an unknown path returns the app shell ---
+GET /nope -> 200 (text/html)
+
+=== Part 16, file 02 — alias + proxy + dev SPA fallback, measured ===
+
+  VITE v8.3.0  ready in 312 ms
+
+  ➜  Local:   http://localhost:5199/
+
+1) resolve.alias: source imports '@/lib/env', the transformed module shows:
+from "/src/lib/env.ts"
+
+2) server.proxy: GET /api/ping through the dev server:
+HTTP/1.1 200 OK
+Vary: Origin
+content-type: application/json
+x-api-server: the-real-backend-on-8098
+date: Sat, 19 Sep 2026 17:04:57 GMT
+connection: close
+content-length: 45
+
+3) dev-server SPA fallback for an unknown route:
+   GET /nope -> 200 text/html
+
+4) tsc -b with paths {\@/*\: [\./src/*\]} (no baseUrl — deprecated in TS 6+): passed
+
+=== Part 16, file 03 — does the build type-check? ===
+-- npx vite build with a type error in the source --
+dist/assets/index-7JBCeG3v.js       223.35 kB │ gzip: 70.26 kB
+
+✓ built in 477ms
+-- npm run build (tsc -b && vite build) with the same error --
+src/dev/lazy-panel.tsx(11,7): error TS2322: Type 'string' is not assignable to type 'number'.
+src/dev/lazy-panel.tsx(11,7): error TS6133: 'broken' is declared but its value is never read.
+
+-- build with build.rollupOptions.output.manualChunks: vendor for node_modules --
+dist/index.html                       0.53 kB │ gzip:  0.32 kB
+dist/assets/index-BfIfxHXu.css        8.38 kB │ gzip:  2.56 kB
+dist/assets/lazy-panel-DV0C4Lcy.js    0.37 kB │ gzip:  0.28 kB
+dist/assets/index-BgUEBRmu.js         4.59 kB │ gzip:  2.22 kB
+dist/assets/vendor-Dd8u2uol.js      218.97 kB │ gzip: 68.33 kB
+
+✓ built in 525ms

@@ -1,0 +1,46 @@
+
+=== FINAL verification (all parts) ===
+2026-09-19T17:38:07Z
+
+--- npx tsc -b ---
+type-check clean
+
+--- npx vitest run ---
+ Test Files  12 passed (12)
+      Tests  62 passed (62)
+   Duration  31.98s (tests 60%, environment 28%, setup 8%, import 2%, transform 2%)
+
+--- npm run build ---
+computing gzip size...
+dist/index.html                             0.62 kB │ gzip:   0.34 kB
+dist/assets/index-DtetkJLr.css              8.24 kB │ gzip:   2.50 kB
+dist/assets/rolldown-runtime-CbXtAM7H.js    0.58 kB │ gzip:   0.36 kB
+dist/assets/ReportsPage-PWQmZQ35.js         2.09 kB │ gzip:   1.03 kB
+dist/assets/index-B42t09Hu.js              12.04 kB │ gzip:   4.76 kB
+dist/assets/vendor-DwDvQbTE.js            345.82 kB │ gzip: 107.76 kB
+
+✓ built in 320ms
+
+=== FINAL verification of the published commit ===
+2026-09-19 (fresh `git clone` of arena/01a0b8da-understanding-react @ c5315cb)
+
+--- npm ci && npm run verify ---
+Found 0 warnings and 0 errors.            (oxlint)
+type-check clean                          (tsc -b, project references)
+ Test Files  12 passed (12)                (vitest 5.0.1, jsdom 30.1.0)
+      Tests  62 passed (62)
+✓ built in 321ms                          (vite 8.3.0 / rolldown, terser)
+
+--- node scripts/check-notes.mjs ---
+✓ notes OK — 151 files, 244 relative links, 139 banners
+
+--- node scripts/check-snippets.mjs ---
+  code blocks        2313
+  import statements  704
+  distinct specifiers 219
+  named imports type-checked with tsc: 107
+  documented path-demo exceptions: ../../../shared/ui/Button, ../../features/products, ../utils/format-us, ./heavyChart
+✓ every import in every code block resolves
+
+Test counts per file (the 62): projects 7+6+7+8+7+8 = 43, perf 2 (45 project tests over 7 files),
+plus Part 13's testing chapters 6+2+3+3+3 = 17 — 12 files, 62 tests.

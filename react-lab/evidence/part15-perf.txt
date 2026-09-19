@@ -1,0 +1,22 @@
+
+[1m[30m[46m RUN [49m[39m[22m [36mv5.0.1 [39m[90m/home/user/lab/react-lab[39m
+
+[90mstdout[2m | src/perf/probe.test.tsx[2m > [22m[2mrender cost probe[2m > [22m[2mshows that memoization removes row re-renders (jsdom wall clock barely moves)
+[22m[39mnaive   1000 rows, inline handler: mount 192.6 ms (renders 1000 rows) · 1 state update: parent renders 1, row renders 1000, wall clock 56.0 ms
+memo    1000 rows, useCallback   : mount 151.2 ms (renders 1000 rows) · 1 state update: parent renders 1, row renders 0, wall clock 7.7 ms
+summary: naive row renders = 1000, memo row renders = 0
+
+[90mstdout[2m | src/perf/probe.test.tsx[2m > [22m[2mrender cost probe[2m > [22m[2mshows that mount cost grows with the number of rows
+[22m[39mmount scaling:     50 rows: mount 4.6 ms (renders 50 rows) · 1 state update: parent renders 1, row renders 50, wall clock 1.2 ms
+mount scaling:   1000 rows: mount 73.5 ms (renders 1000 rows) · 1 state update: parent renders 1, row renders 1000, wall clock 14.9 ms
+mount scaling:   5000 rows: mount 258.8 ms (renders 5000 rows) · 1 state update: parent renders 1, row renders 5000, wall clock 191.5 ms
+mount scaling:  20000 rows: mount 1015.0 ms (renders 20000 rows) · 1 state update: parent renders 1, row renders 20000, wall clock 373.8 ms
+
+ [32m✓[39m src/perf/probe.test.tsx[2m > [22mrender cost probe[2m > [22mshows that memoization removes row re-renders (jsdom wall clock barely moves)[33m 565[2mms[22m[39m
+ [32m✓[39m src/perf/probe.test.tsx[2m > [22mrender cost probe[2m > [22mshows that mount cost grows with the number of rows[33m 2962[2mms[22m[39m
+
+[2m Test Files [22m [1m[32m1 passed[39m[22m[90m (1)[39m
+[2m      Tests [22m [1m[32m2 passed[39m[22m[90m (2)[39m
+[2m   Start at [22m 16:58:01
+[2m   Duration [22m 4.61s[2m (tests 79%, environment 14%, setup 5%, transform 2%)[22m
+

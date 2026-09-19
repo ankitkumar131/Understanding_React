@@ -1,0 +1,9 @@
+// Shared design tokens (Part 12, file 03).
+$brand: #0f766e;
+$radius: 0.5rem;
+
+@mixin card($padding: 1rem) {
+  border: 1px solid rgba($brand, 0.3);
+  border-radius: $radius;
+  padding: $padding;
+}

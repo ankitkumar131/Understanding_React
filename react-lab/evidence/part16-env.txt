@@ -1,0 +1,17 @@
+=== Part 16, file 04 — modes and env files, measured ===
+-- .env.staging + .env + .env.local present; build --mode staging --
+  api.staging.react-lab.example    FOUND in bundle
+  React Lab (staging)              FOUND in bundle
+  React Lab (local override)       not found
+  React Lab (dev)                  not found
+  localhost:3001                   not found
+
+-- build (mode=production) with the same .env files --
+  api.staging.react-lab.example    not found
+  api.react-lab.example            FOUND in bundle
+  React Lab (local override)       not found
+  React Lab (dev)                  not found
+mode=development  | VITE_API_URL = http://localhost:3001/api                      | API_TARGET = (unset)
+mode=production   | VITE_API_URL = https://api.react-lab.example/api              | API_TARGET = (unset)
+mode=staging      | VITE_API_URL = https://api.staging.react-lab.example/api      | API_TARGET = http://localhost:8098
+default prefix (VITE_ only): API_TARGET = (not exposed)

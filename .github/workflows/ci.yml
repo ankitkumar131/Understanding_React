@@ -1,0 +1,81 @@
+name: CI
+
+on:
+  push:
+    branches: [main, 'arena/**']
+  pull_request:
+
+jobs:
+  verify:
+    name: verify react-lab
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: react-lab
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+          cache-dependency-path: react-lab/package-lock.json
+
+      - name: Install dependencies
+        run: npm ci
+
+      # The same gate described in react-notes/15-production/08-production-checklist.md §8:
+      # lint -> types -> tests -> build, in that order, failing on the first problem.
+      - name: Lint
+        run: npm run lint
+
+      - name: Type-check
+        run: npm run typecheck
+
+      - name: Test
+        run: npm run test:run
+
+      - name: Build
+        run: npm run build
+
+      - name: Upload the production build
+        uses: actions/upload-artifact@v4
+        with:
+          name: react-lab-dist
+          path: react-lab/dist
+          retention-days: 7
+
+  notes:
+    name: check the notes
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+          cache-dependency-path: react-lab/package-lock.json
+
+      # The snippet audit type-checks every named import against the real packages,
+      # so it needs the lab's dependencies.
+      - name: Install dependencies (for the snippet audit)
+        working-directory: react-lab
+        run: npm ci
+
+      # Fails if any relative link between the 151 markdown files is broken, if a chapter's
+      # "File i of j" banner disagrees with its directory, or if a "Part N, file M" cross-reference
+      # points outside that part (or uses the ambiguous "Part N/M" shorthand).
+      - name: Check markdown links, banners and cross-references
+        run: node scripts/check-notes.mjs
+
+      # Fails if any code block imports a package that does not exist, a subpath that is not
+      # exported, a relative file the notes never define, or a named import the package does
+      # not export (verified with tsc against the real modules).
+      - name: Audit the imports in every code block
+        run: node scripts/check-snippets.mjs
+
+      # Fails if the notes quote a TSxxxx code that the installed TypeScript does not emit
+      # (a typo, or a code retired by a TypeScript upgrade).
+      - name: Check every quoted TypeScript error code
+        run: node scripts/check-error-codes.mjs

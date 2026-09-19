@@ -1,0 +1,51 @@
+=== npx vitest run ===
+ ✓ src/components/SearchBox.test.tsx (3 tests) 361ms
+ ✓ src/components/ProductList.test.tsx (3 tests) 222ms
+ ✓ src/components/Counter.test.tsx (2 tests) 401ms
+   ✓ Counter (2)
+     ✓ shows the initial value and increments by the step 329ms
+ Test Files  3 passed (3)
+      Tests  8 passed (8)
+   Duration  4.28s (environment 53%, tests 25%, setup 16%, transform 3%, import 2%, worker 1%)
+Environment  jsdom was created 3 times · 2.06s total, 53% of tracked time
+
+=== npx vitest run --coverage ===
+ ✓ src/components/Counter.test.tsx (2 tests) 282ms
+ ✓ src/components/SearchBox.test.tsx (3 tests) 391ms
+ ✓ src/components/ProductList.test.tsx (3 tests) 250ms
+ Test Files  3 passed (3)
+      Tests  8 passed (8)
+   Duration  4.62s (environment 50%, tests 23%, setup 18%, worker 4%, transform 3%, import 2%)
+ % Coverage report from v8
+File              | % Stmts | % Branch | % Funcs | % Lines | Uncovered Line #s 
+All files         |   98.66 |    86.66 |     100 |     100 |                   
+  Counter.tsx     |     100 |    89.47 |     100 |     100 | 13                
+  ProductList.tsx |   95.65 |       75 |     100 |     100 | 23-24             
+  SearchBox.tsx   |     100 |    92.85 |     100 |     100 | 8                 
+=== a failing test, and what the output tells you ===
+ RUN  v5.0.1 /home/user/lab/react-lab
+ ❯ src/components/Failure.test.tsx (1 test | 1 failed) 184ms
+   × deliberately fails: expects the wrong value 178ms
+⎯⎯⎯⎯⎯⎯⎯ Failed Tests 1 ⎯⎯⎯⎯⎯⎯⎯
+ FAIL  src/components/Failure.test.tsx > deliberately fails: expects the wrong value
+Error: expect(element).toHaveTextContent()
+Expected element to have text content:
+  6
+Received:
+  5
+ ❯ src/components/Failure.test.tsx:10:39
+      8|   render(<Counter initial={3} step={2} />);
+      9|   await user.click(screen.getByRole('button', { name: 'Increment' }));
+     10|   expect(screen.getByTestId('count')).toHaveTextContent('6');   // ⚠️ …
+       |                                       ^
+     11| });
+     12|
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/1]⎯
+ Test Files  1 failed (1)
+      Tests  1 failed (1)
+   Start at  16:49:44
+   Duration  1.40s (environment 57%, setup 17%, tests 15%, transform 6%, import 3%, worker 2%)
+ ✓ src/hooks/useDebouncedValue.test.tsx (3 tests) 31ms
+ Test Files  1 passed (1)
+      Tests  3 passed (3)
+   Duration  1.06s (environment 69%, setup 20%, transform 6%, tests 3%, worker 1%, import 1%)

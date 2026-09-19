@@ -1,0 +1,38 @@
+narrowing probe — TypeScript 6.0.3 (2026-09-19)
+host: node 22.22.3 · tsc 6.0.3 (react-lab)
+command: npx tsc --noEmit --ignoreConfig --strict --target es2022 --module preserve --moduleResolution bundler .probe/narrowing.ts
+
+--- probe source (the four claims from react-notes/02-typescript/09-narrowing.md) ---
+export function takesObject(o: object): string { return Object.keys(o).join(','); }
+export function t1(value: unknown) {
+  if (typeof value === 'object') return takesObject(value);
+  return 'x';
+}
+export function assertString(value: unknown): void { if (typeof value !== 'string') throw new Error('nope'); }
+export function use1(value: unknown) { assertString(value); return value.toUpperCase(); }
+export function assertString2(value: unknown): asserts value is string {
+  if (typeof value !== 'string') throw new Error('nope');
+}
+export function use2(value: unknown) { assertString2(value); return value.toUpperCase(); }
+export function ok(user: { name: string } | null): () => string {
+  if (user === null) return () => '';
+  return () => user.name;
+}
+export function broken(user: { name: string } | null): () => string {
+  if (user === null) return () => '';
+  user = null;
+  return () => user.name;
+}
+
+--- output ---
+.probe/narrowing.ts(3,53): error TS2345: Argument of type 'object | null' is not assignable to parameter of type 'object'.
+  Type 'null' is not assignable to type 'object'.
+.probe/narrowing.ts(7,68): error TS18046: 'value' is of type 'unknown'.
+.probe/narrowing.ts(19,16): error TS18047: 'user' is possibly 'null'.
+exit status: 2 (three errors, all expected; 'ok' and 'use2' compile clean — no error on the closure line)
+
+What each line confirms against the chapter's claims:
+  1. typeof x === 'object' does NOT remove null   -> TS2345 'object | null'        (unchanged in TS 6)
+  2. assertion fn without 'asserts' narrows nothing-> TS18046 'value' is 'unknown' (unchanged in TS 6)
+  3. closure narrowing survives if never reassigned-> no error (line 16)           (unchanged in TS 6)
+  4. reassigning the variable drops the narrowing  -> TS18047 'possibly null'      (unchanged in TS 6)

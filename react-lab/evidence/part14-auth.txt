@@ -1,0 +1,10 @@
+=== npx vitest run src/auth/session.test.tsx ===
+ ✓ src/auth/session.test.tsx > session handling > redirects to the login page when there is no session, remembering where the user was going 163ms
+ ✓ src/auth/session.test.tsx > session handling > renders a protected route for an authenticated session 8ms
+ ✓ src/auth/session.test.tsx > session handling > blocks a route when the user lacks the role 13ms
+ ✓ src/auth/session.test.tsx > session handling > signs in, stores the session and returns to the intended route 201ms
+ ✓ src/auth/session.test.tsx > session handling > shows a message for wrong credentials and does not store anything 117ms
+ ✓ src/auth/session.test.tsx > session handling > treats an expired stored session as no session at all 1ms
+ Test Files  1 passed (1)
+      Tests  6 passed (6)
+   Duration  1.73s (environment 43%, tests 31%, setup 12%, transform 8%, import 5%)

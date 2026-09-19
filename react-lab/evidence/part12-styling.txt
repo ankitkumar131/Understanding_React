@@ -1,0 +1,21 @@
+=== build ===
+$ npx vite build
+dist/index.html                   0.45 kB │ gzip:  0.29 kB
+dist/assets/index-CJZpD7p8.css    8.26 kB │ gzip:  2.52 kB
+dist/assets/index-D2DivNcc.js   220.66 kB │ gzip: 69.13 kB
+
+=== generated class names (CSS Modules are hashed, Tailwind is generated) ===
+module classes in the bundle: ._button_1v1gi_1, ._icon_1v1gi_16, ._card_1v1gi_20
+total distinct module classes: 3
+tailwind utility "bg-teal-700" present: true
+tailwind utility "px-4" present: true
+tailwind utility "rounded-lg" present: true
+tailwind utility "hover\:bg-teal-800" present: true
+tailwind utility "opacity-50" present: false
+preflight present (box-sizing reset): false
+@media (prefers-reduced-motion) kept: true
+box-sizing occurrences: 2
+first box-sizing rule: y:var(--font-mono)}}@layer base{*,:after,:before,::backdrop{box-sizing:border-box;border:0 solid;mar
+disabled:opacity-50 present: true
+tailwind theme variables present: true
+css bytes: 8267
