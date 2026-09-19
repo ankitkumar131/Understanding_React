@@ -38,11 +38,35 @@ mistakes, exercises and solutions.
   contents, the command to run it, and the exact result you should see.
 - **TypeScript-first.** Everything is `.tsx` / `.ts` with correct types. You will
   learn *why* a type is written that way, not just copy it.
-- **Modern.** React 19, function components, hooks, Vite, React Router 7,
+- **Modern.** React 19, function components, hooks, Vite, React Router 8,
   TanStack Query, Redux Toolkit, Zustand, Vitest + React Testing Library.
   Deprecated approaches (Create React App, class components as the default,
   legacy lifecycle methods) are explained as history, never taught as current
   best practice.
+
+---
+
+## The code that goes with these notes
+
+Every measurement quoted in these pages was taken in a real project, and that project is in this
+repository as [`../react-lab/`](../react-lab/README.md).
+
+```bash
+cd react-lab
+npm install
+npm run dev        # http://localhost:5199 — the Taskboard capstone (no backend needed)
+npm test -- --run  # 12 files, 62 tests
+npm run build      # tsc -b && vite build
+```
+
+It contains the six finished Part-17 projects (counter, todo, weather, library CRUD, authentication,
+and the taskboard capstone), the performance measurement harness, the dev-only mock API that lets
+the app run without a backend, and `react-lab/evidence/` — the raw command transcripts behind every
+number in the notes. Read a chapter, then read the code it came from.
+
+> **Tip:** if a sentence in these notes says "measured", the command that measured it is named in the
+> chapter and its output is in `react-lab/evidence/`. Reproduce it — that is how the numbers become
+> yours instead of mine.
 
 ---
 
@@ -644,6 +668,9 @@ against them:
    what you will be able to build at each stage.
 2. Then open [`01-prerequisites/01-html-basics.md`](./01-prerequisites/01-html-basics.md)
    and begin Part 1.
+3. Keep [`../react-lab/`](../react-lab/README.md) running in another terminal from Part 3 onwards —
+   `npm run dev` gives you a working app to break, and `npm test -- --run` gives you 62 tests to
+   read as worked examples.
 
 > **One last thing.** These notes are long on purpose. Depth beats speed:
 > a concept you truly understand takes minutes to use; a concept you memorised

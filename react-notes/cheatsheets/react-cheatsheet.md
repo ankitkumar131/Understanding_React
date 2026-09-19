@@ -1,6 +1,6 @@
 # React Cheatsheet — Core Syntax
 
-> **Part 18 · Reference · Cheatsheet 1 of 9**
+> **Reference · Cheatsheet 1 of 9**
 > One page for revision, not a substitute for the chapters. Everything here is React 19 + TypeScript (`.tsx`).
 
 ---

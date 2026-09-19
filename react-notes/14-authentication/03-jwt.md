@@ -1,6 +1,6 @@
 # 03 — JWT: Access Tokens, Refresh Tokens and the Retry That Makes Expiry Invisible
 
-> **Part 14 · Authentication · File 3 of 5**
+> **Part 14 · Authentication · File 3 of 6**
 
 Why this file exists: "we use JWT" is stated as if it answered the hard questions, and it answers none of them. A JWT is just a signed, base64-encoded blob with an expiry — the real engineering is in the lifecycle around it: which token is short-lived, where each one is stored, what happens when the access token expires mid-session, how you avoid a request storm when ten calls all get 401 at once, what to do when the refresh token is rejected, and how to test any of it. This file covers exactly that, plus the parts people get wrong about the token itself (it is readable, it is not revocable, and its `exp` is a promise the server must keep).
 

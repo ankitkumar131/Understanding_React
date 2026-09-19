@@ -1,6 +1,6 @@
 # API Integration Cheatsheet — fetch, Queries, Mutations
 
-> **Part 18 · Reference · Cheatsheet 6 of 9**
+> **Reference · Cheatsheet 6 of 9**
 > Everything below assumes one rule: **one module knows the URL, one hook per operation, components never see `fetch`.**
 
 ---

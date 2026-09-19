@@ -624,4 +624,4 @@ What is missing is the thing every one of these components will need next: **sta
 
 ---
 
-**What's next →** Part 4, [`../04-state-and-hooks/01-state.md`](../04-state-and-hooks/01-state.md) *(coming in the next part)*
+**What's next →** Part 4, [`../04-state-and-hooks/01-state.md`](../04-state-and-hooks/01-state.md)

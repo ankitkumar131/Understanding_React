@@ -1,6 +1,6 @@
 # React Interview Cheatsheet — Rapid Revision
 
-> **Part 18 · Reference · Cheatsheet 9 of 9**
+> **Reference · Cheatsheet 9 of 9**
 > The night-before page. Every line is a complete answer for the first thirty seconds; the chapters behind each answer are in [Part 18](../18-interview/react-interview.md).
 
 ---
@@ -222,3 +222,18 @@ Adjust with your own numbers. Naming your decisions and their trade-offs beats l
 8. **“Do not memorise — reason.”** — walk the mechanism, then name the consequence.
 9. **“Here is a bug I shipped.”** — a real story with the cause and the test you added afterwards.
 10. **“I would read the docs.”** — React's own reference for version-sensitive behaviour, not a five-year-old blog post.
+
+---
+
+## The last page: use your own project
+
+Interview answers are far more convincing when they come from something you built. The six apps in
+[`../../react-lab/`](../../react-lab/README.md) are exactly that material — the optimistic update
+with rollback, the stale-response race, the 403 that the guard could not stop, the 62 tests that run
+in half a minute. Read the code, change it, break it, then explain what happened.
+
+- Full question banks: [`../18-interview/react-interview.md`](../18-interview/react-interview.md),
+  [`../18-interview/javascript-interview.md`](../18-interview/javascript-interview.md),
+  [`../18-interview/typescript-interview.md`](../18-interview/typescript-interview.md),
+  [`../18-interview/scenario-based-questions.md`](../18-interview/scenario-based-questions.md).
+- The error decoder: [`../common-errors.md`](../common-errors.md).

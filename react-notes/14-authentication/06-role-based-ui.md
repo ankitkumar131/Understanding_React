@@ -1,6 +1,6 @@
 # 06 — Role-Based UI: Permissions, Conditional Rendering and the Honest Boundary
 
-> **Part 14 · Authentication · File 6 of 5** *(part closer)*
+> **Part 14 · Authentication · File 6 of 6** *(part closer)*
 
 Why this file exists: files 01–05 built the session; this one decides what the interface *shows* a given user, and it is where authorisation bugs are easiest to introduce and hardest to notice — because a UI that hides a button looks identical to a UI that enforces a rule. This file establishes one source of truth for permissions, the rendering patterns that stay readable as roles multiply, role-aware navigation, the multi-tenant and ownership cases that roles alone cannot express, how to test permission-gated UI (this lab measured six tests in 1.73 s, including `blocks a route when the user lacks the role`), and the sentence that keeps everyone honest: **hiding is a courtesy to the user; the server is the authority.**
 

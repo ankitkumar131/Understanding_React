@@ -1,6 +1,6 @@
 # TSX Cheatsheet — JSX in TypeScript
 
-> **Part 18 · Reference · Cheatsheet 2 of 9**
+> **Reference · Cheatsheet 2 of 9**
 > JSX is a syntax for describing UI as data; **TSX** is that syntax inside a `.tsx` file, where the compiler also checks types. File extension matters: JSX in a `.ts` file is an error (`TS17004`).
 
 ---

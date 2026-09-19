@@ -247,7 +247,7 @@ logRoles(document.body);              // every role + accessible name — the fa
 
 ---
 
-## 11. Solutions
+## 10. Solutions
 
 ### Beginner
 
@@ -293,7 +293,7 @@ logRoles(document.body);              // every role + accessible name — the fa
 
 ---
 
-## 12. Summary
+## 11. Summary
 
 - **RTL's opinion shapes its API**: query like a user, assert what a user notices, and let the hard-to-write query tell you something about the markup.
 - **The query priority ends with `getByTestId`** for a reason: `getByRole`/`getByLabelText` enforce semantics and accessibility, while testids enforce nothing. Measured tests here use roles (`button`, `listitem`, `status`, `searchbox`, `alert`) and label queries throughout.

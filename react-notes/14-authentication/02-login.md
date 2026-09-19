@@ -1,6 +1,6 @@
 # 02 — Login and Registration: Building the Screens
 
-> **Part 14 · Authentication · File 2 of 5**
+> **Part 14 · Authentication · File 2 of 6**
 
 Why this file exists: the login screen is the first thing users see and the last thing developers polish, which is a bad combination. It has real requirements — correct autocomplete and input types, a pending state, error messages that help without leaking information, a path to registration and password recovery, keyboard and screen-reader support, and one destination rule (send people back where they were going). This file builds those screens with the tools Parts 8 and 11 already taught (controlled fields or form actions, Zod validation, pending states), then measures the behaviour in this lab's tests: sign-in stores a session and returns to the intended route, and wrong credentials show a message *without* storing anything.
 

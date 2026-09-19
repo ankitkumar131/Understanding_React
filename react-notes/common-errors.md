@@ -1,6 +1,6 @@
 # Common Errors — Decoded, Debugged, Fixed
 
-> **Part 18 · Reference · Every common error, with the fix and the correct code**
+> **Reference · Every common error, with the fix and the correct code**
 
 How to use this file: find your message (they are grouped and alphabetised within groups), read **what it means** and **why it happens**, then apply the **fix**. The **debug** line tells you how to confirm the diagnosis — do not skip it; guessing is how a five-minute fix becomes an afternoon.
 
@@ -675,3 +675,15 @@ test: { environment: 'jsdom', globals: true, setupFiles: ['./src/test/setup.ts']
 | The same data fetched repeatedly | no cache | one query key per resource |
 
 **Before optimising:** reproduce with a number (a trace, a render count, a bundle size). After: re-measure, and keep the measurement as a test where you can.
+
+---
+
+## Where to go next
+
+- **See the code run.** Every error in this file came from a real project; the whole project
+  (six apps, 62 tests, the measurement harness, and the raw command transcripts) is in
+  [`../react-lab/`](../react-lab/README.md). `npm install && npm test -- --run` is the fastest
+  way to watch a passing test turn into a failing one.
+- **Rapid revision:** [`cheatsheets/`](./cheatsheets/) — nine one-page references.
+- **Interview preparation:** [`18-interview/react-interview.md`](./18-interview/react-interview.md).
+- **Back to the map:** [`react-roadmap.md`](./react-roadmap.md).

@@ -1,6 +1,6 @@
 # 04 — Protected Routes: Guards, Redirects and Return-To
 
-> **Part 14 · Authentication · File 4 of 5**
+> **Part 14 · Authentication · File 4 of 6**
 
 Why this file exists: once the session exists (file 01), someone has to decide which screens a user may see — and that decision is a routing problem, not a component problem. This file builds the guard with React Router (Part 6): a layout route that renders children or redirects, the `from` state that makes return-to work, the three states a guard must distinguish, role gates for specific sections, nested protection, the interaction with loaders, and the two behaviours users notice most: no login-page flash, and no losing where they were going.
 

@@ -1,4 +1,5 @@
-# 04 — Scenario-Based Questions (Debugging and Design)
+# Scenario-Based Questions (Debugging and Design)
+Scenario-Based Questions (Debugging and Design)
 
 > **Part 18 · Interview Preparation · File 4 of 4**
 

@@ -1,4 +1,5 @@
-# 03 — TypeScript Interview Questions (with React Context)
+# TypeScript Interview Questions (with React Context)
+TypeScript Interview Questions (with React Context)
 
 > **Part 18 · Interview Preparation · File 3 of 4**
 

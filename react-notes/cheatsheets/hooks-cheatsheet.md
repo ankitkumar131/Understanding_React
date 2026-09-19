@@ -1,6 +1,6 @@
 # Hooks Cheatsheet — Every Hook, One Page Each
 
-> **Part 18 · Reference · Cheatsheet 4 of 9**
+> **Reference · Cheatsheet 4 of 9**
 > React 19. Rules first, then each hook: signature · when to use · gotcha · example.
 
 ---

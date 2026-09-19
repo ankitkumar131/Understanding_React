@@ -1,6 +1,6 @@
 # Vite Cheatsheet — Commands, Config, Environment, Build
 
-> **Part 18 · Reference · Cheatsheet 8 of 9**
+> **Reference · Cheatsheet 8 of 9**
 > Baseline in this book: Vite 8 (Rolldown + Oxc). Commands, config, environment variables, proxies, building, testing and troubleshooting.
 
 ---

@@ -1,4 +1,5 @@
-# 01 — React Interview Questions
+# React Interview Questions
+React Interview Questions
 
 > **Part 18 · Interview Preparation · File 1 of 4**
 

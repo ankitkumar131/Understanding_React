@@ -1,6 +1,6 @@
 # Redux (Toolkit) Cheatsheet
 
-> **Part 18 · Reference · Cheatsheet 7 of 9**
+> **Reference · Cheatsheet 7 of 9**
 > Redux is one option, not a requirement. Use it when many unrelated components share complex client state; use a query cache for server data, `useState` for one screen, and Context for low-frequency app-wide values.
 
 ---

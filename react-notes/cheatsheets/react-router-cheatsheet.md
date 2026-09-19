@@ -1,6 +1,6 @@
 # React Router Cheatsheet (v8)
 
-> **Part 18 · Reference · Cheatsheet 5 of 9**
+> **Reference · Cheatsheet 5 of 9**
 > Package: `react-router` (v8). In v8 there is **no `react-router-dom`** — DOM components such as `RouterProvider` and `BrowserRouter` come from `react-router/dom`. Minimum versions: `node@22.22+`, `react@19.2.7+`, `vite@7+` when using framework mode.
 
 ---

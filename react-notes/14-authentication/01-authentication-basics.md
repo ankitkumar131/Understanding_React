@@ -1,6 +1,6 @@
 # 01 — Authentication Basics: Sessions, Tokens and What "Logged In" Means
 
-> **Part 14 · Authentication · File 1 of 5**
+> **Part 14 · Authentication · File 1 of 6**
 
 Why this file exists: authentication is the part of a React app with the highest cost of being wrong and the most confusion about where the truth lives. Three questions have to be answered before any code: **who decides the user is authenticated** (the server), **what the client keeps as proof** (a cookie or a token), and **what the client is allowed to do with that proof** (render a UI, and nothing more). This file answers them, defines the four states a client session can be in (and why "logged in: true/false" is insufficient), walks the full flow from credentials to a protected request, and states the security boundary that the rest of the part keeps returning to: **frontend checks are user experience, never security.**
 

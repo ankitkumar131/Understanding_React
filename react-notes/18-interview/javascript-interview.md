@@ -1,4 +1,5 @@
-# 02 — JavaScript Interview Questions (with React Context)
+# JavaScript Interview Questions (with React Context)
+JavaScript Interview Questions (with React Context)
 
 > **Part 18 · Interview Preparation · File 2 of 4**
 

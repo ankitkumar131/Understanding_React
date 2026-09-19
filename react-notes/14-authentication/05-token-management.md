@@ -1,6 +1,6 @@
 # 05 — Token Management: Storage, Expiry, Logout and Cross-Tab Behaviour
 
-> **Part 14 · Authentication · File 5 of 5**
+> **Part 14 · Authentication · File 5 of 6**
 
 Why this file exists: everything in files 01–04 assumes a session exists somewhere. This file is that somewhere — the store — and it is where the security trade-offs of the whole part come to rest. It covers the lab's implementation (`src/auth/tokenStore.ts`) with its measured tests, the storage comparison with real consequences, expiry handling (including the corrupt-data and clock cases people forget), logout that actually logs out, what happens with multiple tabs, and a review checklist you can apply to any auth implementation in twenty minutes.
 
