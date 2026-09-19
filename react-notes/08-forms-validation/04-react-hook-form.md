@@ -417,7 +417,7 @@ Measured behaviour:
 
 Four facts from that transcript:
 
-1. **`key={field.id}`** — RHF gives each row a stable id, which is exactly the "stable key" requirement from Part 4/05. Using the array index would move typed text into the wrong row when a row is removed (the measured index-key bug).
+1. **`key={field.id}`** — RHF gives each row a stable id, which is exactly the "stable key" requirement from Part 3, file 11. Using the array index would move typed text into the wrong row when a row is removed (the measured index-key bug).
 2. **Values follow their rows.** After removing row 1, the remaining values are `["second","third"]` — not shifted, not duplicated.
 3. **Nested rules work per row** (`tags.${index}.label`) and the error is reported at the row's index.
 4. **Invalid rows block the submit** (`did onSubmit run? no`).

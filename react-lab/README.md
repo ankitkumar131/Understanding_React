@@ -111,7 +111,7 @@ Environment files: `.env` (development), `.env.production`, `.env.staging` — u
 
 `npm run verify` is the single command that means "this is correct": **lint → typecheck → test → build**.
 It is what CI runs (`.github/workflows/ci.yml` at the repository root). CI also audits the book in
-`../react-notes/`: `../scripts/check-notes.mjs` (links and chapter banners) and
+`../react-notes/`: `../scripts/check-notes.mjs` (links, chapter banners, and every "Part N, file M" cross-reference) and
 `../scripts/check-snippets.mjs`, which type-checks the named imports of every code block against these
 very `node_modules` — the audit whose findings fixed a stale `react-router-dom` import, a `src/dr/` typo
 and three components the notes imported but never showed — and `../scripts/check-error-codes.mjs`,

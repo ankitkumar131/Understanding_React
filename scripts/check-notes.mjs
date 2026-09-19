@@ -80,7 +80,41 @@ for (const dir of readdirSync(root, { withFileTypes: true })) {
   }
 }
 
-const counted = `${files.length} files, ${linkCount} relative links, ${bannerCount} banners`;
+// 3. cross-references: "Part 7, file 8" must point at a file that exists in that part, and the
+// ambiguous shorthand "Part 7/8" (is that file 8 of Part 7, or Parts 7 and 8?) is not allowed —
+// write it out. Three wrong references were found by hand before this check existed.
+const partSizes = new Map();
+for (const dir of readdirSync(root, { withFileTypes: true })) {
+  if (dir.isDirectory() && /^\d\d-/.test(dir.name)) {
+    partSizes.set(Number(dir.name.slice(0, 2)), walk(join(root, dir.name)).filter((f) => f.endsWith('.md')).length);
+  }
+}
+
+let crossRefs = 0;
+for (const file of files) {
+  const text = stripFences(readFileSync(file, 'utf8'));
+  text.split('\n').forEach((line, index) => {
+    for (const match of line.matchAll(/Part (\d{1,2})(?!\d)\s*,?\s+file (\d{1,2})(?!\d)/g)) {
+      crossRefs += 1;
+      const [, part, chapter] = match.map(Number);
+      const size = partSizes.get(part);
+      if (size === undefined) {
+        failures.push(`cross-ref    ${relative(root, file)}:${index + 1}: Part ${part} does not exist`);
+      } else if (chapter < 1 || chapter > size) {
+        failures.push(
+          `cross-ref    ${relative(root, file)}:${index + 1}: "${match[0]}" but Part ${part} has ${size} files`,
+        );
+      }
+    }
+    for (const match of line.matchAll(/Part (\d{1,2})\/(\d{1,2})(?!\d)/g)) {
+      failures.push(
+        `cross-ref    ${relative(root, file)}:${index + 1}: "${match[0]}" is ambiguous — write "Part ${match[1]}, file ${match[2]}" or "Parts ${match[1]} and ${match[2]}"`,
+      );
+    }
+  });
+}
+
+const counted = `${files.length} files, ${linkCount} relative links, ${bannerCount} banners, ${crossRefs} cross-references`;
 if (failures.length > 0) {
   console.error(`✗ ${failures.length} problem(s) in ${counted}:`);
   for (const failure of failures) console.error(`  ${failure}`);

@@ -629,11 +629,11 @@ installed version, and these notes say so wherever it matters.
 | Deprecated | What we teach instead | Where it is explained |
 | --- | --- | --- |
 | Create React App (`create-react-app`) | Vite `react-ts` | Part 3 |
-| Class components as default | Function components + hooks | Part 1/3 (explained as history) |
+| Class components as default | Function components + hooks | Part 3 (explained as history) |
 | `componentDidMount` / `componentDidUpdate` as the mental model for effects | The synchronization mental model of `useEffect` | Part 4 |
 | String refs and legacy `contextType` | `useRef`, `createContext` + `useContext` | Parts 4/5 |
 | `defaultProps` on function components | Default parameter values | Part 3 |
-| `React.FC` as the default way to type components | Typing props directly on the parameter | Part 3/30 |
+| `React.FC` as the default way to type components | Typing props directly on the parameter | Part 3 |
 | Manual `React.memo`/`useMemo` everywhere | Measure first; React Compiler where available | Parts 10/11 |
 
 ---

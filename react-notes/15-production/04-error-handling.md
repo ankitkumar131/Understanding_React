@@ -13,7 +13,7 @@ Why this file exists: in development, errors are a red overlay and a console mes
 | **Render error** | reading `undefined.name`, a bad hook call | while React renders your component | an **error boundary** (they exist for this) |
 | **Async/render-later error** | `await` inside `useEffect`, a rejected promise in an event handler | after the render, outside React's stack | `try/catch` + `catch` in the promise chain, or a boundary via an async-handling pattern |
 | **Network/API error** | 500, timeout, offline, invalid JSON | the data layer | the HTTP client + the data library's error state (Part 9) |
-| **User input error** | invalid email, empty required field | a form | validation (Part 7/8) — arguably not an "error" at all |
+| **User input error** | invalid email, empty required field | a form | validation (Part 8) — arguably not an "error" at all |
 
 ⚠️ **Error boundaries do not catch event handlers, `setTimeout` callbacks, promises, or errors in the boundary itself.** They catch errors thrown while rendering, in lifecycle methods, and in constructors. This single misunderstanding causes most "our error boundary never fires" bugs.
 

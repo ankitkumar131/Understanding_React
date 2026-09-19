@@ -284,7 +284,9 @@ const word = form === 'one' ? 'review' : 'reviews';
 const plural = (n: number, one: string, many: string) => `${n} ${n === 1 ? one : many}`;
 <span>({plural(reviewCount, 'review', 'reviews')})</span>
 
-// 3. A real i18n library — when you ship more than one language (Part 15/18)
+// 3. A real i18n library (react-i18next, FormatJS) — when you ship more than one
+//    language. Translation tooling is outside this book's scope; the rule to keep is
+//    that the *rules* (plurals, dates, currency) come from Intl, not from if/else.
 ```
 
 Also useful for big numbers — compact notation (verified):

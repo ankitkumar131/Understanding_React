@@ -772,7 +772,7 @@ of recursion in UI code.
 | Mutating a parameter inside a "helper" | Caller's data changes unexpectedly; React does not re-render | return new data |
 | Side effects (fetch, `Math.random`, DOM writes) during render | Double requests in StrictMode, unstable UI | move to an event handler or `useEffect` |
 | `function` declaration inside a component when identity matters | New function every render → memoization fails | `useCallback`, or move it outside the component |
-| Comparing function props with `===` | Always `false` for inline arrows; memoization never works | `useCallback` (Part 4/10) |
+| Comparing function props with `===` | Always `false` for inline arrows; memoization never works | `useCallback` (Part 4, file 8) |
 
 ---
 

@@ -63,9 +63,10 @@ jobs:
         working-directory: react-lab
         run: npm ci
 
-      # Fails if any relative link between the 151 markdown files is broken,
-      # or if a chapter's "File i of j" banner disagrees with its directory.
-      - name: Check markdown links and banners
+      # Fails if any relative link between the 151 markdown files is broken, if a chapter's
+      # "File i of j" banner disagrees with its directory, or if a "Part N, file M" cross-reference
+      # points outside that part (or uses the ambiguous "Part N/M" shorthand).
+      - name: Check markdown links, banners and cross-references
         run: node scripts/check-notes.mjs
 
       # Fails if any code block imports a package that does not exist, a subpath that is not

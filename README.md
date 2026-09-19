@@ -32,8 +32,8 @@ Both halves are checked automatically — `.github/workflows/ci.yml` runs the la
 (`npm run lint`, `npm run typecheck`, `npm run test:run`, `npm run build`) and three audits of the notes:
 
 ```bash
-node scripts/check-notes.mjs      # links + chapter banners
-# ✓ notes OK — 151 files, 247 relative links, 139 banners
+node scripts/check-notes.mjs      # links, chapter banners, cross-references
+# ✓ notes OK — 151 files, 247 relative links, 139 banners, 264 cross-references
 
 node scripts/check-snippets.mjs   # every import in every code block
 # ✓ every import in every code block resolves

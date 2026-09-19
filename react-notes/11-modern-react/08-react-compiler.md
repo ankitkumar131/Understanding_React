@@ -99,7 +99,7 @@ The last row is the one that connects back to Part 10: the "defeated memo" case 
 | Memoise JSX elements and subtrees | Reduce the number of DOM nodes (virtualisation still needed — Part 10, file 04) |
 | Stabilise callbacks and objects (`useCallback`-style) | Prevent a re-render caused by state changes in the same component |
 | Remove the need for most manual memoisation | Fix an unstable prop coming from a *parent* that violates the rules |
-| Skip re-rendering children whose props are now stable* | Cancel or speed up network requests (Part 7/9) |
+| Skip re-rendering children whose props are now stable* | Cancel or speed up network requests (Parts 7 and 9) |
 | Warn (via lint) about code it cannot safely optimise | Replace profiling: commits, layout and paints are still yours to measure |
 
 \* With the compiled output, child components still render when their parent renders unless they are `memo`-wrapped or receive identical elements — the compiler makes the *props* stable, which is what makes `memo` and element reuse effective.
