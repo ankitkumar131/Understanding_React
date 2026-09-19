@@ -240,17 +240,17 @@ Legend: ✅ written · 🚧 being written · ⬜ planned
 
 | File | Topic | Status |
 | --- | --- | --- |
-| `01-typescript-introduction.md` | What TS is, why, and how it runs | ⬜ |
-| `02-types.md` | Primitives, arrays, objects, tuples, inference | ⬜ |
-| `03-interfaces.md` | Interfaces, optional/readonly properties | ⬜ |
-| `04-type-aliases.md` | Type aliases vs interfaces | ⬜ |
-| `05-union-intersection.md` | Unions, intersections, literal types | ⬜ |
-| `06-functions.md` | Typed parameters, returns, overloads, callbacks | ⬜ |
-| `07-generics.md` | Generics, constraints, generic functions | ⬜ |
-| `08-enums.md` | Enums, `as const` objects, when not to use enums | ⬜ |
-| `09-narrowing.md` | `typeof`, `in`, discriminated unions, never | ⬜ |
-| `10-utility-types.md` | `Partial`, `Pick`, `Omit`, `Record`, `ReturnType` | ⬜ |
-| `11-typescript-react.md` | `.ts` vs `.tsx`, how TS works inside Vite | ⬜ |
+| `01-typescript-introduction.md` | What TS is, why, and how it runs | ✅ |
+| `02-types.md` | Primitives, arrays, objects, tuples, inference | ✅ |
+| `03-interfaces.md` | Interfaces, optional/readonly properties | ✅ |
+| `04-type-aliases.md` | Type aliases vs interfaces | ✅ |
+| `05-union-intersection.md` | Unions, intersections, literal types | ✅ |
+| `06-functions.md` | Typed parameters, returns, overloads, callbacks | ✅ |
+| `07-generics.md` | Generics, constraints, generic functions | ✅ |
+| `08-enums.md` | Enums, `as const` objects, when not to use enums | ✅ |
+| `09-narrowing.md` | `typeof`, `in`, discriminated unions, never | ✅ |
+| `10-utility-types.md` | `Partial`, `Pick`, `Omit`, `Record`, `ReturnType` | ✅ |
+| `11-typescript-react.md` | `.ts` vs `.tsx`, how TS works inside Vite | ✅ |
 
 ### [Part 3 — React Fundamentals](./03-react-fundamentals/)
 
@@ -471,7 +471,7 @@ Legend: ✅ written · 🚧 being written · ⬜ planned
 Use this to know where you are. Tick the boxes as you finish each part.
 
 - [x] **Part 1 — Prerequisites** (11 files) ✅
-- [ ] **Part 2 — TypeScript** (11 files)
+- [x] **Part 2 — TypeScript** (11 files) ✅
 - [ ] **Part 3 — React Fundamentals** (12 files)
 - [ ] **Part 4 — State and Hooks** (10 files)
 - [ ] **Part 5 — React Concepts** (9 files)
