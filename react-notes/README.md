@@ -315,17 +315,17 @@ Legend: ✅ written · 🚧 being written · ⬜ planned
 
 | File | Topic | Status |
 | --- | --- | --- |
-| `01-http-basics.md` | HTTP, requests, responses, status codes | ⬜ |
-| `02-fetch.md` | `fetch` with TypeScript | ⬜ |
-| `03-axios.md` | Axios, instances, interceptors | ⬜ |
-| `04-get-api.md` | GET requests, query strings, lists | ⬜ |
-| `05-post-api.md` | POST, bodies, headers, validation errors | ⬜ |
-| `06-put-api.md` | PUT, full replacement updates | ⬜ |
-| `07-patch-api.md` | PATCH, partial updates | ⬜ |
-| `08-delete-api.md` | DELETE, optimistic removal | ⬜ |
-| `09-loading-states.md` | Loading UX, skeletons, races | ⬜ |
-| `10-error-handling.md` | Try/catch, error types, retries, cancellation | ⬜ |
-| `11-typescript-api-types.md` | Typed requests, responses, DTOs, mapping | ⬜ |
+| `01-http-basics.md` | HTTP, requests, responses, status codes | ✅ |
+| `02-fetch.md` | `fetch` with TypeScript | ✅ |
+| `03-axios.md` | Axios, instances, interceptors | ✅ |
+| `04-get-api.md` | GET requests, query strings, lists | ✅ |
+| `05-post-api.md` | POST, bodies, headers, validation errors | ✅ |
+| `06-put-api.md` | PUT, full replacement updates | ✅ |
+| `07-patch-api.md` | PATCH, partial updates | ✅ |
+| `08-delete-api.md` | DELETE, optimistic removal | ✅ |
+| `09-loading-states.md` | Loading UX, skeletons, races | ✅ |
+| `10-error-handling.md` | Try/catch, error types, retries, cancellation | ✅ |
+| `11-typescript-api-types.md` | Typed requests, responses, DTOs, mapping | ✅ |
 
 ### [Part 8 — Forms and Validation](./08-forms-validation/)
 
@@ -476,7 +476,7 @@ Use this to know where you are. Tick the boxes as you finish each part.
 - [x] **Part 4 — State and Hooks** (10 files) ✅
 - [x] **Part 5 — React Concepts** (9 files) ✅
 - [x] **Part 6 — Routing** (8 files) ✅
-- [ ] **Part 7 — API Integration** (11 files)
+- [x] **Part 7 — API Integration** (11 files) ✅
 - [ ] **Part 8 — Forms and Validation** (5 files)
 - [ ] **Part 9 — State Management** (6 files)
 - [ ] **Part 10 — Advanced React** (9 files)
