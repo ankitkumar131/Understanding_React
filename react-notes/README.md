@@ -432,12 +432,13 @@ Legend: ✅ written · 🚧 being written · ⬜ planned
 
 | File | Topic | Status |
 | --- | --- | --- |
-| `01-counter.md` | Component + state + events | ⬜ |
-| `02-todo-app.md` | State, forms, lists, props | ⬜ |
-| `03-weather-app.md` | API, async, loading, errors, TS types | ⬜ |
-| `04-crud-app.md` | Routing, forms, CRUD, validation | ⬜ |
-| `05-authentication-app.md` | Register, login, JWT, protected routes | ⬜ |
-| `06-production-react-app.md` | Everything together | ⬜ |
+| `01-counter.md` | Component + state + events | ✅ |
+| `02-todo-app.md` | State, forms, lists, props | ✅ |
+| `03-weather-app.md` | API, async, loading, errors, TS types | ✅ |
+| `04-crud-app.md` | Routing, forms, CRUD, validation | ✅ |
+| `05-authentication-app.md` | Register, login, JWT, protected routes | ✅ |
+| `06-production-react-app.md` | Everything together (the taskboard capstone) | ✅ |
+| `07-performance-lab.md` | Re-renders, React Compiler, windowing — measured | ✅ |
 
 ### [Part 18 — Interview Preparation](./18-interview/)
 
@@ -486,7 +487,7 @@ Use this to know where you are. Tick the boxes as you finish each part.
 - [x] **Part 14 — Authentication** (6 files) ✅
 - [x] **Part 15 — Production** (8 files) ✅
 - [x] **Part 16 — Build Tools** (4 files) ✅
-- [ ] **Part 17 — Projects** (6 files)
+- [x] **Part 17 — Projects** (7 files) ✅
 - [ ] **Part 18 — Interview** (4 files)
 
 **Milestones** — you are on track if you can do these:
